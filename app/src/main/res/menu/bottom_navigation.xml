@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_action_home_white"
+        android:title="@string/home"/>
+
+    <item
+        android:id="@+id/nav_favoritos"
+        android:icon="@drawable/ic_action_fav_white"
+        android:title="@string/favoritos"/>
+
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_action_perfil_white"
+        android:title="@string/user"
+        android:checked="true"/>
+
+    <item
+        android:id="@+id/nav_carrinho"
+        android:icon="@drawable/ic_action_cart_white"
+        android:title="@string/carrinho"/>
+
+</menu>

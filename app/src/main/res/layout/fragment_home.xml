@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewAlbRecentes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:textSize="24dp"
+        android:textColor="@color/light_font"
+        android:layout_marginTop="20dp"
+        android:text="@string/albuns_recentes"
+        android:textStyle="bold" />
+
+    <GridView
+        android:id="@+id/gridViewAlbRecentes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:horizontalSpacing="10dp"
+        android:numColumns="2">
+
+    </GridView>
+
+</RelativeLayout>

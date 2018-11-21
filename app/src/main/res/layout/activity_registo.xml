@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="pt.ipleiria.estg.dei.amsi.sound3application.RegistoActivity"
+    android:background="@color/colorBlack">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="monospace"
+        android:hint="@string/textView_sound3"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="35dp" />
+
+    <EditText
+        android:id="@+id/editText_nome"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:backgroundTint="@color/vermelhoPrincipal"
+        android:drawableLeft="@drawable/ic_action_nome"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/textView_nomeRegisto"
+        android:textColorHint="@color/colorWhite"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:imeOptions="actionNext"/>
+
+    <EditText
+        android:id="@+id/editText_email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:backgroundTint="@color/vermelhoPrincipal"
+        android:drawableLeft="@drawable/ic_action_email"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/textView_emailRegisto"
+        android:textColorHint="@color/colorWhite"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:imeOptions="actionNext"/>
+
+    <EditText
+        android:id="@+id/editText_password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:backgroundTint="@color/vermelhoPrincipal"
+        android:drawableLeft="@drawable/ic_action_password"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/textView_passwordRegisto"
+        android:textColorHint="@color/colorWhite"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:drawablePadding="10dp"
+        android:imeOptions="actionNext"/>
+
+    <EditText
+        android:id="@+id/editText_repetirPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:backgroundTint="@color/vermelhoPrincipal"
+        android:drawableLeft="@drawable/ic_action_password"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/textView_repetirPasswordRegisto"
+        android:textColorHint="@color/colorWhite"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:drawablePadding="10dp"
+        android:imeOptions="actionDone"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/button_SignUp"
+        android:layout_width="250dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/button"
+        android:hint="@string/button_sign_upRegisto"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:onClick="ligacaoLogin"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+</LinearLayout>
