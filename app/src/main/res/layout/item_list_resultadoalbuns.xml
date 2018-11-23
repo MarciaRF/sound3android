@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageViewCapaAlbum"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerInside"
+        android:elevation="8dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        app:srcCompat="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/textView_nomeAlbum"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_="@id/imageViewCapaAlbum"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="174dp"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:shadowRadius="1"
+        android:text="nomeAlbum"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_autorAlbum"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="ArtistaAlbum"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:shadowRadius="1"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/textView_nomeAlbum"
+        android:layout_toEndOf="@id/imageViewCapaAlbum"/>
+    <TextView
+        android:id="@+id/textView_precoAlbum"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="PreçoAlbum"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:shadowRadius="1"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/textView_autorAlbum"
+        android:layout_toEndOf="@id/imageViewCapaAlbum"
+        android:layout_centerHorizontal="true"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/action_fav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textView_precoAlbum"
+        android:layout_alignStart="@+id/textView_nomeAlbum"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="36dp"
+        android:backgroundTint="@color/colorBlack"
+        android:src="@drawable/ic_action_fav_white" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textView_precoAlbum"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="17dp"
+        android:layout_toEndOf="@id/action_fav"
+        android:backgroundTint="@color/colorBlack"
+        android:src="@drawable/ic_action_cart_white" />
+</RelativeLayout>
