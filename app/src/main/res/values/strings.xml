@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sound3</string>
+    <string name="app_name">sound3android</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -26,4 +26,11 @@
     <string name="textView_passwordRegisto">  Password</string>
     <string name="textView_repetirPasswordRegisto">  Repetir Password</string>
     <string name="button_sign_upRegisto">Sign Up</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="resultados_generos">Resultados Géneros</string>
+    <string name="resultados_albuns">Resultados Álbuns</string>
+    <string name="resultados_musicas">Resultados Músicas</string>
+    <string name="resultados_artistas">Resultados Artistas</string>
 </resources>
