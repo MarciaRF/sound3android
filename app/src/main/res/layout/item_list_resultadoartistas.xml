@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imageViewArtista"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerInside"
+        android:elevation="8dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        app:srcCompat="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/textView_nomeArtista"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="NomeArtista"
+        android:textAlignment="center"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="174dp"
+        android:layout_marginTop="22dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:shadowRadius="1"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"/>
+
+    <TextView
+        android:id="@+id/textView_generoArtista"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="GeneroArtista"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:shadowRadius="1"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/textView_nomeArtista"
+        android:layout_toEndOf="@id/imageViewArtista"/>
+    <TextView
+        android:id="@+id/textView_paisArtista"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="PaisArtista"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:shadowRadius="1"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/textView_generoArtista"
+        android:layout_toEndOf="@id/imageViewArtista"
+        android:layout_centerHorizontal="true"/>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/action_fav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textView_paisArtista"
+        android:layout_alignStart="@id/textView_paisArtista"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="3dp"
+        android:backgroundTint="@color/colorBlack"
+        android:src="@drawable/ic_action_fav_white" />
+
+</RelativeLayout>

@@ -1,4 +1,6 @@
 package models;
 
-public class Artista {
+import java.io.Serializable;
+
+public class Artista implements Serializable{
 }

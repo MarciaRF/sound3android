@@ -1,12 +1,14 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
-public class SingletonGestorAlbuns {
+public class SingletonGestorAlbuns implements Serializable {
     private static SingletonGestorAlbuns INSTANCE = null;
     private ArrayList<Album> albuns;
+
     public static synchronized SingletonGestorAlbuns getInstance() {
         if(INSTANCE == null){
             INSTANCE = new SingletonGestorAlbuns();
@@ -15,7 +17,7 @@ public class SingletonGestorAlbuns {
         return INSTANCE;
     }
 
-    private SingletonGestorAlbuns() {
+    public SingletonGestorAlbuns() {
         albuns = new ArrayList<>();
         gerarFakeData();
     }

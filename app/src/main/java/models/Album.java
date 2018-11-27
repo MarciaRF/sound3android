@@ -1,8 +1,9 @@
 package models;
 
 import java.util.Date;
+import java.io.Serializable;
 
-public class Album {
+public class Album implements Serializable{
     private int IdAlbum;
     private String Nome;
     private String NomeAutor;
