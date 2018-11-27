@@ -46,7 +46,7 @@ public class GridAlbunsAdaptador extends BaseAdapter {
         }
 
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_grid_albuns, null);
+            convertView = inflater.inflate(R.layout.item_grid_resultadoalbuns, null);
         }
 
         GridAlbunsAdaptador.ViewHolderGrid viewHolderGrid = (GridAlbunsAdaptador.ViewHolderGrid)convertView.getTag();
@@ -69,7 +69,7 @@ public class GridAlbunsAdaptador extends BaseAdapter {
 
         public ViewHolderGrid(View convertView){
             capa = convertView.findViewById(R.id.imageViewCapaAlbum);
-            nomeAlbum = convertView.findViewById(R.id.textViewNomeAlbum);
+            nomeAlbum = convertView.findViewById(R.id.textViewNomeGenero);
             nomeArtista = convertView.findViewById(R.id.textViewNomeArtista);
         }
 
