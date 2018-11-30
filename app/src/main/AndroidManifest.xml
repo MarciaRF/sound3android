@@ -30,7 +30,10 @@
             android:name=".RegistoActivity"
             android:parentActivityName=".LoginActivity"
             android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ResultadosPesquisa"></activity>
+        <activity
+            android:name=".ResultadosPesquisa"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>
