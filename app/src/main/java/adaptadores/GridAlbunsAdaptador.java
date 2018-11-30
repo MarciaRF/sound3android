@@ -46,7 +46,7 @@ public class GridAlbunsAdaptador extends BaseAdapter {
         }
 
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_grid_resultadoalbuns, null);
+            convertView = inflater.inflate(R.layout.item_grid_albuns, null);
         }
 
         GridAlbunsAdaptador.ViewHolderGrid viewHolderGrid = (GridAlbunsAdaptador.ViewHolderGrid)convertView.getTag();
@@ -56,7 +56,7 @@ public class GridAlbunsAdaptador extends BaseAdapter {
             convertView.setTag(viewHolderGrid);
         }
 
-        viewHolderGrid.update(albuns.get(position));
+//        viewHolderGrid.update(albuns.get(position));
         return convertView;
     }
 
@@ -73,10 +73,10 @@ public class GridAlbunsAdaptador extends BaseAdapter {
             nomeArtista = convertView.findViewById(R.id.textViewNomeArtista);
         }
 
-        public void update(Album album){
-            nomeAlbum.setText(album.getNome());
+        /*public void update(Album album){
+           nomeAlbum.setText(album.getNome());
             nomeArtista.setText(album.getNomeAutor());
             capa.setImageResource(album.getCapa());
-        }
+        }*/
     }
 }

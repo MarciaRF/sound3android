@@ -14,4 +14,7 @@ public class ResultadosGenero extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_resultados_genero, container, false);
     }
+
+    public ResultadosGenero() {
+    }
 }
