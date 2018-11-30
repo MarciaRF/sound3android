@@ -99,105 +99,134 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createGeneroTable = "CREATE TABLE " + TABLE_N_GENERO +
-                "( " + ID_GENERO + " INTEGER PRIMARY KEY AUTOINCREMENT " +
-                NOME_GENERO + " TEXT NOT NULL" +
-                DESCRICAO_GENERO + "TEXT NOT NULL"+
-                FOTO_GENERO + " INTEGER" +");";
+        String createGeneroTable = " CREATE TABLE " + TABLE_N_GENERO +
+                "( " + ID_GENERO + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NOME_GENERO + " TEXT NOT NULL, " +
+                DESCRICAO_GENERO + " TEXT NOT NULL, "+
+                FOTO_GENERO + " INTEGER " +");";
+        db.execSQL(createGeneroTable);
 
 
-        String createArtistaTable = "CREATE TABLE" + TABLE_N_ARTISTA +
-                "(" + ID_ARTISTA + " INTEGER PRIMARY KEY AUTOINCREMENT "+
-                NOME_ARTISTA + "TEXT NOT NULL" +
-                NACIONALIDADE_ARTISTA + "TEXT NOT NULL" +
-                D_INI_CARREIRA_ARTISTA + "DATE" +
-                FOTO_ARTISTA + "INTEGER" + ");";
+        String createArtistaTable = " CREATE TABLE " + TABLE_N_ARTISTA +
+                "(" + ID_ARTISTA + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                NOME_ARTISTA + " TEXT NOT NULL, " +
+                NACIONALIDADE_ARTISTA + " TEXT NOT NULL, " +
+                D_INI_CARREIRA_ARTISTA + " DATE, " +
+                FOTO_ARTISTA + " INTEGER " + ");";
+        db.execSQL(createArtistaTable);
 
 
-        String createAlbumTable = "CREATE TABLE" + TABLE_N_ALBUM +
-                "(" + ID_ALBUM + "INTEGER PRIMARY KEY AUTOINCREMENT"+
-                NOME_ALBUM + "TEXT NOT NULL" +
-                D_LANCAMENTO_ALBUM + "DATE"+
-                FOTO_ALBUM + "INTEGER"+
-                ID_AUTOR_ALBUM + "INTEGER"+
-                ID_GENERO_DO_ALBUM + "INTEGER"+
-                "FOREIGN KEY ("+ ID_AUTOR_ALBUM + ") REFERENCES "+ TABLE_N_ARTISTA+"("+ ID_ARTISTA+"));" +
-                "FOREIGN KEY ("+ ID_GENERO_DO_ALBUM + ") REFERENCES "+ TABLE_N_GENERO+"("+ ID_GENERO+"));";
+        String createAlbumTable = " CREATE TABLE " + TABLE_N_ALBUM +
+                "(" + ID_ALBUM + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                NOME_ALBUM + " TEXT NOT NULL, " +
+                D_LANCAMENTO_ALBUM + " DATE, "+
+                FOTO_ALBUM + " INTEGER, "+
+                ID_AUTOR_ALBUM + " INTEGER, "+
+                ID_GENERO_DO_ALBUM + " INTEGER, "+
+                "FOREIGN KEY ("+ ID_AUTOR_ALBUM + ") REFERENCES "+ TABLE_N_ARTISTA+"("+ ID_ARTISTA+")," +
+                "FOREIGN KEY ("+ ID_GENERO_DO_ALBUM + ") REFERENCES "+ TABLE_N_GENERO+"("+ ID_GENERO+"))";
+        db.execSQL(createAlbumTable);
 
 
-        String createMusicaTable = "CREATE TABLE" + TABLE_N_MUSICA +
-                "(" + ID_MUSICA + "INTEGER PRIMARY KEY AUTOINCREMENT" +
-                NOME_MUSICA + "TEXT NOT NULL" +
-                DURACAO_MUSICA + "TEXT NOT NULL"+
-                PRECO_MUSICA + "REAL" +
-                ID_ALBUM_DA_MUSICA + "INTEGER" +
-                "FOREIGN KEY ("+  ID_ALBUM_DA_MUSICA + ") REFERENCES "+ TABLE_N_ALBUM+"("+ ID_ALBUM+"));";
+        String createMusicaTable = " CREATE TABLE " + TABLE_N_MUSICA +
+                "(" + ID_MUSICA + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NOME_MUSICA + " TEXT NOT NULL, " +
+                DURACAO_MUSICA + " TEXT NOT NULL, "+
+                PRECO_MUSICA + " REAL, " +
+                ID_ALBUM_DA_MUSICA + " INTEGER, " +
+                "FOREIGN KEY ("+  ID_ALBUM_DA_MUSICA + ") REFERENCES "+ TABLE_N_ALBUM+"("+ ID_ALBUM+"))";
+        db.execSQL(createMusicaTable);
 
 
-        String createUtilizadorTable ="CREATE TABLE" + TABLE_N_UTILIZADOR+
-                "(" + ID_UTILIZADOR + "INTEGER RIMARY KEY AUTOINCREMENT"+
-                NOME_UTILIZADOR + "TEXT NOT NULL"+
-                PASSWORD_UTILIZADOR + "TEXT NOT NULL"+
-                EMAIL_UTILIZADOR + "TEXT NOT NULL" + ");";
+        String createUtilizadorTable =" CREATE TABLE " + TABLE_N_UTILIZADOR+
+                "(" + ID_UTILIZADOR + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                NOME_UTILIZADOR + " TEXT NOT NULL, "+
+                PASSWORD_UTILIZADOR + " TEXT NOT NULL, "+
+                EMAIL_UTILIZADOR + " TEXT NOT NULL " + ")";
+        db.execSQL(createUtilizadorTable);
 
 
-        String createCommentTable = "CREATE TABLE" + TABLE_N_COMMENT +
-                "(" + ID_COMMENT+ "INTEGER PRIMARY KEY AUTOINCREMENT" +
-                CONTEUDO_COMMENT + "TEXT NOT NULL" +
-                DATA_CRIACAO_COMMENT + "DATE"+
-                ID_UTILIZADOR_COMMENT + "INTEGER" +
-                ID_ALBUM_COMMENT + "INTEGER" +
-                "FOREIGN KEY ("+  ID_ALBUM_COMMENT + ") REFERENCES "+ TABLE_N_ALBUM+"("+ ID_ALBUM+"));"+
-                "FOREIGN KEY ("+  ID_UTILIZADOR_COMMENT + ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"));";
+        String createCommentTable = " CREATE TABLE " + TABLE_N_COMMENT +
+                "(" + ID_COMMENT+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CONTEUDO_COMMENT + " TEXT NOT NULL, " +
+                DATA_CRIACAO_COMMENT + " DATE, "+
+                ID_UTILIZADOR_COMMENT + " INTEGER, " +
+                ID_ALBUM_COMMENT + " INTEGER, " +
+                "FOREIGN KEY ("+  ID_ALBUM_COMMENT + ") REFERENCES "+ TABLE_N_ALBUM+"("+ ID_ALBUM+"),"+
+                "FOREIGN KEY ("+  ID_UTILIZADOR_COMMENT + ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"))";
+        db.execSQL(createCommentTable);
 
 
-        String createCompraTable = "CREATE TABLE" + TABLE_N_COMPRA +
-                "(" + ID_COMPRA+ "INTEGER PRIMARY KEY AUTOINCREMENT" +
-                DATA_COMPRA + "DATE" +
-                VALOR_TOTAL_COMPRA + "TEXT"+
-                EFETIVADA_COMPRA + " BOOLEAN" +
-                ID_UTILIZADOR_COMPRA + "INTEGER" +
-                "FOREIGN KEY ("+  ID_UTILIZADOR_COMPRA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"));";
+        String createCompraTable = " CREATE TABLE " + TABLE_N_COMPRA +
+                "(" + ID_COMPRA+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DATA_COMPRA + " DATE, " +
+                VALOR_TOTAL_COMPRA + " TEXT, "+
+                EFETIVADA_COMPRA + " BOOLEAN, " +
+                ID_UTILIZADOR_COMPRA + " INTEGER, " +
+                "FOREIGN KEY ("+  ID_UTILIZADOR_COMPRA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"))";
+        db.execSQL(createCompraTable);
 
 
-        String createFavAlbumTable = "CREATE TABLE " + TABLE_N_FAV_ALBUM +
-                "(" + ID_UTILIZADOR_FAV_ALBUM + "INTEGER"+
-                ID_ALBUM_FAV + "INTEGER "+
-                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_ALBUM+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"));"+
-                "FOREIGN KEY ("+  ID_ALBUM_FAV+ ") REFERENCES "+ TABLE_N_ALBUM +"("+ ID_ALBUM+"));";
+        String createFavAlbumTable = " CREATE TABLE " + TABLE_N_FAV_ALBUM +
+                "(" + ID_UTILIZADOR_FAV_ALBUM + " INTEGER,"+
+                ID_ALBUM_FAV + " INTEGER, "+
+                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_ALBUM+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"),"+
+                "FOREIGN KEY ("+  ID_ALBUM_FAV+ ") REFERENCES "+ TABLE_N_ALBUM +"("+ ID_ALBUM+")," +
+                "PRIMARY KEY ("+ID_UTILIZADOR_FAV_ALBUM + "," + ID_ALBUM_FAV +"))";
+        db.execSQL(createFavAlbumTable);
 
 
-        String createFavArtistaTable = "CREATE TABLE " + TABLE_N_FAV_ALBUM +
-                "(" + ID_UTILIZADOR_FAV_ARTISTA + "INTEGER"+
-                ID_ARTISTA_FAV + "INTEGER "+
-                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_ARTISTA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"));"+
-                "FOREIGN KEY ("+  ID_ARTISTA_FAV+ ") REFERENCES "+ TABLE_N_ARTISTA +"("+ ID_ARTISTA+"));";
+        String createFavArtistaTable = " CREATE TABLE " + TABLE_N_FAV_ALBUM +
+                "(" + ID_UTILIZADOR_FAV_ARTISTA + " INTEGER, "+
+                ID_ARTISTA_FAV + " INTEGER, "+
+                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_ARTISTA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"),"+
+                "FOREIGN KEY ("+  ID_ARTISTA_FAV+ ") REFERENCES "+ TABLE_N_ARTISTA +"("+ ID_ARTISTA+")," +
+                "PRIMARY KEY ("+ ID_UTILIZADOR_FAV_ARTISTA + "," + ID_ARTISTA_FAV +"))";
+        db.execSQL(createFavArtistaTable);
 
 
-        String createFavGeneroTable = "CREATE TABLE " + TABLE_N_FAV_GENERO +
-                "(" + ID_UTILIZADOR_FAV_GENERO + "INTEGER"+
-                ID_GENERO_FAV + "INTEGER "+
-                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_GENERO+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"));"+
-                "FOREIGN KEY ("+  ID_GENERO_FAV+ ") REFERENCES "+ TABLE_N_GENERO +"("+ ID_GENERO+"));";
+        String createFavGeneroTable = " CREATE TABLE " + TABLE_N_FAV_GENERO +
+                "(" + ID_UTILIZADOR_FAV_GENERO + " INTEGER, "+
+                ID_GENERO_FAV + " INTEGER, "+
+                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_GENERO+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"),"+
+                "FOREIGN KEY ("+  ID_GENERO_FAV+ ") REFERENCES "+ TABLE_N_GENERO +"("+ ID_GENERO+")," +
+                "PRIMARY KEY ("+ ID_UTILIZADOR_FAV_GENERO + "," + ID_GENERO_FAV +"))";
+        db.execSQL(createFavGeneroTable);
 
 
-        String createFavMusicaTable = "CREATE TABLE " + TABLE_N_FAV_MUSICA +
-                "(" + ID_UTILIZADOR_FAV_MUSICA + "INTEGER"+
-                ID_MUSICA_FAV + "INTEGER "+
-                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_MUSICA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"));"+
-                "FOREIGN KEY ("+  ID_MUSICA_FAV+ ") REFERENCES "+ TABLE_N_MUSICA +"("+ ID_MUSICA+"));";
+        String createFavMusicaTable = " CREATE TABLE " + TABLE_N_FAV_MUSICA +
+                "(" + ID_UTILIZADOR_FAV_MUSICA + " INTEGER, "+
+                ID_MUSICA_FAV + " INTEGER, "+
+                "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_MUSICA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"),"+
+                "FOREIGN KEY ("+  ID_MUSICA_FAV+ ") REFERENCES "+ TABLE_N_MUSICA +"("+ ID_MUSICA+"),"+
+                "PRIMARY KEY ("+ ID_UTILIZADOR_FAV_MUSICA + "," + ID_MUSICA_FAV+"))";
+        db.execSQL(createFavMusicaTable);
 
 
-        String createLinhaCompraTable = "CREATE TABLE " + TABLE_N_LINHA_COMPRA +
-                "(" + ID_COMPRA_LINHA+ "INTEGER"+
-                ID_MUSICA_LINHA+ "INTEGER "+
-                "FOREIGN KEY ("+  ID_COMPRA_LINHA+ ") REFERENCES "+ TABLE_N_COMPRA +"("+ ID_COMPRA+"));"+
-                "FOREIGN KEY ("+  ID_MUSICA_LINHA+ ") REFERENCES "+ TABLE_N_MUSICA +"("+ ID_MUSICA+"));";
+        String createLinhaCompraTable = " CREATE TABLE " + TABLE_N_LINHA_COMPRA +
+                "(" + ID_COMPRA_LINHA+ "INTEGER, "+
+                ID_MUSICA_LINHA+ " INTEGER, "+
+                "FOREIGN KEY ("+  ID_COMPRA_LINHA+ ") REFERENCES "+ TABLE_N_COMPRA +"("+ ID_COMPRA+"),"+
+                "FOREIGN KEY ("+  ID_MUSICA_LINHA+ ") REFERENCES "+ TABLE_N_MUSICA +"("+ ID_MUSICA+")," +
+                "PRIMARY KEY ("+ ID_COMPRA_LINHA + "," + ID_MUSICA_LINHA+"))";
+        db.execSQL(createLinhaCompraTable);
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_UTILIZADOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_GENERO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_ARTISTA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_ALBUM);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_MUSICA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_COMMENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_COMPRA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_FAV_MUSICA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_FAV_GENERO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_FAV_ALBUM);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_FAV_ARTISTA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_LINHA_COMPRA);
+        this.onCreate(db);
     }
 }
