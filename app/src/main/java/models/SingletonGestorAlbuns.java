@@ -1,5 +1,7 @@
 package models;
 
+import android.content.Context;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,38 +10,34 @@ import pt.ipleiria.estg.dei.amsi.sound3application.R;
 public class SingletonGestorAlbuns implements Serializable {
     private static SingletonGestorAlbuns INSTANCE = null;
     private ArrayList<Album> albuns;
+    private ModeloBDHelper modeloBDHelper = null;
 
-    public static synchronized SingletonGestorAlbuns getInstance() {
+    public static synchronized SingletonGestorAlbuns getInstance(Context context) {
         if(INSTANCE == null){
-            INSTANCE = new SingletonGestorAlbuns();
+            INSTANCE = new SingletonGestorAlbuns(context);
         }
 
         return INSTANCE;
     }
 
-    public SingletonGestorAlbuns() {
+    public SingletonGestorAlbuns(Context context) {
         albuns = new ArrayList<>();
-        gerarFakeData();
+        modeloBDHelper = new ModeloBDHelper(context);
     }
 
-    private void gerarFakeData(){
-        albuns.add(new Album(1,"Meteora", "Linkin Park", 2003, R.drawable.meteora));
-        albuns.add(new Album(2,"Hybrid Theory", "Linkin Park", 2000, R.drawable.hybridtheory));
-        albuns.add(new Album(3,"Hybrid Theory2", "Linkin Park", 2000, R.drawable.hybridtheory));
-        albuns.add(new Album(4,"Meteora2", "Linkin Park", 2003, R.drawable.meteora));
-        albuns.add(new Album(5,"Meteora3", "Linkin Park", 2003, R.drawable.meteora));
-        albuns.add(new Album(6,"Hybrid Theory3", "Linkin Park", 2000, R.drawable.hybridtheory));
+    /*private void gerarFakeData(){
 
+    }*/
+
+    public ArrayList<Album> getAlbuns() {
+        albuns = modeloBDHelper.getAllAlbunsBD();
+        return albuns;
     }
 
-    public ArrayList<Album> getLivros() {
-        return new ArrayList<>(albuns);
-    }
-
-    public Album getLivro(long idLivro){
+    public Album getAlbum(long idAlbum){
         for (Album album:albuns
              ) {
-            if(album.getIdAlbum()==idLivro){
+            if(album.getIdAlbum()==idAlbum){
                 return album;
             }
         }

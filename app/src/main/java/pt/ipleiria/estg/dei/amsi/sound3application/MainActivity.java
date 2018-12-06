@@ -38,11 +38,16 @@ public class MainActivity extends AppCompatActivity {
             //define a home como default ao abrir a app
             bottomNav.setSelectedItemId(R.id.nav_home);
             //gerar
-            this.gestorAlbuns = new SingletonGestorAlbuns();
+            this.gestorAlbuns = new SingletonGestorAlbuns(getApplicationContext());
         }else{
             this.gestorAlbuns = (SingletonGestorAlbuns)
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
         }
+
+        if(this.gestorAlbuns == null) {
+            //this.gestorAlbuns = SingletonGestorAlbuns.getInstance(getApplicationContext()).getAlbuns();
+        }
+
 
 
         /* adicionar logo antes do nome da app

@@ -4,53 +4,49 @@ import java.util.Date;
 import java.io.Serializable;
 
 public class Album implements Serializable{
-    private int IdAlbum;
+    private long IdAlbum;
     private String Nome;
-    private String NomeAutor;
-    private int Ano;
-    private Integer Capa;
+    private Integer Ano;
+    private Integer Imagem;
+    private Integer IdGenero_Autor;
+    private Integer IdGenero_Album;
 
-    public Album(int idAlbum, String nome, String nomeAutor, int ano, Integer capa) {
-        IdAlbum = idAlbum;
+    private static int autoIncrementId = 0;
+
+
+    public Album(String nome, Integer ano, Integer imagem, Integer idGenero_Autor, Integer idGenero_Album) {
+        IdAlbum = autoIncrementId++;
         Nome = nome;
-        NomeAutor = nomeAutor;
         Ano = ano;
-        Capa = capa;
+        Imagem = imagem;
+        IdGenero_Autor = idGenero_Autor;
+        IdGenero_Album = idGenero_Album;
     }
 
-    public int getIdAlbum() {
+    public long getIdAlbum() {
         return IdAlbum;
     }
 
-    public String getNome() {
-        return Nome;
-    }
+    public void setIdAlbum(long idAlbum) { IdAlbum = idAlbum; }
 
-    public void setNome(String nome) {
-        Nome = nome;
-    }
+    public String getNome() { return Nome; }
 
-    public String getNomeAutor() {
-        return NomeAutor;
-    }
+    public void setNome(String nome) { Nome = nome; }
 
-    public void setNomeAutor(String nomeAutor) {
-        NomeAutor = nomeAutor;
-    }
+    public Integer getAno() { return Ano; }
 
-    public int getAno() {
-        return Ano;
-    }
+    public void setAno(Integer ano) { Ano = ano; }
 
-    public void setAno(int ano) {
-        Ano = ano;
-    }
+    public Integer getImagem() { return Imagem; }
 
-    public Integer getCapa() {
-        return Capa;
-    }
+    public void setImagem(Integer imagem) { Imagem = imagem; }
 
-    public void setCapa(Integer capa) {
-        Capa = capa;
-    }
+    public Integer getIdGenero_Autor() { return IdGenero_Autor; }
+
+    public void setIdGenero_Autor(Integer idGenero_Autor) { IdGenero_Autor = idGenero_Autor; }
+
+    public Integer getIdGenero_Album() { return IdGenero_Album; }
+
+    public void setIdGenero_Album(Integer idGenero_Album) { IdGenero_Album = idGenero_Album; }
+
 }
