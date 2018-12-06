@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -33,7 +31,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         gridViewRecentes = view.findViewById(R.id.gridViewAlbRecentes);
-        albuns = SingletonGestorAlbuns.getInstance().getLivros();
+        albuns = SingletonGestorAlbuns.getInstance(getActivity().getApplicationContext()).getAlbuns();
         gridViewRecentes.setAdapter(new GridAlbunsAdaptador(getActivity().getApplicationContext(),albuns));
 
         return view;
