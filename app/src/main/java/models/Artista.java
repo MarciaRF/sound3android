@@ -19,6 +19,9 @@ public class Artista implements Serializable{
         Imagem = imagem;
     }
 
+
+    public long getIdArtista() { return IdArtista; }
+
     public void setIdArtista(long idArtista) { IdArtista = idArtista; }
 
     public String getNome() { return Nome; }

@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.amsi.sound3application;
+package pt.ipleiria.estg.dei.amsi.sound3application.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FavoritosFragment extends Fragment {
+import pt.ipleiria.estg.dei.amsi.sound3application.R;
+
+public class CarrinhoFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_favoritos, container, false);
+        return inflater.inflate(R.layout.fragment_carrinho, container, false);
     }
 }

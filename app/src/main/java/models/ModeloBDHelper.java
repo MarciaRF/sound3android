@@ -141,7 +141,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 "(" + ID_MUSICA + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NOME_MUSICA + " TEXT NOT NULL, " +
                 DURACAO_MUSICA + " TEXT NOT NULL, "+
-                PRECO_MUSICA + " REAL, " +
+                PRECO_MUSICA + " INTEGER, " +
                 ID_ALBUM_DA_MUSICA + " INTEGER, " +
                 CAMINHO_MP3_MUSICA + "TEXT, " +
                 POSICAO_MUSICA + "INTEGER, " +
@@ -187,7 +187,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         db.execSQL(createFavAlbumTable);
 
 
-        String createFavArtistaTable = " CREATE TABLE " + TABLE_N_FAV_ALBUM +
+        String createFavArtistaTable = " CREATE TABLE " + TABLE_N_FAV_ARTISTA +
                 "(" + ID_UTILIZADOR_FAV_ARTISTA + " INTEGER, "+
                 ID_ARTISTA_FAV + " INTEGER, "+
                 "FOREIGN KEY ("+  ID_UTILIZADOR_FAV_ARTISTA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"),"+
@@ -215,10 +215,10 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
 
 
         String createLinhaCompraTable = " CREATE TABLE " + TABLE_N_LINHA_COMPRA +
-                "(" + ID_COMPRA_LINHA+ "INTEGER, "+
-                ID_MUSICA_LINHA+ " INTEGER, "+
+                "(" + ID_COMPRA_LINHA + " INTEGER, "+
+                ID_MUSICA_LINHA + " INTEGER, "+
                 "FOREIGN KEY ("+  ID_COMPRA_LINHA+ ") REFERENCES "+ TABLE_N_COMPRA +"("+ ID_COMPRA+"),"+
-                "FOREIGN KEY ("+  ID_MUSICA_LINHA+ ") REFERENCES "+ TABLE_N_MUSICA +"("+ ID_MUSICA+")," +
+                "FOREIGN KEY ("+  ID_MUSICA_LINHA+ ") REFERENCES "+ TABLE_N_MUSICA +"("+ ID_MUSICA+"),"+
                 "PRIMARY KEY ("+ ID_COMPRA_LINHA + "," + ID_MUSICA_LINHA+"))";
         db.execSQL(createLinhaCompraTable);
     }
@@ -322,11 +322,12 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 Album auxAlbum = new Album(
-                        cursor.getString(1),
-                        cursor.getInt(2),
+                        cursor.getLong(1),
+                        cursor.getString(2),
                         cursor.getInt(3),
                         cursor.getInt(4),
-                        cursor.getInt(5));
+                        cursor.getInt(5),
+                        cursor.getInt(6));
                 auxAlbum.setIdAlbum(cursor.getLong(0));
                 albuns.add(auxAlbum);
             }while(cursor.moveToNext());
@@ -384,7 +385,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 Musica auxMusica = new Musica(
                         cursor.getString(1),
                         cursor.getString(2),
-                        cursor.getFloat(3),
+                        cursor.getInt(3),
                         cursor.getInt(4),
                         cursor.getString(5),
                         cursor.getInt(6));

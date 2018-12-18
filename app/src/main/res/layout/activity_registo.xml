@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="pt.ipleiria.estg.dei.amsi.sound3application.RegistoActivity"
+    tools:context="pt.ipleiria.estg.dei.amsi.sound3application.Activitys.LoginActivity$RegistoActivity"
     android:background="@color/colorBlack">
 
     <Space

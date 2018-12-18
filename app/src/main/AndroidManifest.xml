@@ -16,9 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Activitys.MainActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activitys.LoginActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,13 +27,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegistoActivity"
-            android:parentActivityName=".LoginActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:name=".Activitys.LoginActivity$RegistoActivity"
+            android:parentActivityName=".Activitys.LoginActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ResultadosPesquisa"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".DetalhesAlbum"></activity>
     </application>
 
 </manifest>

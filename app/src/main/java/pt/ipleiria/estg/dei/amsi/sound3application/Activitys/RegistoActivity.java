@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.amsi.sound3application;
+package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

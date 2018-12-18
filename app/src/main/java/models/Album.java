@@ -11,11 +11,9 @@ public class Album implements Serializable{
     private Integer IdGenero_Autor;
     private Integer IdGenero_Album;
 
-    private static int autoIncrementId = 0;
 
-
-    public Album(String nome, Integer ano, Integer imagem, Integer idGenero_Autor, Integer idGenero_Album) {
-        IdAlbum = autoIncrementId++;
+    public Album(Long idalbum, String nome, Integer ano, Integer imagem, Integer idGenero_Autor, Integer idGenero_Album) {
+        IdAlbum = idalbum;
         Nome = nome;
         Ano = ano;
         Imagem = imagem;
@@ -23,9 +21,7 @@ public class Album implements Serializable{
         IdGenero_Album = idGenero_Album;
     }
 
-    public long getIdAlbum() {
-        return IdAlbum;
-    }
+    public long getIdAlbum() { return IdAlbum; }
 
     public void setIdAlbum(long idAlbum) { IdAlbum = idAlbum; }
 

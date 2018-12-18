@@ -17,6 +17,8 @@ public class Genero implements Serializable{
         Imagem = imagem;
     }
 
+    public long getIdGenero() { return IdGenero; }
+
     public void setIdGenero(long idGenero) { IdGenero = idGenero; }
 
     public String getNome() { return Nome; }
