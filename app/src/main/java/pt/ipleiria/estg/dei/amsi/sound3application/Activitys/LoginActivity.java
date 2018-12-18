@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.amsi.sound3application;
+package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -355,6 +355,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+    public static class RegistoActivity extends AppCompatActivity {
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_registo);
+        }
+
+        public void ligacaoLogin(View view) {
+            Intent intent = new Intent (getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         }
     }
 }

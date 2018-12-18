@@ -6,14 +6,14 @@ public class Musica implements Serializable{
     private long IdMusica;
     private String Nome;
     private String Duracao;
-    private Float Preco;
+    private int Preco;
     private int IdAlbum;
     private String CaminhoMusica;
     private Integer Posicao;
 
     private static int autoIncrementId = 0;
 
-    public Musica(String nome, String duracao, Float preco, int idAlbum, String caminhoMusica, Integer posicao){
+    public Musica(String nome, String duracao, int preco, int idAlbum, String caminhoMusica, Integer posicao){
         IdMusica = autoIncrementId++;
         Nome = nome;
         Duracao = duracao;
@@ -22,6 +22,8 @@ public class Musica implements Serializable{
         CaminhoMusica = caminhoMusica;
         Posicao = posicao;
     }
+
+    public long getIdMusica() { return IdMusica; }
 
     public void setIdMusica(long idMusica) { IdMusica = idMusica; }
 
@@ -33,9 +35,9 @@ public class Musica implements Serializable{
 
     public void setDuracao(String duracao) { Duracao = duracao; }
 
-    public Float getPreco() { return Preco; }
+    public int getPreco() { return Preco; }
 
-    public void setPreco(Float preco) { Preco = preco; }
+    public void setPreco(int preco) { Preco = preco; }
 
     public int getIdAlbum() { return IdAlbum; }
 

@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.amsi.sound3application;
+package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,7 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import models.SingletonGestorAlbuns;
+import models.SingletonGestorConteudo;
+import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CarrinhoFragment;
+import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.FavoritosFragment;
+import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.HomeFragment;
+import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.UtilizadorFragment;
+import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 /**
  *  Link para ver o Bottom Navigation
@@ -17,13 +22,13 @@ import models.SingletonGestorAlbuns;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private SingletonGestorAlbuns gestorAlbuns;
+    private SingletonGestorConteudo gestorConteudo;
     private static final String ESTADO_GESTOR_ALBUNS = "ESTADO_GESTOR_ALBUNS";
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(ESTADO_GESTOR_ALBUNS, gestorAlbuns);
+        outState.putSerializable(ESTADO_GESTOR_ALBUNS, gestorConteudo);
     }
 
     @Override
@@ -38,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
             //define a home como default ao abrir a app
             bottomNav.setSelectedItemId(R.id.nav_home);
             //gerar
-            this.gestorAlbuns = new SingletonGestorAlbuns(getApplicationContext());
+            this.gestorConteudo = new SingletonGestorConteudo(getApplicationContext());
         }else{
-            this.gestorAlbuns = (SingletonGestorAlbuns)
+            this.gestorConteudo = (SingletonGestorConteudo)
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
         }
 
-        if(this.gestorAlbuns == null) {
+        if(this.gestorConteudo == null) {
             //this.gestorAlbuns = SingletonGestorAlbuns.getInstance(getApplicationContext()).getAlbuns();
         }
 
