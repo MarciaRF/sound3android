@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.amsi.sound3application;
+package pt.ipleiria.estg.dei.amsi.sound3application.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ResultadosMusica extends Fragment {
+import pt.ipleiria.estg.dei.amsi.sound3application.R;
+
+public class AlbunsFavoritosFragment extends Fragment {
+
+    View view;
+
+    public AlbunsFavoritosFragment() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_resultados_musicas, container, false);
+        view = inflater.inflate(R.layout.fragment_albuns_favoritos, container, false);
+        return view;
     }
+
+
+
 }

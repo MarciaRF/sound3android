@@ -18,6 +18,7 @@ import adaptadores.MusicaAdapter;
 import models.Album;
 import models.Artista;
 import models.Musica;
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 
@@ -38,11 +39,12 @@ public class HomeFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         lstAlbuns = new ArrayList<>();
-        lstAlbuns.add(new Album("Filhos do Rossi", 1,R.drawable.filhos_do_rossi,3,4));
-        lstAlbuns.add(new Album("Filhos do Rossi", 1,R.drawable.filhos_do_rossi,3,4));
-        lstAlbuns.add(new Album("Filhos do Rossi", 1,R.drawable.filhos_do_rossi,3,4));
-        lstAlbuns.add(new Album("Filhos do Rossi", 1,R.drawable.filhos_do_rossi,3,4));
-        lstAlbuns.add(new Album("Filhos do Rossi", 1,R.drawable.filhos_do_rossi,3,4));
+        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
+        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
+        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
+        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
+        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
+
 
 
         lstMusica = new ArrayList<>();
@@ -58,7 +60,6 @@ public class HomeFragment extends Fragment{
         lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
         lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
         lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
-
 
 
     }

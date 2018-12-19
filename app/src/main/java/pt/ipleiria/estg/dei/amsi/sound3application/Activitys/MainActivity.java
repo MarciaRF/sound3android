@@ -9,6 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import models.Album;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CarrinhoFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.FavoritosFragment;
@@ -22,13 +25,15 @@ import pt.ipleiria.estg.dei.amsi.sound3application.R;
  */
 
 public class MainActivity extends AppCompatActivity {
+
+    private ArrayList<Album> lstAlbum;
     private SingletonGestorConteudo gestorConteudo;
     private static final String ESTADO_GESTOR_ALBUNS = "ESTADO_GESTOR_ALBUNS";
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(ESTADO_GESTOR_ALBUNS, gestorConteudo);
+
     }
 
     @Override
@@ -53,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
             //this.gestorAlbuns = SingletonGestorAlbuns.getInstance(getApplicationContext()).getAlbuns();
         }
 
+
+        //Adicionar Albuns a BD
+        SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
 
 
         /* adicionar logo antes do nome da app
@@ -92,4 +100,20 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_pesquisa, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
+
+    //Adicionar Dados á base de Dados
+    private ArrayList<Album> criarAlbum(){
+        lstAlbum = new ArrayList<>();
+
+        lstAlbum.add(new Album( 1,"Filhos do Rossi", 2017, R.drawable.filhos_do_rossi,1,2));
+        lstAlbum.add(new Album( 2,"Bad", 1987, R.drawable.bad,2,2));
+        lstAlbum.add(new Album( 3,"Avici", 2017, R.drawable.avici,3,3));
+        lstAlbum.add(new Album( 4,"Master of Puppets", 1986, R.drawable.mastertofpuppets,4,4));
+        lstAlbum.add(new Album( 5,"Confrontation", 1983, R.drawable.confrotation,5,5));
+
+        return lstAlbum;
+    }
+
 }

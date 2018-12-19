@@ -30,9 +30,6 @@
             android:name=".Activitys.LoginActivity$RegistoActivity"
             android:parentActivityName=".Activitys.LoginActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".ResultadosPesquisa"
-            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".DetalhesAlbum"></activity>
     </application>
 

@@ -7,14 +7,20 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import adaptadores.AlbumAdapter;
+import adaptadores.ViewPagerAdapter;
 
 import adaptadores.ViewPagerAdapter;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 public class FavoritosFragment extends Fragment {
+
+    View view;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -23,27 +29,31 @@ public class FavoritosFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_favoritos, container, false);
+        view = inflater.inflate(R.layout.fragment_favoritos, container, false);
 
-/*
-        // Codigo das Tabs
-        tabLayout = tabLayout.findViewById(R.id.tb_favoritos);
-        viewPager = viewPager.findViewById(R.id.vp_favoritos);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        /*// Codigo das Tabs
+        tabLayout = getActivity().findViewById(R.id.tb_favoritos);
+        viewPager = (ViewPager) view.findViewById(R.id.vp_favoritos);
 
-        adapter.AddFragmment(new MusicaFragment(),"");
-        adapter.AddFragmment(new CommentFragment(),"");
+
+        adapter = new ViewPagerAdapter(getFragmentManager());
+
+        adapter.AddFragmment(new MusicasFavoritosFragment(),"Musicas");
+        adapter.AddFragmment(new AlbunsFavoritosFragment(),"Albuns");
+        adapter.AddFragmment(new ArtistasFavoritosFragment(),"Artistas");
+        adapter.AddFragmment(new GenerosFavoritosFragment(),"Generos");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
 
-        tabLayout.getTabAt(0).setIcon(R.drawable.music_note_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.comment_24dp);
-
         //Remove shade from action bar
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setElevation(0);*/
 
+        return view;
     }
+
+
+
 }
