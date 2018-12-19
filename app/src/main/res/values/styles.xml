@@ -2,13 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/topbar</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@drawable/gradient_background</item>
     </style>
 
     <style name="ActionbarTheme">
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/topbar</item>
     </style>
 
 

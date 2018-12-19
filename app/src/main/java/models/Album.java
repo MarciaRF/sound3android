@@ -8,17 +8,17 @@ public class Album implements Serializable{
     private String Nome;
     private Integer Ano;
     private Integer Imagem;
-    private Integer IdGenero_Autor;
-    private Integer IdGenero_Album;
+    private Integer Id_Autor;
+    private Integer Id_Genero;
 
 
-    public Album(Long idalbum, String nome, Integer ano, Integer imagem, Integer idGenero_Autor, Integer idGenero_Album) {
+    public Album(long idalbum, String nome, Integer ano, Integer imagem, Integer id_autor, Integer id_genero) {
         IdAlbum = idalbum;
         Nome = nome;
         Ano = ano;
         Imagem = imagem;
-        IdGenero_Autor = idGenero_Autor;
-        IdGenero_Album = idGenero_Album;
+        Id_Autor = id_autor;
+        Id_Genero = id_genero;
     }
 
     public long getIdAlbum() { return IdAlbum; }
@@ -37,12 +37,11 @@ public class Album implements Serializable{
 
     public void setImagem(Integer imagem) { Imagem = imagem; }
 
-    public Integer getIdGenero_Autor() { return IdGenero_Autor; }
+    public Integer getId_Autor() { return Id_Autor; }
 
-    public void setIdGenero_Autor(Integer idGenero_Autor) { IdGenero_Autor = idGenero_Autor; }
+    public void setId_Autor(Integer id_Autor) { Id_Autor = id_Autor; }
 
-    public Integer getIdGenero_Album() { return IdGenero_Album; }
+    public Integer getId_Genero() { return Id_Genero; }
 
-    public void setIdGenero_Album(Integer idGenero_Album) { IdGenero_Album = idGenero_Album; }
-
+    public void setId_Genero(Integer id_Genero) { Id_Genero = id_Genero;}
 }

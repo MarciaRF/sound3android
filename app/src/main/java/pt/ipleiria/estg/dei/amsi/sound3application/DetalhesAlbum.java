@@ -37,23 +37,32 @@ public class DetalhesAlbum extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_album);
 
+        idAlbum = getIntent().getLongExtra(AlbumAdapter.DETALHES_ALBUM, 0);
+
         albumNome = findViewById(R.id.eT_detalhes_album_nomeAlbum);
         nomeArtista = findViewById(R.id.eT_detalhes_album_nomeArtista);
         albumAno = findViewById(R.id.eT_detalhes_album_ano);
         albumPreco = findViewById(R.id.eT_detalhes_album_preco);
         albumImagem = findViewById(R.id.iV_detalhes_album_imagem);
 
-        idAlbum = getIntent().getLongExtra(AlbumAdapter.DETALHES_ALBUM, 0);
-
+        System.out.println("----->getAlbunsBD(): " + SingletonGestorConteudo.getInstance(getApplicationContext()).getAlbunsBD());
 
         album = SingletonGestorConteudo.getInstance(getApplicationContext()).getAlbum(idAlbum);
-        mostrarDadosAlbum();
 
+        System.out.println("---->albumid: " + album);
+        System.out.println("---->albumnome: " + album.getNome());
+
+
+
+        albumNome.setText(album.getNome());
+        //nomeArtista.setText(al);
+        albumAno.setText("" + album.getAno());
+        //albumPreco.setText(album.ge);
+        albumImagem.setImageResource(album.getImagem());
 
 
         // Codigo das Tabs
         tabLayout = findViewById(R.id.tb_album);
-        //appBarLayout = findViewById(R.id.bl_album);
         viewPager = findViewById(R.id.vp_album);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -73,14 +82,6 @@ public class DetalhesAlbum extends AppCompatActivity {
     }
 
 
-    public void mostrarDadosAlbum(){
-         albumNome.setText(album.getNome());
-        //nomeArtista.setText(al);
-        albumAno.setText(album.getAno());
-        //albumPreco.setText(album.ge);
-        albumImagem.setImageResource(album.getImagem());
-    }
-
     public void albumAddFavoritos(View view) {
         Toast.makeText(this, "Adicionado aos Favoritos", Toast.LENGTH_SHORT).show();
     }
@@ -91,5 +92,6 @@ public class DetalhesAlbum extends AppCompatActivity {
 
 
     public void onClickCriarComment(View view) {
+        Toast.makeText(this, "Criar Comment", Toast.LENGTH_SHORT).show();
     }
 }

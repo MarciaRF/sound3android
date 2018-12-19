@@ -281,8 +281,8 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         values.put(NOME_ALBUM, album.getNome());
         values.put(ANO_ALBUM, album.getAno());
         values.put(FOTO_ALBUM, album.getImagem());
-        values.put(ID_AUTOR_ALBUM, album.getIdGenero_Autor());
-        values.put(ID_GENERO_DO_ALBUM, album.getIdGenero_Album());
+        values.put(ID_AUTOR_ALBUM, album.getId_Autor());
+        values.put(ID_GENERO_DO_ALBUM, album.getId_Genero());
 
         long id = this.database.insert(TABLE_N_ALBUM, null, values);
 
@@ -316,18 +316,17 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<Album> getAllAlbunsBD(){
         ArrayList<Album> albuns = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_ALBUM, new String[]{"id", NOME_ALBUM, ANO_ALBUM, FOTO_ALBUM, ID_AUTOR_ALBUM, ID_GENERO_DO_ALBUM},
+        Cursor cursor = this.database.query(TABLE_N_ALBUM, new String[]{" id ", NOME_ALBUM, ANO_ALBUM, FOTO_ALBUM, ID_AUTOR_ALBUM, ID_GENERO_DO_ALBUM},
                 null, null,null, null, null);
 
         if(cursor.moveToFirst()){
             do{
-                Album auxAlbum = new Album(
-                        cursor.getLong(1),
-                        cursor.getString(2),
+                Album auxAlbum = new Album(0,
+                        cursor.getString(1),
+                        cursor.getInt(2),
                         cursor.getInt(3),
                         cursor.getInt(4),
-                        cursor.getInt(5),
-                        cursor.getInt(6));
+                        cursor.getInt(5));
                 auxAlbum.setIdAlbum(cursor.getLong(0));
                 albuns.add(auxAlbum);
             }while(cursor.moveToNext());

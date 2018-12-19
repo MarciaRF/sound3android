@@ -5,7 +5,7 @@ import android.content.Context;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SingletonGestorConteudo implements Serializable {
+public class SingletonGestorConteudo  {
 
     private static SingletonGestorConteudo INSTANCE = null;
     private ArrayList<Album> albuns;
@@ -46,7 +46,7 @@ public class SingletonGestorConteudo implements Serializable {
         return null;
     }
 
-    public ArrayList<Artista> getArtistassBD(){
+    public ArrayList<Artista> getArtistasBD(){
         artistas = modeloBDHelper.getAllArtistasBD();
         return artistas;
     }
@@ -88,6 +88,24 @@ public class SingletonGestorConteudo implements Serializable {
         }
         return null;
     }
+
+
+    public void adicionarAlbumBD(ArrayList<Album> albuns){
+        ArrayList<Album> auxAlbuns = new ArrayList<>();
+        for (Album album:albuns){
+            modeloBDHelper.adicionarAlbumBD(album);
+            auxAlbuns.add(modeloBDHelper.adicionarAlbumBD(album));
+        }
+
+        if(auxAlbuns != null){
+            for (Album auxAlbum:auxAlbuns) {
+                albuns.add(auxAlbum);
+            }
+        }
+
+    }
+
+
 
 
 }
