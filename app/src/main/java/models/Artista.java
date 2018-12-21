@@ -9,10 +9,9 @@ public class Artista implements Serializable{
     private Integer Ano;
     private Integer Imagem;
 
-    private static int autoIncrementId = 0;
 
-    public Artista(String nome, String nacionalidade, Integer ano, Integer imagem){
-        IdArtista = autoIncrementId++;
+    public Artista(long idArtista, String nome, String nacionalidade, Integer ano, Integer imagem){
+        IdArtista = idArtista;
         Nome = nome;
         Nacionalidade = nacionalidade;
         Ano = ano;

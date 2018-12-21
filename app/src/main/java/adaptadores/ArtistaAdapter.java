@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import models.Artista;
@@ -41,8 +44,11 @@ public class ArtistaAdapter extends RecyclerView.Adapter<ArtistaAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        holder.mImagem.setImageResource(mData.get(position).getImagem());
+        //holder.mImagem.setImageResource(mData.get(position).getImagem());
         holder.mNome.setText(mData.get(position).getNome());
+
+        Glide.with(mContext).load(mData.get(position).getImagem()).placeholder(R.drawable.wbg).thumbnail(0).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.mImagem);
     }
 
 

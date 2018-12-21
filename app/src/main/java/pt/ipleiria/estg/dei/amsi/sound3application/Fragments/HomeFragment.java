@@ -14,9 +14,11 @@ import java.util.ArrayList;
 
 import adaptadores.AlbumAdapter;
 import adaptadores.ArtistaAdapter;
+import adaptadores.GeneroAdapter;
 import adaptadores.MusicaAdapter;
 import models.Album;
 import models.Artista;
+import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
@@ -27,40 +29,23 @@ public class HomeFragment extends Fragment{
     View view;
 
     private ArrayList<Album> lstAlbuns;
-    private ArrayList<Musica> lstMusica;
-    private ArrayList<Artista> lstArtista;
+    private ArrayList<Musica> lstMusicas;
+    private ArrayList<Artista> lstArtistas;
+    private ArrayList<Genero> lstGeneros;
 
     private RecyclerView recyclerViewAlbuns;
-    private RecyclerView recyclerViewArtista;
-    private RecyclerView recyclerViewMusicas;
+    private RecyclerView recyclerViewArtistas;
+    private RecyclerView recyclerViewGeneros;
+    private RecyclerView recyclerViewAlbunsRecentes;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lstAlbuns = new ArrayList<>();
-        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
-        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
-        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
-        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
-        lstAlbuns.add(new Album( 1,"Filhos do Rossi",R.drawable.filhos_do_rossi,3,2,2));
-
-
-
-        lstMusica = new ArrayList<>();
-        lstMusica.add(new Musica("Filhos do Rossi", "1",3,3,"ole", 9));
-        lstMusica.add(new Musica("Filhos do Rossi", "1",3,3,"ole", 9));
-        lstMusica.add(new Musica("Filhos do Rossi", "1",3,3,"ole", 9));
-        lstMusica.add(new Musica("Filhos do Rossi", "1",3,3,"ole", 9));
-        lstMusica.add(new Musica("Filhos do Rossi", "1",3,3,"ole", 9));
-
-        lstArtista = new ArrayList<>();
-        lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
-        lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
-        lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
-        lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
-        lstArtista.add(new Artista("2Pac","EUA", 1990, R.drawable.topac));
-
+        lstAlbuns = SingletonGestorConteudo.getInstance(getContext()).getAlbunsBD();
+        lstArtistas = SingletonGestorConteudo.getInstance(getContext()).getArtistasBD();
+        lstMusicas = SingletonGestorConteudo.getInstance(getContext()).getMusicasBD();
+        lstGeneros = SingletonGestorConteudo.getInstance(getContext()).getGenerosBD();
 
     }
 
@@ -72,32 +57,32 @@ public class HomeFragment extends Fragment{
 
 
         //RV TOP ALBUNS
-        recyclerViewAlbuns = view.findViewById(R.id.rV_home_albuns);
+        recyclerViewAlbuns = view.findViewById(R.id.rV_home_topAlbuns);
         recyclerViewAlbuns.setHasFixedSize(true);//Otimização
         recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-
         AlbumAdapter albumAdapter = new AlbumAdapter(getContext(), lstAlbuns);
-
         recyclerViewAlbuns.setAdapter(albumAdapter);
 
+        //RV Generos
+        recyclerViewGeneros = view.findViewById(R.id.rV_home_Generos);
+        recyclerViewGeneros.setHasFixedSize(true);
+        recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        GeneroAdapter generoAdapter = new GeneroAdapter(getContext(), lstGeneros);
+        recyclerViewGeneros.setAdapter(generoAdapter);
 
         //RV ARTISTAS DO MOMENTO
-        recyclerViewArtista = view.findViewById(R.id.rV_home_artistas);
-        recyclerViewArtista.setHasFixedSize(true);
-        recyclerViewArtista.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewArtistas = view.findViewById(R.id.rV_home_artistas);
+        recyclerViewArtistas.setHasFixedSize(true);
+        recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        ArtistaAdapter artistaAdapter = new ArtistaAdapter(getContext(), lstArtistas);
+        recyclerViewArtistas.setAdapter(artistaAdapter);
 
-        ArtistaAdapter artistaAdapter = new ArtistaAdapter(getContext(), lstArtista);
-
-        recyclerViewArtista.setAdapter(artistaAdapter);
-
-
-        //RV FIRE
-        recyclerViewMusicas = view.findViewById(R.id.rV_home_musicas);
-        recyclerViewMusicas.setHasFixedSize(true);
-        MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), lstMusica);
-        recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewMusicas.setAdapter(musicaAdapter);
-
+        //RV ALBUNS MAIS RECENTES
+        recyclerViewAlbunsRecentes = view.findViewById(R.id.rV_home_albunsRecentes);
+        recyclerViewAlbunsRecentes.setHasFixedSize(true);//Otimização
+        recyclerViewAlbunsRecentes.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), lstAlbuns);
+        recyclerViewAlbunsRecentes.setAdapter(albunsRecentesAdapter);
 
 
         return view;
