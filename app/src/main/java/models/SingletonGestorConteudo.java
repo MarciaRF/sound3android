@@ -93,13 +93,51 @@ public class SingletonGestorConteudo  {
     public void adicionarAlbumBD(ArrayList<Album> albuns){
         ArrayList<Album> auxAlbuns = new ArrayList<>();
         for (Album album:albuns){
-            modeloBDHelper.adicionarAlbumBD(album);
+            //modeloBDHelper.adicionarAlbumBD(album);
             auxAlbuns.add(modeloBDHelper.adicionarAlbumBD(album));
         }
-
         if(auxAlbuns != null){
             for (Album auxAlbum:auxAlbuns) {
                 albuns.add(auxAlbum);
+            }
+        }
+    }
+
+    public void adicionarArtistaBD(ArrayList<Artista> artistas){
+        ArrayList<Artista> auxArtistas = new ArrayList<>();
+        for (Artista artista:artistas){
+            //modeloBDHelper.adicionarArtistaBD(artista);
+            auxArtistas.add(modeloBDHelper.adicionarArtistaBD(artista));
+        }
+        if(auxArtistas != null){
+            for (Artista auxArtista:auxArtistas) {
+                artistas.add(auxArtista);
+            }
+        }
+    }
+
+    public void adicionarMusicaBD(ArrayList<Musica> musicas){
+        ArrayList<Musica> auxMusicas = new ArrayList<>();
+        for (Musica musica:musicas){
+            //modeloBDHelper.adicionarMusicaBD(musica);
+            auxMusicas.add(modeloBDHelper.adicionarMusicaBD(musica));
+        }
+        if(auxMusicas != null){
+            for (Musica auxMusica:auxMusicas) {
+                musicas.add(auxMusica);
+            }
+        }
+    }
+
+    public void adicionarGeneroBD(ArrayList<Genero> generos){
+        ArrayList<Genero> auxGeneros = new ArrayList<>();
+        for (Genero genero:generos){
+            //modeloBDHelper.adicionarGeneroBD(genero);
+            auxGeneros.add(modeloBDHelper.adicionarGeneroBD(genero));
+        }
+        if(auxGeneros != null){
+            for (Genero auxGenero:auxGeneros) {
+                generos.add(auxGenero);
             }
         }
 

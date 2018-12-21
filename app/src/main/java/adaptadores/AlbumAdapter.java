@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.nio.file.attribute.PosixFileAttributes;
 import java.util.List;
 
@@ -48,9 +51,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        //holder.mAlbumCapa.setImageResource(mData.get(position).getImagem());
         holder.mAlbumNome.setText(mData.get(position).getNome());
         holder.mAlbumArtista.setText(mData.get(position).getNome());
+        //holder.mAlbumCapa.setImageResource(mData.get(position).getImagem());
+
+        Glide.with(mContext).load(mData.get(position).getImagem()).placeholder(R.drawable.legend).thumbnail(0).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.mAlbumCapa);
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +74,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
+        System.out.println("---->albunssize: " + mData.size());
         return mData.size();
     }
 

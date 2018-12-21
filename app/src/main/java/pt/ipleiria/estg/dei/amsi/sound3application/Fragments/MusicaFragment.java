@@ -17,6 +17,7 @@ import adaptadores.MusicaAdapter;
 import models.Musica;
 import adaptadores.MusicaAdapter;
 import models.Musica;
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 public class MusicaFragment extends Fragment {
@@ -47,7 +48,9 @@ public class MusicaFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lstMusica = new ArrayList<>();
-        lstMusica.add(new Musica("Venom", "314", 9, R.drawable.menu_hori, "ole", 3434));
+        /*lstMusica = new ArrayList<>();
+        lstMusica.add(new Musica("Venom", "314", 9, R.drawable.menu_hori, "ole", 3434));*/
+
+        lstMusica = SingletonGestorConteudo.getInstance(getContext()).getMusicasBD();
     }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ModeloBDHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "sound3";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
 
 
@@ -121,7 +121,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 NOME_ARTISTA + " TEXT NOT NULL, " +
                 NACIONALIDADE_ARTISTA + " TEXT NOT NULL, " +
                 ANO_ARTISTA + " INTEGER, " +
-                FOTO_ARTISTA + " INTEGER " + ");";
+                FOTO_ARTISTA + " INTEGER NOT NULL" + ");";
         db.execSQL(createArtistaTable);
 
 
@@ -143,8 +143,8 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 DURACAO_MUSICA + " TEXT NOT NULL, "+
                 PRECO_MUSICA + " INTEGER, " +
                 ID_ALBUM_DA_MUSICA + " INTEGER, " +
-                CAMINHO_MP3_MUSICA + "TEXT, " +
-                POSICAO_MUSICA + "INTEGER, " +
+                CAMINHO_MP3_MUSICA + " TEXT, " +
+                POSICAO_MUSICA + " INTEGER, " +
                 "FOREIGN KEY ("+  ID_ALBUM_DA_MUSICA + ") REFERENCES "+ TABLE_N_ALBUM+"("+ ID_ALBUM+"))";
         db.execSQL(createMusicaTable);
 
@@ -337,19 +337,19 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<Artista> getAllArtistasBD(){
         ArrayList<Artista> artistas = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_ARTISTA, new String[]{"id", NOME_ARTISTA, NACIONALIDADE_ARTISTA, ANO_ARTISTA, FOTO_ARTISTA},
-                null, null,null, null, null);
+        Cursor cursor = this.database.query(TABLE_N_ARTISTA, new String[]{" id ", NOME_ARTISTA, NACIONALIDADE_ARTISTA, ANO_ARTISTA, FOTO_ARTISTA},
+                null, null, null, null, null);
 
         if(cursor.moveToFirst()){
-            do{
-                Artista auxArtista = new Artista(
+            do {
+                Artista auxArtista = new Artista(0,
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3),
                         cursor.getInt(4));
-                    auxArtista.setIdArtista(cursor.getLong(0));
+                auxArtista.setIdArtista(cursor.getLong(0));
                 artistas.add(auxArtista);
-            }while(cursor.moveToNext());
+            }while (cursor.moveToNext());
         }
         return artistas;
     }
@@ -362,7 +362,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                Genero auxGenero = new Genero(
+                Genero auxGenero = new Genero(0,
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3));
@@ -381,7 +381,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                Musica auxMusica = new Musica(
+                Musica auxMusica = new Musica(0,
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3),
@@ -394,4 +394,5 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         }
         return musicas;
     }
+
 }

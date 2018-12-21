@@ -11,10 +11,9 @@ public class Musica implements Serializable{
     private String CaminhoMusica;
     private Integer Posicao;
 
-    private static int autoIncrementId = 0;
 
-    public Musica(String nome, String duracao, int preco, int idAlbum, String caminhoMusica, Integer posicao){
-        IdMusica = autoIncrementId++;
+    public Musica(long idMusica, String nome, String duracao, int preco, int idAlbum, String caminhoMusica, Integer posicao){
+        IdMusica = idMusica;
         Nome = nome;
         Duracao = duracao;
         Preco = preco;

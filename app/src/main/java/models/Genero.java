@@ -8,10 +8,9 @@ public class Genero implements Serializable{
     private String Descricao;
     private Integer Imagem;
 
-    private static int autoIncrementId = 0;
 
-    public Genero(String nome, String descricao, Integer imagem){
-        IdGenero = autoIncrementId++;
+    public Genero(long idGenero, String nome, String descricao, Integer imagem){
+        IdGenero = idGenero;
         Nome = nome;
         Descricao = descricao;
         Imagem = imagem;
