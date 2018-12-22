@@ -34,7 +34,7 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
 
             View v;
-            v = LayoutInflater.from(mContext).inflate(R.layout.item_lista_musica, parent, false);
+            v = LayoutInflater.from(mContext).inflate(R.layout.item_lista_musica_pesquisa, parent, false);
             MyViewHolder vHolder = new MyViewHolder(v);
 
             return vHolder;
@@ -73,7 +73,7 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
             });
             holder.mNome.setText(mData.get(position).getNome());
             holder.mTempo.setText(mData.get(position).getDuracao());
-            holder.mPreco.setText(""+mData.get(position).getPreco());
+            holder.mArtista.setText(mData.get(position).getNome());
 
         }
 
@@ -88,15 +88,15 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
             public ImageView mMenu;
             public TextView mNome;
             public TextView mTempo;
-            public TextView mPreco;
+            public TextView mArtista;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                mMenu = itemView.findViewById(R.id.bi_menu);
-                mNome = itemView.findViewById(R.id.tv_nome);
-                mTempo = itemView.findViewById(R.id.tv_tempo);
-                mPreco = itemView.findViewById(R.id.tv_preco);
+                mMenu = itemView.findViewById(R.id.iB_pesquisa_musicaMenu);
+                mNome = itemView.findViewById(R.id.tV_pesquisa_musicaNome);
+                mTempo = itemView.findViewById(R.id.tV_pesquisa_musicaTempo);
+                mArtista = itemView.findViewById(R.id.tV_pesquisa_musicaAlbum);
 
             }
         }

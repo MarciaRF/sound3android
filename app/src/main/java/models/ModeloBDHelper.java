@@ -8,10 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.amsi.sound3application.R;
+
 public class ModeloBDHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "sound3";
     private static final int DB_VERSION = 2;
-
 
 
     //VARIAVEIS DAS TABLES:
@@ -221,6 +222,8 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY ("+  ID_MUSICA_LINHA+ ") REFERENCES "+ TABLE_N_MUSICA +"("+ ID_MUSICA+"),"+
                 "PRIMARY KEY ("+ ID_COMPRA_LINHA + "," + ID_MUSICA_LINHA+"))";
         db.execSQL(createLinhaCompraTable);
+
+
     }
 
 
@@ -239,6 +242,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_FAV_ARTISTA);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_LINHA_COMPRA);
         this.onCreate(db);
+
     }
 
 
@@ -394,5 +398,6 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         }
         return musicas;
     }
+
 
 }

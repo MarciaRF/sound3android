@@ -11,7 +11,8 @@
         android:id="@+id/iV_album_capa"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/filhos_do_rossi" />
+        app:srcCompat="@drawable/filhos_do_rossi"
+        android:scaleType="centerInside"/>
 
     <TextView
         android:id="@+id/tV_album_nome"

@@ -11,12 +11,12 @@
     -->
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true">
+        android:theme="@style/AppTheme">
         <activity android:name=".Activitys.MainActivity" />
         <activity
             android:name=".Activitys.LoginActivity"
@@ -31,7 +31,10 @@
             android:name=".Activitys.LoginActivity$RegistoActivity"
             android:parentActivityName=".Activitys.LoginActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".DetalhesAlbum"></activity>
+        <activity android:name=".DetalhesAlbum" />
+        <activity android:name=".Activitys.PesquisaActivity" />
+        <activity android:name=".Activitys.DetalhesArtistaActivity" />
+        <activity android:name=".Activitys.DetalhesGeneroActivity"></activity>
     </application>
 
 </manifest>

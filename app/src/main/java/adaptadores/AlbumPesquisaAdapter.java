@@ -10,19 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.nio.file.attribute.PosixFileAttributes;
 import java.util.List;
 
 import models.Album;
 import pt.ipleiria.estg.dei.amsi.sound3application.DetalhesAlbum;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder> {
+public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHolder> {
 
     Context mContext;
     List<Album> mData;
@@ -30,7 +28,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     public static final String DETALHES_ALBUM = "ALBUM";
 
 
-    public AlbumAdapter(Context mContext, List<Album> mData){
+    public AlbumPesquisaAdapter(Context mContext, List<Album> mData){
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -41,7 +39,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int position) {
         View v;
-        v = LayoutInflater.from(mContext).inflate(R.layout.item_lista_album, parent, false);
+        v = LayoutInflater.from(mContext).inflate(R.layout.item_lista_album_pesquisa, parent, false);
         final MyViewHolder myViewHolder = new MyViewHolder(v);
 
         return myViewHolder;
@@ -73,7 +71,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        System.out.println("---->albunssize: " + mData.size());
         return mData.size();
     }
 
@@ -90,9 +87,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            mAlbumCapa = itemView.findViewById(R.id.iV_album_capa);
-            mAlbumNome = itemView.findViewById(R.id.tV_album_nome);
-            mAlbumArtista = itemView.findViewById(R.id.tV_album_artista);
+            mAlbumCapa = itemView.findViewById(R.id.iV_pesquisa_albumCapa);
+            mAlbumNome = itemView.findViewById(R.id.tV_pesquisa_albumNome);
+            mAlbumArtista = itemView.findViewById(R.id.tV_pesquisa_albumPreco);
+
         }
 
     }
