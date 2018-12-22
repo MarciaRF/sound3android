@@ -1,15 +1,21 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.android.volley.toolbox.StringRequest;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import models.Album;
 import models.Artista;
@@ -21,6 +27,8 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.FavoritosFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.HomeFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.UtilizadorFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+
+import static pt.ipleiria.estg.dei.amsi.sound3application.Activitys.PesquisaActivity.PESQUISA;
 
 /**
  *  Link para ver o Bottom Navigation
@@ -59,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             this.gestorConteudo = (SingletonGestorConteudo)
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
-        }
-
-        if(this.gestorConteudo == null) {
-            //this.gestorAlbuns = SingletonGestorAlbuns.getInstance(getApplicationContext()).getAlbuns();
         }
 
 
@@ -109,13 +113,36 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_pesquisa, menu);
+
+        MenuItem itemPesquisa = menu.findItem(R.id.itemPesquisa);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(itemPesquisa);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) { return false; }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                intentPesquisa(newText);
+                return true;
+            }
+
+        });
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void intentPesquisa(String newText){
+        Intent intent = new Intent(this, PesquisaActivity.class);
+        intent.putExtra(PESQUISA, newText);
+        startActivity(intent);
     }
 
 
 
     //Adicionar Dados á base de Dados
-    private ArrayList<Album> criarAlbum(){
+    public ArrayList<Album> criarAlbum(){
         lstAlbum = new ArrayList<>();
 
         lstAlbum.add(new Album( 1,"Filhos do Rossi", 2017, R.drawable.filhos_do_rossi,1,2));
@@ -127,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         return lstAlbum;
     }
 
-    private ArrayList<Musica> criarMusica(){
+    public ArrayList<Musica> criarMusica(){
         lstMusica = new ArrayList<>();
 
         lstMusica.add(new Musica(1, "Intro", "2:17", 2, 1, "nao tem", 1));
@@ -141,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         return lstMusica;
     }
 
-    private ArrayList<Artista> criarArtista(){
+    public ArrayList<Artista> criarArtista(){
         lstArtista = new ArrayList<>();
 
         lstArtista.add(new Artista(1, "Wet Bed Gang", "PT", 2014, R.drawable.wbg));
@@ -153,14 +180,14 @@ public class MainActivity extends AppCompatActivity {
         return lstArtista;
     }
 
-    private ArrayList<Genero> criarGenero(){
+    public ArrayList<Genero> criarGenero(){
         lstGenero = new ArrayList<>();
 
-        lstGenero.add(new Genero(1, "Eletronic", "nao tem", R.drawable.eletronic));
-        lstGenero.add(new Genero(2, "Hip Hop", "nao tem", R.drawable.hiphop));
-        lstGenero.add(new Genero(3, "Pop", "nao tem", R.drawable.ppop));
-        lstGenero.add(new Genero(4, "Rock", "nao tem", R.drawable.rock));
-        lstGenero.add(new Genero(5, "Reggae", "nao tem", R.drawable.reggae));
+        lstGenero.add(new Genero(1, "Eletronic", "Por definição, música eletrônica é toda e qualquer música criada ou modificada por meio de equipamentos e instrumentos eletrônicos, como gravadores digitais, computadores, softwares e sintetizadores.", R.drawable.eletronic));
+        lstGenero.add(new Genero(2, "Hip Hop", "DescriçãoHip hop é um gênero musical, com uma subcultura iniciada durante a década de 1970, nas áreas centrais de comunidades jamaicanas, latinas e afro-americanas da cidade de Nova Iorque.", R.drawable.hiphop));
+        lstGenero.add(new Genero(3, "Pop", "A música pop é um gênero da música popular que se originou durante a década de 1950 nos Estados Unidos e Reino Unido.", R.drawable.ppop));
+        lstGenero.add(new Genero(4, "Rock", "Rock é um termo abrangente que define um gênero musical de música popular que se desenvolveu durante e após a década de 1950.", R.drawable.rock));
+        lstGenero.add(new Genero(5, "Reggae", "Reggae é um gênero musical desenvolvido originalmente na Jamaica do fim da década de 1960. Embora por vezes seja usado num sentido mais amplo para se referir à maior parte dos tipos de música jamaicana.", R.drawable.reggae));
 
         return lstGenero;
     }

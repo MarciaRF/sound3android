@@ -11,7 +11,8 @@
         android:id="@+id/iV_genero"
         android:layout_width="160dp"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/hiphop" />
+        app:srcCompat="@drawable/hiphop"
+        android:scaleType="centerInside"/>
 
     <TextView
         android:id="@+id/tV_genero_nome"

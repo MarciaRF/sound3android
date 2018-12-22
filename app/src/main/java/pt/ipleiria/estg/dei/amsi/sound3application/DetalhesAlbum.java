@@ -45,13 +45,7 @@ public class DetalhesAlbum extends AppCompatActivity {
         albumPreco = findViewById(R.id.eT_detalhes_album_preco);
         albumImagem = findViewById(R.id.iV_detalhes_album_imagem);
 
-        System.out.println("----->getAlbunsBD(): " + SingletonGestorConteudo.getInstance(getApplicationContext()).getAlbunsBD());
-
         album = SingletonGestorConteudo.getInstance(getApplicationContext()).getAlbum(idAlbum);
-
-        System.out.println("---->albumid: " + album);
-        System.out.println("---->albumnome: " + album.getNome());
-
 
 
         albumNome.setText(album.getNome());

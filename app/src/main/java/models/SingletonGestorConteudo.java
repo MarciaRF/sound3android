@@ -5,6 +5,8 @@ import android.content.Context;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.amsi.sound3application.R;
+
 public class SingletonGestorConteudo  {
 
     private static SingletonGestorConteudo INSTANCE = null;
@@ -12,6 +14,8 @@ public class SingletonGestorConteudo  {
     private ArrayList<Artista> artistas;
     private ArrayList<Genero> generos;
     private ArrayList<Musica> musicas;
+
+
 
     private ModeloBDHelper modeloBDHelper = null;
 
@@ -74,6 +78,7 @@ public class SingletonGestorConteudo  {
         }
         return null;
     }
+
 
     public ArrayList<Musica> getMusicasBD(){
         musicas = modeloBDHelper.getAllMusicasBD();
@@ -140,8 +145,47 @@ public class SingletonGestorConteudo  {
                 generos.add(auxGenero);
             }
         }
-
     }
+
+    // VAI BUSCAR TODAS AS MUSICAS DE UM ALBUM
+    public ArrayList<Musica> musicasAlbum(long idAlbum){
+        ArrayList<Musica> musicasAlbum = new ArrayList<>();
+        for(Musica musica:musicas){
+            if(musica.getIdAlbum() == idAlbum){
+                musicasAlbum.add(musica);
+            }
+        }
+        return musicasAlbum;
+    }
+
+    // VAI BUSCAR TODOS OS ALBUNS DE UM ARTISTA
+    public ArrayList<Album> albunsArtista(long idArtista){
+        ArrayList<Album> albunsArtista = new ArrayList<>();
+        for (Album album:albuns){
+            if(album.getId_Autor() == idArtista){
+                albunsArtista.add(album);
+            }
+        }
+        return albunsArtista;
+    }
+
+    // VAI BUSCAR TODOS OS ALBUNS DE UM GENERO
+    public ArrayList<Album> albunsGenero(long idGenero){
+        ArrayList<Album> albunsGenero = new ArrayList<>();
+        for (Album album:albuns){
+            if(album.getId_Genero() == idGenero){
+                albunsGenero.add(album);
+            }
+        }
+        return albunsGenero;
+    }
+
+
+
+
+
+
+
 
 
 
