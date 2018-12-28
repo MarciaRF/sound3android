@@ -316,6 +316,24 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         return  null;
     }
 
+    public Comentario adicionarComentarioBD(Comentario comentario){
+        ContentValues values = new ContentValues();
+
+        values.put(CONTEUDO_COMMENT, comentario.getConteudo());
+        values.put(DATA_CRIACAO_COMMENT, comentario.getData_Criacao());
+        values.put(ID_UTILIZADOR_COMMENT, comentario.getId_Utilizador());
+        values.put(ID_ALBUM_COMMENT, comentario.getId_Album());
+
+
+        long id = this.database.insert(TABLE_N_COMMENT, null, values);
+
+        if(id >-1){
+           comentario.setIdComentario(id);
+            return comentario;
+        }
+        return null;
+    }
+
 
     public ArrayList<Album> getAllAlbunsBD(){
         ArrayList<Album> albuns = new ArrayList<>();
@@ -399,5 +417,43 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         return musicas;
     }
 
+
+    public ArrayList<Comentario> getAllComentariosDB(){
+        ArrayList<Comentario> comentarios = new ArrayList<>();
+
+        Cursor cursor = this.database.query(TABLE_N_COMMENT, new String[]{"id", CONTEUDO_COMMENT, DATA_CRIACAO_COMMENT, ID_UTILIZADOR_COMMENT, ID_ALBUM_COMMENT},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                Comentario auxComentario = new Comentario(0,
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getLong(3),
+                        cursor.getLong(4));
+                auxComentario.setIdComentario(cursor.getLong(0));
+                comentarios.add(auxComentario);
+            }while (cursor.moveToNext());
+        }
+        return  comentarios;
+    }
+
+
+
+    public void removeAllAlbuns() {
+        this.database.delete(TABLE_N_ALBUM,null,null);
+    }
+
+    public void removeAllArtistas() {
+        this.database.delete(TABLE_N_ARTISTA,null,null);
+    }
+
+    public void removeAllGeneros() { this.database.delete(TABLE_N_GENERO, null,null); }
+
+    public void removeAllMusicas() {
+        this.database.delete(TABLE_N_MUSICA,null,null);
+    }
+
+    public void removeAllComentarios(){this.database.delete(TABLE_N_COMMENT, null, null); }
 
 }

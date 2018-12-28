@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.amsi.sound3application;
+package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -16,8 +16,9 @@ import models.Album;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CommentFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.MusicaFragment;
+import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
-public class DetalhesAlbum extends AppCompatActivity {
+public class DetalhesAlbumActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;

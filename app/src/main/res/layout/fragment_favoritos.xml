@@ -1,23 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tb_favoritos"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:background="?attr/colorPrimary"
-        app:tabGravity="fill"
-        app:tabMode="fixed"/>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_favoritos"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
-</android.support.design.widget.CoordinatorLayout>
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Musicas"
+            android:textSize="20dp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_musicas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver Mais"
+            android:onClick="verMaisMusicas"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Álbuns"
+            android:textSize="20dp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_albuns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver Mais"
+            android:onClick="verMaisAlbuns"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Artistas"
+            android:textSize="20dp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_artistas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver Mais"
+            android:onClick="verMaisArtista"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generos"
+            android:textSize="20dp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_generos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver Mais"
+            android:onClick="verMaisGeneros"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+    </LinearLayout>
+
+</ScrollView>

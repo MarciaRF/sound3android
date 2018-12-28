@@ -4,22 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.nio.file.attribute.PosixFileAttributes;
 import java.util.List;
 
 import models.Album;
-import pt.ipleiria.estg.dei.amsi.sound3application.DetalhesAlbum;
+import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder> {
@@ -62,7 +58,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
             @Override
             public void onClick(View v) {
                 //Toast.makeText(mContext, "posicao: " + position + "id: " + mData.get(position).getIdAlbum(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, DetalhesAlbum.class);
+                Intent intent = new Intent(mContext, DetalhesAlbumActivity.class);
                 intent.putExtra(DETALHES_ALBUM, mData.get(position).getIdAlbum());
                 mContext.startActivity(intent);
             }
