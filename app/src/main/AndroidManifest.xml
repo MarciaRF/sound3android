@@ -3,6 +3,7 @@
     package="pt.ipleiria.estg.dei.amsi.sound3application">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <!--
@@ -23,7 +24,6 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,7 +31,7 @@
             android:name=".Activitys.LoginActivity$RegistoActivity"
             android:parentActivityName=".Activitys.LoginActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".DetalhesAlbum" />
+        <activity android:name=".Activitys.DetalhesAlbum" />
         <activity android:name=".Activitys.PesquisaActivity" />
         <activity android:name=".Activitys.DetalhesArtistaActivity" />
         <activity android:name=".Activitys.DetalhesGeneroActivity"></activity>

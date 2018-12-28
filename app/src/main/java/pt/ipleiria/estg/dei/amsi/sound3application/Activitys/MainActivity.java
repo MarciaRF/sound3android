@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Artista> lstArtista;
     private ArrayList<Genero> lstGenero;
 
+    private  final String CHANNEL_ID = "notificacao";
+    private final int NOTIFICATION_ID = 1;
+
+
     private SingletonGestorConteudo gestorConteudo;
     private static final String ESTADO_GESTOR_ALBUNS = "ESTADO_GESTOR_ALBUNS";
 
@@ -77,8 +83,18 @@ public class MainActivity extends AppCompatActivity {
         SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
 
 
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.music_note_black_24dp)
+                .setContentTitle("Novo Conteudo Adicionado")
+                .setContentText("Foram Adicionados novos conteúdos à aplicação")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        /* adicionar logo antes do nome da app
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, mBuilder.build());
+
+
+        /*adicionar logo antes do nome da app
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);*/
@@ -145,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Album> criarAlbum(){
         lstAlbum = new ArrayList<>();
 
-        lstAlbum.add(new Album( 1,"Filhos do Rossi", 2017, R.drawable.filhos_do_rossi,1,2));
+        lstAlbum.add(new Album( 1,"Filhos do Rossi", 2017, R.drawable.filhos_do_rossi,1,1));
         lstAlbum.add(new Album( 2,"Bad", 1987, R.drawable.bad,2,2));
         lstAlbum.add(new Album( 3,"Avici", 2017, R.drawable.avici,3,3));
         lstAlbum.add(new Album( 4,"Master of Puppets", 1986, R.drawable.mastertofpuppets,4,4));

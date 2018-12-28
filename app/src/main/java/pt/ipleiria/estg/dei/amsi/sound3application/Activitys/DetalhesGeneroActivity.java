@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import adaptadores.AlbumPesquisaAdapter;
 import adaptadores.GeneroAdapter;
+import models.Album;
 import models.Genero;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
@@ -21,8 +25,11 @@ public class DetalhesGeneroActivity extends AppCompatActivity {
     private TextView tvGeneroDescricao;
 
     private ArrayList<Genero> lstGeneros;
+    private ArrayList<Album> lstAlbuns;
+    private ArrayList<Album> album;
 
     private RecyclerView recyclerViewGeneros;
+    private RecyclerView recyclerViewAlbuns;
 
     Genero genero;
     long idGenero;
@@ -31,6 +38,9 @@ public class DetalhesGeneroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_genero);
+
+
+        getSupportActionBar().setTitle("Detalhes Genero");
 
 
         ivGenero = findViewById(R.id.iV_detalhes_generoImagem);
@@ -46,8 +56,16 @@ public class DetalhesGeneroActivity extends AppCompatActivity {
         tvGeneroDescricao.setText(genero.getDescricao());
 
 
+        lstAlbuns = SingletonGestorConteudo.getInstance(this).albunsGenero(idGenero);
 
         lstGeneros = SingletonGestorConteudo.getInstance(this).getGenerosBD();
+
+
+        recyclerViewAlbuns = findViewById(R.id.rV_detalhes_generoAlbuns);
+        recyclerViewAlbuns.setHasFixedSize(true);
+        recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, lstAlbuns);
+        recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
 
 
         recyclerViewGeneros = findViewById(R.id.rV_detalhes_generoMaisAbuns);
@@ -57,4 +75,5 @@ public class DetalhesGeneroActivity extends AppCompatActivity {
         recyclerViewGeneros.setAdapter(generoAdapter);
 
     }
+
 }

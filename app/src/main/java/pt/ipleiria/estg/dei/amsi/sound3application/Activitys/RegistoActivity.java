@@ -13,6 +13,8 @@ public class RegistoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registo);
+
+        getSupportActionBar().hide();
     }
 
     public void ligacaoLogin(View view) {

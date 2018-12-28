@@ -8,48 +8,79 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
 
 import adaptadores.AlbumAdapter;
+import adaptadores.AlbumPesquisaAdapter;
+import adaptadores.ArtistaPesquisaAdapter;
+import adaptadores.GeneroAdapter;
+import adaptadores.MusicaAdapter;
 import adaptadores.ViewPagerAdapter;
 
 import adaptadores.ViewPagerAdapter;
+import models.Album;
+import models.Artista;
+import models.Genero;
+import models.Musica;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 public class FavoritosFragment extends Fragment {
 
     View view;
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter adapter;
+    private RecyclerView recyclerViewMusicas;
+    private RecyclerView recyclerViewAlbuns;
+    private RecyclerView recyclerViewArtistas;
+    private RecyclerView recyclerViewGeneros;
+
+    private ArrayList<Musica> lstMusicas;
+    private ArrayList<Album> lstAlbuns;
+    private ArrayList<Artista> lstArtistas;
+    private ArrayList<Genero> lstGeneros;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_favoritos, container, false);
 
-        /*// Codigo das Tabs
-        tabLayout = getActivity().findViewById(R.id.tb_favoritos);
-        viewPager = (ViewPager) view.findViewById(R.id.vp_favoritos);
 
+        recyclerViewMusicas = view.findViewById(R.id.rV_favoritos_musicas);
+        recyclerViewMusicas.setHasFixedSize(true);
+        recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+        MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), lstMusicas);
+        recyclerViewMusicas.setAdapter(musicaAdapter);
 
-        adapter = new ViewPagerAdapter(getFragmentManager());
+        recyclerViewAlbuns = view.findViewById(R.id.rV_favoritos_albuns);
+        recyclerViewAlbuns.setHasFixedSize(true);
+        recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+        AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(getContext(), lstAlbuns);
+        recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
 
-        adapter.AddFragmment(new MusicasFavoritosFragment(),"Musicas");
-        adapter.AddFragmment(new AlbunsFavoritosFragment(),"Albuns");
-        adapter.AddFragmment(new ArtistasFavoritosFragment(),"Artistas");
-        adapter.AddFragmment(new GenerosFavoritosFragment(),"Generos");
+        recyclerViewGeneros = view.findViewById(R.id.rV_favoritos_generos);
+        recyclerViewGeneros.setHasFixedSize(true);
+        recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.HORIZONTAL, false));
+        GeneroAdapter generoAdapter = new GeneroAdapter(getContext(), lstGeneros);
+        recyclerViewGeneros.setAdapter(generoAdapter);
 
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-
-        //Remove shade from action bar
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setElevation(0);*/
+        recyclerViewArtistas = view.findViewById(R.id.rV_favoritos_artistas);
+        recyclerViewArtistas.setHasFixedSize(true);
+        recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+        ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(getContext(), lstArtistas);
+        recyclerViewArtistas.setAdapter(artistaPesquisaAdapter);
 
         return view;
     }
