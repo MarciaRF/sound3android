@@ -59,23 +59,47 @@ public class SingletonGestorConteudo  {
         modeloBDHelper = new ModeloBDHelper(context);
     }
 
+
+
+
     public ArrayList<Album> getAlbunsBD(){
         albuns = modeloBDHelper.getAllAlbunsBD();
         return albuns;
     }
 
-    public Album getAlbum(long idAlbum){
-        for(Album album:albuns){
-            if(album.getIdAlbum() == idAlbum){
-                return album;
+    public ArrayList<Artista> getArtistasBD(){
+        artistas = modeloBDHelper.getAllArtistasBD();
+        return artistas;
+    }
+
+    public ArrayList<Genero> getGenerosBD(){
+        generos = modeloBDHelper.getAllGenerosBD();
+        return generos;
+    }
+
+    public ArrayList<Musica> getMusicasBD(){
+        musicas = modeloBDHelper.getAllMusicasBD();
+        return musicas;
+    }
+
+
+
+    public Genero getGenero(long idGenero){
+        for (Genero genero:generos) {
+            if(genero.getIdGenero() == idGenero){
+                return genero;
             }
         }
         return null;
     }
 
-    public ArrayList<Artista> getArtistasBD(){
-        artistas = modeloBDHelper.getAllArtistasBD();
-        return artistas;
+    public Musica getMusica(long idMusica){
+        for (Musica musica:musicas) {
+            if(musica.getIdMusica() == idMusica){
+                return musica;
+            }
+        }
+        return null;
     }
 
     public Artista getArtista(long idArtista){
@@ -87,31 +111,10 @@ public class SingletonGestorConteudo  {
         return null;
     }
 
-
-    public ArrayList<Genero> getGenerosBD(){
-        generos = modeloBDHelper.getAllGenerosBD();
-        return generos;
-    }
-
-    public Genero getGenero(long idGenero){
-        for (Genero genero:generos) {
-            if(genero.getIdGenero() == idGenero){
-                return genero;
-            }
-        }
-        return null;
-    }
-
-
-    public ArrayList<Musica> getMusicasBD(){
-        musicas = modeloBDHelper.getAllMusicasBD();
-        return musicas;
-    }
-
-    public Musica getMusica(long idMusica){
-        for (Musica musica:musicas) {
-            if(musica.getIdMusica() == idMusica){
-                return musica;
+    public Album getAlbum(long idAlbum){
+        for(Album album:albuns){
+            if(album.getIdAlbum() == idAlbum){
+                return album;
             }
         }
         return null;
@@ -166,6 +169,8 @@ public class SingletonGestorConteudo  {
         }
     }
 
+
+
     // VAI BUSCAR TODAS AS MUSICAS DE UM ALBUM
     public ArrayList<Musica> musicasAlbum(long idAlbum){
         for(Musica musica:musicas){
@@ -176,7 +181,6 @@ public class SingletonGestorConteudo  {
         return musicasAlbum;
     }
 
-    // VAI BUSCAR TODOS OS ALBUNS DE UM ARTISTA
     public ArrayList<Album> albunsArtista(long idArtista){
         for (Album album:albuns){
             if(album.getId_Autor() == idArtista){
@@ -186,7 +190,6 @@ public class SingletonGestorConteudo  {
         return albunsArtista;
     }
 
-    // VAI BUSCAR TODOS OS ALBUNS DE UM GENERO
     public ArrayList<Album> albunsGenero(long idGenero){
         for (Album album:albuns){
             if(album.getId_Genero() == idGenero){
@@ -195,6 +198,8 @@ public class SingletonGestorConteudo  {
         }
         return albunsGenero;
     }
+
+
 
 
     public void addAlbumBD(Album album){
@@ -265,7 +270,6 @@ public class SingletonGestorConteudo  {
         }
     }
 
-
     public void getAllArtistasAPI(final Context context, boolean isConnected){
         if(!isConnected){
             artistas = modeloBDHelper.getAllArtistasBD();
@@ -286,7 +290,6 @@ public class SingletonGestorConteudo  {
         }
     }
 
-
     public void getAllGenerosAPI(final Context context, boolean isConnected){
         if(!isConnected){
             generos = modeloBDHelper.getAllGenerosBD();
@@ -306,7 +309,6 @@ public class SingletonGestorConteudo  {
             volleyQueue.add(req);
         }
     }
-
 
     public void getAllMusicasAPI(final Context context, boolean isConnected){
         if(!isConnected){

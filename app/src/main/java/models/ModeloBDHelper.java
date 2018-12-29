@@ -107,6 +107,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         this.database = this.getWritableDatabase();
     }
 
+    //Criar Tabelas
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createGeneroTable = " CREATE TABLE " + TABLE_N_GENERO +
@@ -227,6 +228,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     }
 
 
+    //Apagar Tabelas
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_N_UTILIZADOR);
@@ -246,18 +248,137 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     }
 
 
-    public Genero adicionarGeneroBD(Genero genero){
+
+    // Adiciona dados nas Tabelas
+    public Utilizador adicionarUtilizadorDB(Utilizador utilizador){
         ContentValues values = new ContentValues();
 
-        values.put(NOME_GENERO, genero.getNome());
-        values.put(DESCRICAO_GENERO, genero.getDescricao());
-        values.put(FOTO_GENERO, genero.getImagem());
+        values.put(NOME_UTILIZADOR, utilizador.getNomeUtilizador());
+        values.put(PASSWORD_UTILIZADOR, utilizador.getPasswordUtilizador());
+        values.put(EMAIL_UTILIZADOR, utilizador.getEmailUtilizador());
 
-        long id = this.database.insert(TABLE_N_GENERO, null, values);
+        long id = this.database.insert(TABLE_N_LINHA_COMPRA, null, values);
 
         if(id >-1){
-            genero.setIdGenero(id);
-            return genero;
+            utilizador.setIdUtilizador(id);
+            return utilizador;
+        }
+
+        return null;
+    }
+
+    public LinhaCompra adicionarLinhaCompraDB(LinhaCompra linhacompra){
+        ContentValues values = new ContentValues();
+
+        values.put(ID_COMPRA_LINHA, linhacompra.getIdCompra());
+        values.put(ID_MUSICA_LINHA, linhacompra.getIdMusica());
+
+        long id = this.database.insert(TABLE_N_LINHA_COMPRA, null, values);
+
+        if(id >-1){
+            linhacompra.setIdCompra(id);
+            return linhacompra;
+        }
+
+        return null;
+    }
+
+    public Comentario adicionarComentarioBD(Comentario comentario){
+        ContentValues values = new ContentValues();
+
+        values.put(CONTEUDO_COMMENT, comentario.getConteudo());
+        values.put(DATA_CRIACAO_COMMENT, comentario.getData_Criacao());
+        values.put(ID_UTILIZADOR_COMMENT, comentario.getId_Utilizador());
+        values.put(ID_ALBUM_COMMENT, comentario.getId_Album());
+
+
+        long id = this.database.insert(TABLE_N_COMMENT, null, values);
+
+        if(id >-1){
+            comentario.setIdComentario(id);
+            return comentario;
+        }
+        return null;
+    }
+
+    public FavoritoAlbum adicionarAlbumFavoritoDB(FavoritoAlbum favoritoalbum){
+        ContentValues values = new ContentValues();
+
+        values.put(ID_UTILIZADOR_FAV_ALBUM, favoritoalbum.getIdUtilizador());
+        values.put(ID_ALBUM_FAV, favoritoalbum.getIdAlbum());
+
+        long id = this.database.insert(TABLE_N_FAV_ALBUM, null, values);
+
+        if(id >-1){
+            favoritoalbum.setIdFavAlbum(id);
+            return favoritoalbum;
+        }
+
+        return null;
+    }
+
+    public FavoritoArtista adicionarArtistaFavoritoDB(FavoritoArtista favoritoartista){
+        ContentValues values = new ContentValues();
+
+        values.put(ID_UTILIZADOR_FAV_ARTISTA, favoritoartista.getIdArtista());
+        values.put(ID_ARTISTA_FAV, favoritoartista.getIdArtista());
+
+        long id = this.database.insert(TABLE_N_FAV_ARTISTA, null, values);
+
+        if(id >-1){
+            favoritoartista.setIdFavArtista(id);
+            return favoritoartista;
+        }
+
+        return null;
+    }
+
+    public FavoritoGenero adicionarGeneroFavoritoDB(FavoritoGenero favoritogenero){
+        ContentValues values = new ContentValues();
+
+        values.put(ID_UTILIZADOR_FAV_GENERO, favoritogenero.getIdUtilizador());
+        values.put(ID_GENERO_FAV, favoritogenero.getIdGenero());
+
+        long id = this.database.insert(TABLE_N_FAV_GENERO, null, values);
+
+        if(id >-1){
+            favoritogenero.setIdFavGenero(id);
+            return favoritogenero;
+        }
+
+        return null;
+    }
+
+    public FavoritoMusica adicionarMusicaFavoritoDB(FavoritoMusica favoritomusica){
+        ContentValues values = new ContentValues();
+
+        values.put(ID_UTILIZADOR_FAV_MUSICA, favoritomusica.getIdUtilizador());
+        values.put(ID_MUSICA_FAV, favoritomusica.getIdMusica());
+
+        long id = this.database.insert(TABLE_N_FAV_MUSICA, null, values);
+
+        if(id >-1){
+            favoritomusica.setIdFavMusica(id);
+            return favoritomusica;
+        }
+
+        return null;
+    }
+
+    public Album adicionarAlbumBD(Album album){
+        ContentValues values = new ContentValues();
+
+        values.put(NOME_ALBUM, album.getNome());
+        values.put(ANO_ALBUM, album.getAno());
+        values.put(FOTO_ALBUM, album.getImagem());
+        values.put(ID_AUTOR_ALBUM, album.getId_Autor());
+        values.put(ID_GENERO_DO_ALBUM, album.getId_Genero());
+
+        long id = this.database.insert(TABLE_N_ALBUM, null, values);
+
+        if(id >-1){
+            album.setIdAlbum(id);
+            return album;
         }
         return  null;
     }
@@ -279,20 +400,18 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         return  null;
     }
 
-    public Album adicionarAlbumBD(Album album){
+    public Genero adicionarGeneroBD(Genero genero){
         ContentValues values = new ContentValues();
 
-        values.put(NOME_ALBUM, album.getNome());
-        values.put(ANO_ALBUM, album.getAno());
-        values.put(FOTO_ALBUM, album.getImagem());
-        values.put(ID_AUTOR_ALBUM, album.getId_Autor());
-        values.put(ID_GENERO_DO_ALBUM, album.getId_Genero());
+        values.put(NOME_GENERO, genero.getNome());
+        values.put(DESCRICAO_GENERO, genero.getDescricao());
+        values.put(FOTO_GENERO, genero.getImagem());
 
-        long id = this.database.insert(TABLE_N_ALBUM, null, values);
+        long id = this.database.insert(TABLE_N_GENERO, null, values);
 
         if(id >-1){
-            album.setIdAlbum(id);
-            return album;
+            genero.setIdGenero(id);
+            return genero;
         }
         return  null;
     }
@@ -316,24 +435,136 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         return  null;
     }
 
-    public Comentario adicionarComentarioBD(Comentario comentario){
-        ContentValues values = new ContentValues();
-
-        values.put(CONTEUDO_COMMENT, comentario.getConteudo());
-        values.put(DATA_CRIACAO_COMMENT, comentario.getData_Criacao());
-        values.put(ID_UTILIZADOR_COMMENT, comentario.getId_Utilizador());
-        values.put(ID_ALBUM_COMMENT, comentario.getId_Album());
 
 
-        long id = this.database.insert(TABLE_N_COMMENT, null, values);
+    // Vais Buscar todos os dados das Tabelas
+    public ArrayList<Utilizador> getAllUtilizadoresBD(){
+        ArrayList<Utilizador> utilizadores = new ArrayList<>();
 
-        if(id >-1){
-           comentario.setIdComentario(id);
-            return comentario;
+        Cursor cursor = this.database.query(TABLE_N_UTILIZADOR, new String[]{" id ", NOME_UTILIZADOR, PASSWORD_UTILIZADOR, EMAIL_UTILIZADOR},
+                null, null, null, null, null );
+
+        if(cursor.moveToFirst()){
+            do {
+                Utilizador auxUtilizador = new Utilizador(0,
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3));
+                auxUtilizador.setIdUtilizador(cursor.getLong(0));
+                utilizadores.add(auxUtilizador);
+            }while(cursor.moveToNext());
         }
-        return null;
+        return utilizadores;
     }
 
+    public ArrayList<LinhaCompra> getAllLinhaComprasBD(){
+        ArrayList<LinhaCompra> linhaCompra = new ArrayList<>();
+
+        Cursor cursor = this.database.query(TABLE_N_LINHA_COMPRA, new String[]{" id ", ID_COMPRA_LINHA, ID_MUSICA_LINHA},
+                null, null, null, null, null );
+
+        if(cursor.moveToFirst()){
+            do {
+                LinhaCompra auxLinhaCompra = new LinhaCompra(0,
+                        cursor.getInt(1));
+                auxLinhaCompra.setIdCompra(cursor.getLong(0));
+                linhaCompra.add(auxLinhaCompra);
+            }while(cursor.moveToNext());
+        }
+        return linhaCompra;
+    }
+
+    public ArrayList<Comentario> getAllComentariosDB(){
+        ArrayList<Comentario> comentarios = new ArrayList<>();
+
+        Cursor cursor = this.database.query(TABLE_N_COMMENT, new String[]{"id", CONTEUDO_COMMENT, DATA_CRIACAO_COMMENT, ID_UTILIZADOR_COMMENT, ID_ALBUM_COMMENT},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                Comentario auxComentario = new Comentario(0,
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getLong(3),
+                        cursor.getLong(4));
+                auxComentario.setIdComentario(cursor.getLong(0));
+                comentarios.add(auxComentario);
+            }while (cursor.moveToNext());
+        }
+        return  comentarios;
+    }
+
+    public ArrayList<FavoritoAlbum> getAllAlbunsFavoritosBD(){
+        ArrayList<FavoritoAlbum> favAlbuns = new ArrayList<>();
+
+        Cursor cursor = this.database.query(TABLE_N_FAV_ALBUM, new String[]{" id ", ID_UTILIZADOR_FAV_ALBUM, ID_ALBUM_FAV},
+                null, null, null, null, null );
+
+        if(cursor.moveToFirst()){
+            do {
+                FavoritoAlbum auxFavAlbum = new FavoritoAlbum(0,
+                        cursor.getInt(1),
+                        cursor.getInt(2));
+                auxFavAlbum.setIdFavAlbum(cursor.getLong(0));
+                favAlbuns.add(auxFavAlbum);
+            }while(cursor.moveToNext());
+        }
+        return favAlbuns;
+    }
+
+    public ArrayList<FavoritoArtista> getAllArtistasFavoritosBD(){
+        ArrayList<FavoritoArtista> favArtistas = new ArrayList<>();
+
+        Cursor cursor = this.database.query(TABLE_N_FAV_ARTISTA, new String[]{" id ", ID_UTILIZADOR_FAV_ARTISTA, ID_ARTISTA_FAV},
+                null, null, null, null, null );
+
+        if(cursor.moveToFirst()){
+            do {
+                FavoritoArtista auxFavArtista = new FavoritoArtista(0,
+                        cursor.getInt(1),
+                        cursor.getInt(2));
+                auxFavArtista.setIdFavArtista(cursor.getLong(0));
+                favArtistas.add(auxFavArtista);
+            }while(cursor.moveToNext());
+        }
+        return favArtistas;
+    }
+
+    public ArrayList<FavoritoGenero> getAllGenerosFavoritosBD(){
+        ArrayList<FavoritoGenero> favGeneros = new ArrayList<>();
+
+        Cursor cursor = this.database.query(TABLE_N_FAV_GENERO, new String[]{" id ", ID_UTILIZADOR_FAV_GENERO, ID_GENERO_FAV},
+                null, null, null, null, null );
+
+        if(cursor.moveToFirst()){
+            do {
+                FavoritoGenero auxFavGenero = new FavoritoGenero(0,
+                        cursor.getInt(1),
+                        cursor.getInt(2));
+                auxFavGenero.setIdFavGenero(cursor.getLong(0));
+                favGeneros.add(auxFavGenero);
+            }while(cursor.moveToNext());
+        }
+        return favGeneros;
+    }
+
+    public ArrayList<FavoritoMusica> getAllMusicasFavoritosBD(){
+        ArrayList<FavoritoMusica> favMusicas = new ArrayList<>();
+
+        Cursor cursor = this.database.query(TABLE_N_FAV_ALBUM, new String[]{" id ", ID_UTILIZADOR_FAV_MUSICA, ID_MUSICA_FAV},
+                null, null, null, null, null );
+
+        if(cursor.moveToFirst()){
+            do {
+                FavoritoMusica auxFavMusica = new FavoritoMusica(0,
+                        cursor.getInt(1),
+                        cursor.getInt(2));
+                auxFavMusica.setIdFavMusica(cursor.getLong(0));
+                favMusicas.add(auxFavMusica);
+            }while(cursor.moveToNext());
+        }
+        return favMusicas;
+    }
 
     public ArrayList<Album> getAllAlbunsBD(){
         ArrayList<Album> albuns = new ArrayList<>();
@@ -418,27 +649,21 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Comentario> getAllComentariosDB(){
-        ArrayList<Comentario> comentarios = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_COMMENT, new String[]{"id", CONTEUDO_COMMENT, DATA_CRIACAO_COMMENT, ID_UTILIZADOR_COMMENT, ID_ALBUM_COMMENT},
-                null, null, null, null, null);
+    // Apaga as Tabelas
+    public void removeAllUtilizadores(){this.database.delete(TABLE_N_UTILIZADOR, null, null);}
 
-        if (cursor.moveToFirst()){
-            do {
-                Comentario auxComentario = new Comentario(0,
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getLong(3),
-                        cursor.getLong(4));
-                auxComentario.setIdComentario(cursor.getLong(0));
-                comentarios.add(auxComentario);
-            }while (cursor.moveToNext());
-        }
-        return  comentarios;
-    }
+    public void removeAllLinhasCompras(){this.database.delete(TABLE_N_LINHA_COMPRA, null, null); }
 
+    public void removeAllComentarios(){this.database.delete(TABLE_N_COMMENT, null, null); }
 
+    public void removeAllFavoritosAlbum(){this.database.delete(TABLE_N_FAV_ALBUM, null, null); }
+
+    public void removeAllFavoritosArtista(){this.database.delete(TABLE_N_FAV_ARTISTA, null, null); }
+
+    public void removeAllFavoritosGenero(){this.database.delete(TABLE_N_FAV_GENERO, null, null); }
+
+    public void removeAllFavoritosMusica(){this.database.delete(TABLE_N_FAV_MUSICA, null, null); }
 
     public void removeAllAlbuns() {
         this.database.delete(TABLE_N_ALBUM,null,null);
@@ -454,6 +679,5 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         this.database.delete(TABLE_N_MUSICA,null,null);
     }
 
-    public void removeAllComentarios(){this.database.delete(TABLE_N_COMMENT, null, null); }
 
 }

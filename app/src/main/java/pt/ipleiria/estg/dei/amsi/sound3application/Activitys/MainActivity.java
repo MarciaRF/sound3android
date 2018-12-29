@@ -76,13 +76,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //Adicionar Albuns a BD
+        // Adiciona Fake Data na DB para TESTES
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
         SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
         SingletonGestorConteudo.getInstance(this).adicionarMusicaBD(criarMusica());
         SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
 
 
+
+        // Notificacao para quando é adicionado conteudo no website
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.music_note_black_24dp)
                 .setContentTitle("Novo Conteudo Adicionado")
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //Adicionar Dados á base de Dados
+    // Gerar Fake Data para a DB
     public ArrayList<Album> criarAlbum(){
         lstAlbum = new ArrayList<>();
 
