@@ -42,7 +42,6 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-
             //holder.mMenu.setImageResource(mData.get(position).getMenu());
             holder.mMenu.setOnClickListener(new View.OnClickListener() {
                 @Override

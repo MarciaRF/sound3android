@@ -25,7 +25,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
 
     public static final String DETALHES_ALBUM = "ALBUM";
 
-
     public AlbumAdapter(Context mContext, List<Album> mData){
         this.mContext = mContext;
         this.mData = mData;
@@ -69,7 +68,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        System.out.println("---->albunssize: " + mData.size());
         return mData.size();
     }
 
