@@ -10,11 +10,22 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.StringRequest;
+
+import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,21 +46,33 @@ import static pt.ipleiria.estg.dei.amsi.sound3application.Activitys.PesquisaActi
 /**
  *  Link para ver o Bottom Navigation
  *  https://www.youtube.com/watch?v=tPV8xA7m-iw
+ *
+ *  Link para o MQTT
+ *  https://www.youtube.com/watch?v=BAkGm02WBc0
+ *  https://www.youtube.com/watch?v=6AE4D8INs_U&t=491s
  */
 
 public class MainActivity extends AppCompatActivity {
 
+    //Arrays do Fake Data
     private ArrayList<Album> lstAlbum;
     private ArrayList<Musica> lstMusica;
     private ArrayList<Artista> lstArtista;
     private ArrayList<Genero> lstGenero;
 
+    private SingletonGestorConteudo gestorConteudo;
+    private static final String ESTADO_GESTOR_ALBUNS = "ESTADO_GESTOR_ALBUNS";
+
+    //Notificacao
     private  final String CHANNEL_ID = "notificacao";
     private final int NOTIFICATION_ID = 1;
 
+    //MQTT
+    MqttAndroidClient client;
+    private final String SERVERCONECTION = "127.0.0.1";
+    private final String TOPICOSUBSCRICAO = "notificacao";
 
-    private SingletonGestorConteudo gestorConteudo;
-    private static final String ESTADO_GESTOR_ALBUNS = "ESTADO_GESTOR_ALBUNS";
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -64,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+
 
         if (savedInstanceState == null) {
             //define a home como default ao abrir a app
@@ -84,23 +109,84 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Notificacao para quando é adicionado conteudo no website
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.music_note_black_24dp)
-                .setContentTitle("Novo Conteudo Adicionado")
-                .setContentText("Foram Adicionados novos conteúdos à aplicação")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        //Conexão do MQTT
+        String clientId = MqttClient.generateClientId();
+        client = new MqttAndroidClient(this.getApplicationContext(), SERVERCONECTION, clientId);
+
+        try {
+            IMqttToken token = client.connect();
+            token.setActionCallback(new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    Toast.makeText(MainActivity.this, "Conneced", Toast.LENGTH_SHORT).show();
+                    // Chama método de subscricao
+                    subscription();
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    Toast.makeText(MainActivity.this, "Connection Failure", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+
+        client.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean reconnect, String serverURI) {
+
+            }
+
+            @Override
+            public void connectionLost(Throwable cause) {
+
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.music_note_black_24dp)
+                        .setContentTitle("Novo Conteudo Adicionado")
+                        .setContentText((CharSequence) message)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+                notificationManagerCompat.notify(NOTIFICATION_ID, mBuilder.build());
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+
+            }
+        });
 
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(NOTIFICATION_ID, mBuilder.build());
 
-
-        /*adicionar logo antes do nome da app
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.logo);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);*/
     }
+
+
+// Subscrever Tópico
+    private void subscription(){
+        try {
+            IMqttToken subToken = client.subscribe(TOPICOSUBSCRICAO, 0);
+            subToken.setActionCallback(new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    System.out.println("----> MQTT Tópico Subscrito");
+                }
+                @Override
+                public void onFailure(IMqttToken asyncActionToken,
+                                      Throwable exception) {
+                    System.out.println("----> MQTT Falha ao Subscrever");
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -111,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     switch(MenuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new HomeFragment();
+
                             break;
                         case R.id.nav_search:
                             selectedFragment = new UtilizadorFragment();
@@ -128,6 +215,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+
+
+
+
+    // Código Barra de Pesquisa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_pesquisa, menu);
@@ -151,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // Intent da Pesquisa
     private void intentPesquisa(String newText){
         Intent intent = new Intent(this, PesquisaActivity.class);
         intent.putExtra(PESQUISA, newText);
