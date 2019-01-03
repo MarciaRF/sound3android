@@ -35,7 +35,7 @@ public class SingletonGestorConteudo  {
 
     private String  mUrlAPIAlbuns = "http://192.168.43.44/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://127.0.0.1/sound3application/frontend/api/artista";
-    private String mUrlAPIGeneros = "http://192.168.43.44/sound3application/frontend/api/genero";
+    private String mUrlAPIGeneros = "http://192.168.43.86/sound3application/frontend/api/genero";
     private String mUrlAPIMusicas = "http://127.0.0.1/sound3application/frontend/api/musica";
 
     public static synchronized SingletonGestorConteudo getInstance(Context context) {
@@ -296,23 +296,26 @@ public class SingletonGestorConteudo  {
 
         if(!isConnected){
             generos = modeloBDHelper.getAllGenerosBD();
-            System.out.println("----->IF ");
+            System.out.println("----->Not Connected ");
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIGeneros, null, new Response.Listener<JSONArray>() {
+
                 @Override
                 public void onResponse(JSONArray response) {
                     generos = ConteudoJsonParser.parseJsonGenero(response, context);
                     adicionarGenerosBD(generos);
-                    System.out.println("----->APIGENERO: " + generos);
+                    System.out.println("----->Dados: " + generos);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(context, "Erros Generos: " + error, Toast.LENGTH_SHORT).show();
-                    System.out.println("----->APIGENER: " + error);
+                    System.out.println("----->Erros: " + error);
+
                 }
             });
             volleyQueue.add(req);
+            System.out.println("----->Request: "+ req);
         }
     }
 
