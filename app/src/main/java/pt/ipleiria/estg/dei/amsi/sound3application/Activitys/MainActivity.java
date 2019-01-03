@@ -1,34 +1,29 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.StringRequest;
-
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import models.Album;
 import models.Artista;
@@ -69,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     //MQTT
     MqttAndroidClient client;
-    private final String SERVERCONECTION = "127.0.0.1";
-    private final String TOPICOSUBSCRICAO = "notificacao";
+    private final String SERVERCONECTION = "tcp://192.168.43.44:1883";
+    private final String TOPICOSUBSCRICAO = "INSERT";
 
 
 
@@ -101,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        /*NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.music_note_black_24dp)
+                .setContentTitle("Novo Conteudo Adicionado")
+                .setContentText("OLE")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, mBuilder.build());*/
+
+
         // Adiciona Fake Data na DB para TESTES
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
         SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
@@ -108,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
         SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
 
 
-
-        //Conexão do MQTT
         String clientId = MqttClient.generateClientId();
         client = new MqttAndroidClient(this.getApplicationContext(), SERVERCONECTION, clientId);
 
@@ -118,14 +121,15 @@ public class MainActivity extends AppCompatActivity {
             token.setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Toast.makeText(MainActivity.this, "Conneced", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Connected", Toast.LENGTH_SHORT).show();
                     // Chama método de subscricao
                     subscription();
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Toast.makeText(MainActivity.this, "Connection Failure", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, ""+exception, Toast.LENGTH_LONG).show();
+                    System.out.println("----->Ex"+exception);
 
                 }
             });
@@ -133,27 +137,27 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        client.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
 
-            }
 
+        client.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.music_note_black_24dp)
-                        .setContentTitle("Novo Conteudo Adicionado")
-                        .setContentText((CharSequence) message)
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                //Toast.makeText(MainActivity.this, "Message: "+ message, Toast.LENGTH_SHORT).show();
+                android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+                alert.setTitle("Novo Conteudo");
+                alert.setMessage("Novo Conteudo Foi Adicionado")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
-                notificationManagerCompat.notify(NOTIFICATION_ID, mBuilder.build());
+                            }
+                        });
+                android.support.v7.app.AlertDialog alertDialog = alert.create();
+                alertDialog.show();
             }
 
             @Override
@@ -162,24 +166,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
 
 // Subscrever Tópico
     private void subscription(){
         try {
-            IMqttToken subToken = client.subscribe(TOPICOSUBSCRICAO, 0);
+            IMqttToken subToken = client.subscribe(TOPICOSUBSCRICAO, 1);
             subToken.setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("----> MQTT Tópico Subscrito");
+                    System.out.println("1----> MQTT Tópico Subscrito");
                 }
                 @Override
                 public void onFailure(IMqttToken asyncActionToken,
                                       Throwable exception) {
-                    System.out.println("----> MQTT Falha ao Subscrever");
+                    System.out.println("1----> MQTT Falha ao Subscrever");
                 }
             });
         } catch (MqttException e) {
