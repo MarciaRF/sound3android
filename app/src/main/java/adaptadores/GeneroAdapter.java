@@ -43,7 +43,7 @@ public class GeneroAdapter extends RecyclerView.Adapter<GeneroAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        holder.mCapa.setImageResource(mData.get(position).getImagem());
+        //holder.mCapa.setImageResource(mData.get(position).getImagem());
         holder.mNome.setText(mData.get(position).getNome());
 
         Glide.with(mContext).load(mData.get(position).getImagem()).into(holder.mCapa);

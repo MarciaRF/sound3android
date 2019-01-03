@@ -76,7 +76,7 @@ public class ConteudoJsonParser {
 
     public static ArrayList<Genero> parseJsonGenero (JSONArray response, Context context){
         ArrayList<Genero> tempListaGenero = new ArrayList<>();
-/*
+
         try{
             for(int i=0; i< response.length(); i++){
 
@@ -85,7 +85,7 @@ public class ConteudoJsonParser {
                 int idGenero = genero.getInt("id");
                 String nome = genero.getString("nome");
                 String descricao = genero.getString("descricao");
-                String imagem = genero.getString("imagem");
+                String imagem = genero.getString("caminhoImagem");
 
                 Genero auxGenero = new Genero(idGenero, nome, descricao, imagem);
                 tempListaGenero.add(auxGenero);
@@ -95,7 +95,7 @@ public class ConteudoJsonParser {
             e.printStackTrace();
             Toast.makeText(context, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-*/
+
         return tempListaGenero;
     }
 
@@ -130,6 +130,7 @@ public class ConteudoJsonParser {
 
 
     public static  boolean isConnectionInternet(Context context){
+
         ConnectivityManager cm=
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();

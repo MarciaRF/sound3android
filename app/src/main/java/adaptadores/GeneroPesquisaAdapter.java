@@ -39,7 +39,7 @@ public class GeneroPesquisaAdapter extends RecyclerView.Adapter<GeneroPesquisaAd
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        holder.mCapa.setImageResource(mData.get(position).getImagem());
+        //holder.mCapa.setImageResource(mData.get(position).getImagem());
         holder.mNome.setText(mData.get(position).getNome());
 
         Glide.with(mContext).load(mData.get(position).getImagem()).into(holder.mCapa);

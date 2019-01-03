@@ -96,21 +96,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        /*NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.music_note_black_24dp)
-                .setContentTitle("Novo Conteudo Adicionado")
-                .setContentText("OLE")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
-        notificationManagerCompat.notify(NOTIFICATION_ID, mBuilder.build());*/
-
-
         // Adiciona Fake Data na DB para TESTES
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
         SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
         SingletonGestorConteudo.getInstance(this).adicionarMusicaBD(criarMusica());
-        SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
+        //SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
 
 
         String clientId = MqttClient.generateClientId();
@@ -293,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         return lstArtista;
     }
 
-    public ArrayList<Genero> criarGenero(){
+    /*public ArrayList<Genero> criarGenero(){
         lstGenero = new ArrayList<>();
 
         lstGenero.add(new Genero(1, "Eletronic", "Por definição, música eletrônica é toda e qualquer música criada ou modificada por meio de equipamentos e instrumentos eletrônicos, como gravadores digitais, computadores, softwares e sintetizadores.", R.drawable.eletronic));
@@ -303,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
         lstGenero.add(new Genero(5, "Reggae", "Reggae é um gênero musical desenvolvido originalmente na Jamaica do fim da década de 1960. Embora por vezes seja usado num sentido mais amplo para se referir à maior parte dos tipos de música jamaicana.", R.drawable.reggae));
 
         return lstGenero;
-    }
+    }*/
 
 
 }

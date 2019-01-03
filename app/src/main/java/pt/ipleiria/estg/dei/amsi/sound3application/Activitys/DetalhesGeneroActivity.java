@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -51,7 +53,10 @@ public class DetalhesGeneroActivity extends AppCompatActivity {
 
         genero = SingletonGestorConteudo.getInstance(getApplicationContext()).getGenero(idGenero);
 
-        ivGenero.setImageResource(genero.getImagem());
+
+        Glide.with(this).load(""+genero.getImagem()).into(ivGenero);
+
+        //ivGenero.setImageResource(genero.getImagem());
         tvGeneroNome.setText(genero.getNome());
         tvGeneroDescricao.setText(genero.getDescricao());
 

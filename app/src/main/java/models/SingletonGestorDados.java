@@ -1,6 +1,7 @@
 package models;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,13 +33,13 @@ public class SingletonGestorDados {
     private static RequestQueue volleyQueue = null;
     private static SingletonGestorDados INSTANCE = null;
 
+    private String mUrlApiUtilizadores = "http://127.0.0.1/sound3application/frontend/api/utilizadores";
+    private String mUrlApiLinhaCompras = "http://127.0.0.1/sound3application/frontend/api/linhaCompras";
     private String mUrlApiComentarios = "http://127.0.0.1/sound3application/frontend/api/comentarios";
     private String mUrlApiFavAlbuns = "http://127.0.0.1/sound3application/frontend/api/favoritosAlbuns";
     private String mUrlApiFavArtistas = "http://127.0.0.1/sound3application/frontend/api/favoritosArtistas";
     private String mUrlApiFavGeneros = "http://127.0.0.1/sound3application/frontend/api/favoritosGeneros";
     private String mUrlApiFavMusicas = "http://127.0.0.1/sound3application/frontend/api/favoritosMusicas";
-    private String mUrlApiLinhaCompras = "http://127.0.0.1/sound3application/frontend/api/linhaCompras";
-    private String mUrlApiUtilizadores = "http://127.0.0.1/sound3application/frontend/api/utilizadores";
 
 
     public SingletonGestorDados(Context context) {
@@ -282,6 +283,7 @@ public class SingletonGestorDados {
                 public void onResponse(JSONArray response) {
                     linhaCompras = DadosJsonParser.parseJsonLinhaCompra(response, context);
                     adicionarLinhaComprasBD(linhaCompras);
+                    Toast.makeText(context, "LinhasComprasAPI", Toast.LENGTH_SHORT).show();
                 }
             }, new Response.ErrorListener() {
                 @Override
