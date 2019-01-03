@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     //MQTT
     MqttAndroidClient client;
-    private final String SERVERCONECTION = "tcp://192.168.43.44:1883";
+    private final String SERVERCONECTION = "tcp://192.168.43.86:1883";
     private final String TOPICOSUBSCRICAO = "INSERT";
 
 
