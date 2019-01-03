@@ -22,6 +22,7 @@ import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
 
 public class HomeFragment extends Fragment{
@@ -45,7 +46,9 @@ public class HomeFragment extends Fragment{
         lstAlbuns = SingletonGestorConteudo.getInstance(getContext()).getAlbunsBD();
         lstArtistas = SingletonGestorConteudo.getInstance(getContext()).getArtistasBD();
         lstMusicas = SingletonGestorConteudo.getInstance(getContext()).getMusicasBD();
+        SingletonGestorConteudo.getInstance(getContext()).getAllGenerosAPI(getContext(),ConteudoJsonParser.isConnectionInternet(getContext()));
         lstGeneros = SingletonGestorConteudo.getInstance(getContext()).getGenerosBD();
+
 
     }
 

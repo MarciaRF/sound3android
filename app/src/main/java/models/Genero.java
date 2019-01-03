@@ -6,14 +6,14 @@ public class Genero implements Serializable{
     private long IdGenero;
     private String Nome;
     private String Descricao;
-    private Integer Imagem;
+    private String Imagem;
 
 
-    public Genero(long idGenero, String nome, String descricao, Integer imagem){
+    public Genero(long idGenero, String nome, String descricao, String caminhoImagem){
         IdGenero = idGenero;
         Nome = nome;
         Descricao = descricao;
-        Imagem = imagem;
+        Imagem = caminhoImagem;
     }
 
     public long getIdGenero() { return IdGenero; }
@@ -28,7 +28,7 @@ public class Genero implements Serializable{
 
     public void setDescricao(String descricao) { Descricao = descricao; }
 
-    public Integer getImagem() { return Imagem; }
+    public String getImagem() { return Imagem; }
 
-    public void setImagem(Integer imagem) { Imagem = imagem; }
+    public void setImagem(String imagem) { Imagem = imagem; }
 }

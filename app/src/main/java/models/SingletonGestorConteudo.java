@@ -1,6 +1,7 @@
 package models;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,10 +33,10 @@ public class SingletonGestorConteudo  {
     private ModeloBDHelper modeloBDHelper = null;
     private static RequestQueue volleyQueue = null;
 
-    private String  mUrlAPIAlbuns = "http://amsi.dei.estg.ipleiria.pt/api/livr";
-    private String mUrlAPIArtistas = "http://amsi.dei.estg.ipleiria.pt/api/livwdr";
-    private String mUrlAPIGeneros = "http://amsi.dei.estg.ipleiria.pt/api/lwfwr";
-    private String mUrlAPIMusicas = "http://amsi.dei.estg.ipleiria.pt/api/efwe";
+    private String  mUrlAPIAlbuns = "http://192.168.43.44/sound3application/frontend/api/album";
+    private String mUrlAPIArtistas = "http://127.0.0.1/sound3application/frontend/api/artista";
+    private String mUrlAPIGeneros = "http://192.168.43.44/sound3application/frontend/api/genero";
+    private String mUrlAPIMusicas = "http://127.0.0.1/sound3application/frontend/api/musica";
 
     public static synchronized SingletonGestorConteudo getInstance(Context context) {
         if(INSTANCE == null){
@@ -291,19 +292,24 @@ public class SingletonGestorConteudo  {
     }
 
     public void getAllGenerosAPI(final Context context, boolean isConnected){
+        Toast.makeText(context, "isConnected"+ isConnected, Toast.LENGTH_SHORT).show();
+
         if(!isConnected){
             generos = modeloBDHelper.getAllGenerosBD();
+            System.out.println("----->IF ");
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIGeneros, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     generos = ConteudoJsonParser.parseJsonGenero(response, context);
                     adicionarGenerosBD(generos);
+                    System.out.println("----->APIGENERO: " + generos);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
+                    Toast.makeText(context, "Erros Generos: " + error, Toast.LENGTH_SHORT).show();
+                    System.out.println("----->APIGENER: " + error);
                 }
             });
             volleyQueue.add(req);

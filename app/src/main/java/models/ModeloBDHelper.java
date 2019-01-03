@@ -113,8 +113,8 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         String createGeneroTable = " CREATE TABLE " + TABLE_N_GENERO +
                 "( " + ID_GENERO + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NOME_GENERO + " TEXT NOT NULL, " +
-                DESCRICAO_GENERO + " TEXT NOT NULL, "+
-                FOTO_GENERO + " INTEGER " +");";
+                DESCRICAO_GENERO + " TEXT, "+
+                FOTO_GENERO + " TEXT  " +");";
         db.execSQL(createGeneroTable);
 
 
@@ -618,7 +618,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 Genero auxGenero = new Genero(0,
                         cursor.getString(1),
                         cursor.getString(2),
-                        cursor.getInt(3));
+                        cursor.getString(3));
                 auxGenero.setIdGenero(cursor.getLong(0));
                 generos.add(auxGenero);
             }while(cursor.moveToNext());
