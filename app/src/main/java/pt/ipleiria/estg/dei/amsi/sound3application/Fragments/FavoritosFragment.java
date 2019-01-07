@@ -24,6 +24,7 @@ import models.Artista;
 import models.Genero;
 import models.Musica;
 
+import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 public class FavoritosFragment extends Fragment {
@@ -43,6 +44,7 @@ public class FavoritosFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
     }

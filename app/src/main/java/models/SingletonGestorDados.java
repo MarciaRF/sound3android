@@ -252,7 +252,6 @@ public class SingletonGestorDados {
     }
 
 
-
     // Vai buscar Dados á API  e insere nos arrays e BD
     public void getAllUtilizadoresAPI(final Context context, boolean isConnected){
         if(!isConnected){

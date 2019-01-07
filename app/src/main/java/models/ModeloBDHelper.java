@@ -613,6 +613,8 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         Cursor cursor = this.database.query(TABLE_N_GENERO, new String[]{"id", NOME_GENERO, DESCRICAO_GENERO, FOTO_GENERO},
                 null, null,null, null, null);
 
+        System.out.println("---->GeneroBD:" + cursor.getColumnName(1));
+
         if(cursor.moveToFirst()){
             do{
                 Genero auxGenero = new Genero(0,
