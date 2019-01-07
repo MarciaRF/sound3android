@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             subToken.setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("1----> MQTT Tópico Subscrito");
+                    System.out.println("1----> MQTT Tópico "+TOPICOSUBSCRICAO+" Subscrito");
                 }
                 @Override
                 public void onFailure(IMqttToken asyncActionToken,
