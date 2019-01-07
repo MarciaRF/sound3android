@@ -35,7 +35,9 @@ public class SingletonGestorConteudo  {
 
     private String  mUrlAPIAlbuns = "http://192.168.43.44/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://127.0.0.1/sound3application/frontend/api/artista";
-    private String mUrlAPIGeneros = "http://192.168.43.86/sound3application/frontend/api/genero";
+
+    private String mUrlAPIGeneros = "http://192.168.43.44/sound3application/frontend/web/api/genero";
+
     private String mUrlAPIMusicas = "http://127.0.0.1/sound3application/frontend/api/musica";
 
     public static synchronized SingletonGestorConteudo getInstance(Context context) {
@@ -309,9 +311,9 @@ public class SingletonGestorConteudo  {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+
                     Toast.makeText(context, "Erros Generos: " + error, Toast.LENGTH_SHORT).show();
                     System.out.println("----->Erros: " + error);
-
                 }
             });
             volleyQueue.add(req);
