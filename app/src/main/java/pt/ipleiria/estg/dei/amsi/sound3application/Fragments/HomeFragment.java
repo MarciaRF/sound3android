@@ -49,10 +49,8 @@ public class HomeFragment extends Fragment{
         lstMusicas = SingletonGestorConteudo.getInstance(getContext()).getMusicasBD();
         SingletonGestorConteudo.getInstance(getContext()).getAllGenerosAPI(getContext(),ConteudoJsonParser.isConnectionInternet(getContext()));
 
-        // lstGeneros = SingletonGestorConteudo.getInstance(getContext()).getGenerosBD();
-
         lstGeneros = SingletonGestorConteudo.getInstance(getContext()).getGenerosBD();
-        System.out.println("----->Genero: " + lstGeneros);
+
 
     }
 

@@ -313,6 +313,8 @@ public class SingletonGestorConteudo  {
                     adicionarGenerosBD(generos);
                     System.out.println("----->Dados: " + generos);
                 }
+
+
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
@@ -320,6 +322,8 @@ public class SingletonGestorConteudo  {
                     Toast.makeText(context, "Erros Generos: " + error, Toast.LENGTH_SHORT).show();
                     System.out.println("----->Erros: " + error);
                 }
+
+
             });
             volleyQueue.add(req);
             System.out.println("----->Request: "+ req);
