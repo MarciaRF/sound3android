@@ -1,19 +1,24 @@
 package models;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
@@ -35,7 +40,9 @@ public class SingletonGestorConteudo  {
 
     private String  mUrlAPIAlbuns = "http://192.168.43.44/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://127.0.0.1/sound3application/frontend/api/artista";
-    private String mUrlAPIGeneros = "http://192.168.43.86/sound3application/frontend/api/genero";
+
+    private String mUrlAPIGeneros = "http://192.168.43.44/sound3application/frontend/web/api/genero";
+
     private String mUrlAPIMusicas = "http://127.0.0.1/sound3application/frontend/api/musica";
 
     public static synchronized SingletonGestorConteudo getInstance(Context context) {
@@ -311,9 +318,9 @@ public class SingletonGestorConteudo  {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+
                     Toast.makeText(context, "Erros Generos: " + error, Toast.LENGTH_SHORT).show();
                     System.out.println("----->Erros: " + error);
-
                 }
 
 
@@ -343,12 +350,48 @@ public class SingletonGestorConteudo  {
         }
     }
 
+    public boolean verificarLogin(final Context context, boolean isConnected,final String username, final String password){
+        final int[] res = new int[1];
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url ="http://192.168.43.86/sound3application/frontend/web/api/user/verificarlogin";
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                        res[0] = Integer.parseInt(response) ;
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        Log.d("ERROR","error => "+error.toString());
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("username", username);
+                params.put("password", password);
 
+                return params;
+            }
+        };
 
+        queue.add(getRequest);
+        if(res[0] == -1){
+            System.out.println("-------->Login inválido");
+            return false;
+        }
 
+        System.out.println("-------->Login é válido");
+        return true;
 
-
-
-
+    }
 
 }

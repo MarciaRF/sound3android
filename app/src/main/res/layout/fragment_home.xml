@@ -41,12 +41,11 @@
             android:textStyle="bold"/>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="15dp"
             android:id="@+id/rV_home_Generos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_marginTop="15dp"
+            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
 
         <TextView
             android:layout_marginTop="40dp"
