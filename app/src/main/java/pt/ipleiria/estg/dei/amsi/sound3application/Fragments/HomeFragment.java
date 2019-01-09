@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment{
 
 
         lstGeneros = SingletonGestorConteudo.getInstance(getContext()).getGenerosBD();
-        System.out.println("----->Genero: " + lstGeneros);
+
 
     }
 
