@@ -23,6 +23,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".Activitys.MainActivity" />
+
         <activity
             android:name=".Activitys.LoginActivity"
             android:windowSoftInputMode="adjustPan">

@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
 import models.Genero;
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesGeneroActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
@@ -23,6 +25,8 @@ public class GeneroAdapter extends RecyclerView.Adapter<GeneroAdapter.MyViewHold
 
     Context mContext;
     ArrayList<Genero> mData;
+    String url = "/sound3application/common/img/generos/";
+    String urlImagem;
 
     public static final String DETALHES_GENERO= "GENERO";
 
@@ -46,7 +50,18 @@ public class GeneroAdapter extends RecyclerView.Adapter<GeneroAdapter.MyViewHold
         //holder.mCapa.setImageResource(mData.get(position).getImagem());
         holder.mNome.setText(mData.get(position).getNome());
 
-        Glide.with(mContext).load(mData.get(position).getImagem()).into(holder.mCapa);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round);
+
+        //Vai Buscar o IP do Singleton e Concatena com o caminho
+        urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
+
+        Glide.with(mContext).
+                load(urlImagem)
+                .into(holder.mCapa);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +72,7 @@ public class GeneroAdapter extends RecyclerView.Adapter<GeneroAdapter.MyViewHold
             }
         });
     }
+
 
     @Override
     public int getItemCount() { return mData.size(); }

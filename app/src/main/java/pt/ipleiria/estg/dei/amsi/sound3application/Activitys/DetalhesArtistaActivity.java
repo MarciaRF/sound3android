@@ -27,7 +27,7 @@ public class DetalhesArtistaActivity extends AppCompatActivity {
     private TextView tvNacionalidadeArtista;
     private TextView  tvAnoArtista;
 
-    //private ArrayList<Album> lstAlbuns;
+    private ArrayList<Album> lstAlbuns;
     private ArrayList<Artista> lstArtistas;
 
     private long idArtista;
@@ -38,7 +38,7 @@ public class DetalhesArtistaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_artista);
 
-        ArrayList<Album> lstAlbuns = new ArrayList<>();
+        lstAlbuns = new ArrayList<>();
 
         ivImagemArtista = findViewById(R.id.iV_detalhes_artista_imagem);
         tvNomeArtista = findViewById(R.id.tV_detalhes_artista_nome);
@@ -64,5 +64,10 @@ public class DetalhesArtistaActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        lstAlbuns.clear();
+    }
 }

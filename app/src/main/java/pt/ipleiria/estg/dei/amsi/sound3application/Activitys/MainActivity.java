@@ -35,6 +35,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.FavoritosFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.HomeFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.UtilizadorFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
 import static pt.ipleiria.estg.dei.amsi.sound3application.Activitys.PesquisaActivity.PESQUISA;
 
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
         }
 
+
+        .
 
         // Adiciona Fake Data na DB para TESTES
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
@@ -216,17 +219,18 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_pesquisa, menu);
 
         MenuItem itemPesquisa = menu.findItem(R.id.itemPesquisa);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(itemPesquisa);
+        SearchView searchView = (SearchView) itemPesquisa.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) { return false; }
+            public boolean onQueryTextSubmit(String s) {
+                intentPesquisa(s);
+                return true;
+            }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                intentPesquisa(newText);
-                return true;
+                return false;
             }
 
         });
@@ -237,10 +241,9 @@ public class MainActivity extends AppCompatActivity {
     // Intent da Pesquisa
     private void intentPesquisa(String newText){
         Intent intent = new Intent(this, PesquisaActivity.class);
-        intent.putExtra(PESQUISA, newText);
+        intent.putExtra(PesquisaActivity.PESQUISA, newText);
         startActivity(intent);
     }
-
 
 
     // Gerar Fake Data para a DB

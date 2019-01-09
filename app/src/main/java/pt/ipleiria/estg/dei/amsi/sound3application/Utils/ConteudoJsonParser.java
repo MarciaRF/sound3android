@@ -87,6 +87,8 @@ public class ConteudoJsonParser {
                 String descricao = genero.getString("descricao");
                 String imagem = genero.getString("caminhoImagem");
 
+                //System.out.println("----->json: "+genero);
+
                 Genero auxGenero = new Genero(idGenero, nome, descricao, imagem);
                 tempListaGenero.add(auxGenero);
             }

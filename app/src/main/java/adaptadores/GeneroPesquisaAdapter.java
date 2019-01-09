@@ -15,12 +15,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 
 import models.Genero;
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
 public class GeneroPesquisaAdapter extends RecyclerView.Adapter<GeneroPesquisaAdapter.MyViewHolder> {
 
     Context mContext;
     ArrayList<Genero> mData;
+
+    String url = "/sound3application/common/img/generos/";
+    String urlImagem;
 
         public GeneroPesquisaAdapter(Context mContext, ArrayList<Genero> mData){
         this.mContext = mContext;
@@ -39,10 +43,14 @@ public class GeneroPesquisaAdapter extends RecyclerView.Adapter<GeneroPesquisaAd
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        //holder.mCapa.setImageResource(mData.get(position).getImagem());
         holder.mNome.setText(mData.get(position).getNome());
 
-        Glide.with(mContext).load(mData.get(position).getImagem()).into(holder.mCapa);
+        //Vai Buscar o IP do Singleton e Concatena com o caminho
+        urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
+
+        Glide.with(mContext).
+                load(urlImagem)
+                .into(holder.mCapa);
     }
 
     @Override
