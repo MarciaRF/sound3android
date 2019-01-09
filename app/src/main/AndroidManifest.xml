@@ -6,29 +6,29 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
 
     <!--
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     -->
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".Activitys.MainActivity" />
         <activity
             android:name=".Activitys.LoginActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,10 +39,11 @@
         <activity android:name=".Activitys.DetalhesAlbumActivity" />
         <activity android:name=".Activitys.PesquisaActivity" />
         <activity android:name=".Activitys.DetalhesArtistaActivity" />
-        <activity android:name=".Activitys.DetalhesGeneroActivity"></activity>
+        <activity android:name=".Activitys.DetalhesGeneroActivity" />
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
+        <activity android:name=".RegistoCompras"></activity>
     </application>
 
 </manifest>
