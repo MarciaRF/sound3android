@@ -215,7 +215,7 @@ public class SingletonGestorDados {
         return null;
     }
 
-    public FavoritoAlbum getFavoritoAlbum(long idFavAlbum){
+    /*public FavoritoAlbum getFavoritoAlbum(long idFavAlbum){
         for(FavoritoAlbum favoritoAlbum : favAlbuns){
             if(favoritoAlbum.getIdFavAlbum() == idFavAlbum){
                 return favoritoAlbum;
@@ -249,7 +249,7 @@ public class SingletonGestorDados {
             }
         }
         return null;
-    }
+    }*/
 
 
     // Vai buscar Dados á API  e insere nos arrays e BD

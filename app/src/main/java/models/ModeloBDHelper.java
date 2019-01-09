@@ -113,8 +113,8 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         String createGeneroTable = " CREATE TABLE " + TABLE_N_GENERO +
                 "( " + ID_GENERO + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NOME_GENERO + " TEXT NOT NULL, " +
-                DESCRICAO_GENERO + " TEXT, "+
-                FOTO_GENERO + " TEXT  " +");";
+                DESCRICAO_GENERO + " TEXT, " +
+                FOTO_GENERO + " TEXT" + ");";
         db.execSQL(createGeneroTable);
 
 
@@ -307,12 +307,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         values.put(ID_UTILIZADOR_FAV_ALBUM, favoritoalbum.getIdUtilizador());
         values.put(ID_ALBUM_FAV, favoritoalbum.getIdAlbum());
 
-        long id = this.database.insert(TABLE_N_FAV_ALBUM, null, values);
-
-        if(id >-1){
-            favoritoalbum.setIdFavAlbum(id);
-            return favoritoalbum;
-        }
+        this.database.insert(TABLE_N_FAV_ALBUM, null, values);
 
         return null;
     }
@@ -323,12 +318,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         values.put(ID_UTILIZADOR_FAV_ARTISTA, favoritoartista.getIdArtista());
         values.put(ID_ARTISTA_FAV, favoritoartista.getIdArtista());
 
-        long id = this.database.insert(TABLE_N_FAV_ARTISTA, null, values);
-
-        if(id >-1){
-            favoritoartista.setIdFavArtista(id);
-            return favoritoartista;
-        }
+        this.database.insert(TABLE_N_FAV_ARTISTA, null, values);
 
         return null;
     }
@@ -339,12 +329,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         values.put(ID_UTILIZADOR_FAV_GENERO, favoritogenero.getIdUtilizador());
         values.put(ID_GENERO_FAV, favoritogenero.getIdGenero());
 
-        long id = this.database.insert(TABLE_N_FAV_GENERO, null, values);
-
-        if(id >-1){
-            favoritogenero.setIdFavGenero(id);
-            return favoritogenero;
-        }
+        this.database.insert(TABLE_N_FAV_GENERO, null, values);
 
         return null;
     }
@@ -355,12 +340,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         values.put(ID_UTILIZADOR_FAV_MUSICA, favoritomusica.getIdUtilizador());
         values.put(ID_MUSICA_FAV, favoritomusica.getIdMusica());
 
-        long id = this.database.insert(TABLE_N_FAV_MUSICA, null, values);
-
-        if(id >-1){
-            favoritomusica.setIdFavMusica(id);
-            return favoritomusica;
-        }
+        this.database.insert(TABLE_N_FAV_MUSICA, null, values);
 
         return null;
     }
@@ -402,12 +382,14 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
 
     public Genero adicionarGeneroBD(Genero genero){
         ContentValues values = new ContentValues();
-
+        System.out.println("----->BD RECEBE BD 4 : " + genero.getNome());
         values.put(NOME_GENERO, genero.getNome());
         values.put(DESCRICAO_GENERO, genero.getDescricao());
         values.put(FOTO_GENERO, genero.getImagem());
 
+        System.out.println("----->BD INSERE BD 5 : " + this.database.insert(TABLE_N_GENERO, null, values));
         long id = this.database.insert(TABLE_N_GENERO, null, values);
+
 
         if(id >-1){
             genero.setIdGenero(id);
@@ -451,6 +433,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getString(3));
                 auxUtilizador.setIdUtilizador(cursor.getLong(0));
+                System.out.println();
                 utilizadores.add(auxUtilizador);
             }while(cursor.moveToNext());
         }
@@ -497,15 +480,14 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<FavoritoAlbum> getAllAlbunsFavoritosBD(){
         ArrayList<FavoritoAlbum> favAlbuns = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_FAV_ALBUM, new String[]{" id ", ID_UTILIZADOR_FAV_ALBUM, ID_ALBUM_FAV},
+        Cursor cursor = this.database.query(TABLE_N_FAV_ALBUM, new String[]{ID_UTILIZADOR_FAV_ALBUM, ID_ALBUM_FAV},
                 null, null, null, null, null );
 
         if(cursor.moveToFirst()){
             do {
-                FavoritoAlbum auxFavAlbum = new FavoritoAlbum(0,
-                        cursor.getInt(1),
-                        cursor.getInt(2));
-                auxFavAlbum.setIdFavAlbum(cursor.getLong(0));
+                FavoritoAlbum auxFavAlbum = new FavoritoAlbum(
+                        cursor.getInt(0),
+                        cursor.getInt(1));
                 favAlbuns.add(auxFavAlbum);
             }while(cursor.moveToNext());
         }
@@ -515,15 +497,14 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<FavoritoArtista> getAllArtistasFavoritosBD(){
         ArrayList<FavoritoArtista> favArtistas = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_FAV_ARTISTA, new String[]{" id ", ID_UTILIZADOR_FAV_ARTISTA, ID_ARTISTA_FAV},
+        Cursor cursor = this.database.query(TABLE_N_FAV_ARTISTA, new String[]{ID_UTILIZADOR_FAV_ARTISTA, ID_ARTISTA_FAV},
                 null, null, null, null, null );
 
         if(cursor.moveToFirst()){
             do {
-                FavoritoArtista auxFavArtista = new FavoritoArtista(0,
-                        cursor.getInt(1),
-                        cursor.getInt(2));
-                auxFavArtista.setIdFavArtista(cursor.getLong(0));
+                FavoritoArtista auxFavArtista = new FavoritoArtista(
+                        cursor.getInt(0),
+                        cursor.getInt(1));
                 favArtistas.add(auxFavArtista);
             }while(cursor.moveToNext());
         }
@@ -533,15 +514,14 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<FavoritoGenero> getAllGenerosFavoritosBD(){
         ArrayList<FavoritoGenero> favGeneros = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_FAV_GENERO, new String[]{" id ", ID_UTILIZADOR_FAV_GENERO, ID_GENERO_FAV},
+        Cursor cursor = this.database.query(TABLE_N_FAV_GENERO, new String[]{ID_UTILIZADOR_FAV_GENERO, ID_GENERO_FAV},
                 null, null, null, null, null );
 
         if(cursor.moveToFirst()){
             do {
-                FavoritoGenero auxFavGenero = new FavoritoGenero(0,
-                        cursor.getInt(1),
-                        cursor.getInt(2));
-                auxFavGenero.setIdFavGenero(cursor.getLong(0));
+                FavoritoGenero auxFavGenero = new FavoritoGenero(
+                        cursor.getInt(0),
+                        cursor.getInt(1));
                 favGeneros.add(auxFavGenero);
             }while(cursor.moveToNext());
         }
@@ -551,15 +531,14 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<FavoritoMusica> getAllMusicasFavoritosBD(){
         ArrayList<FavoritoMusica> favMusicas = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_FAV_ALBUM, new String[]{" id ", ID_UTILIZADOR_FAV_MUSICA, ID_MUSICA_FAV},
+        Cursor cursor = this.database.query(TABLE_N_FAV_MUSICA, new String[]{ID_UTILIZADOR_FAV_MUSICA, ID_MUSICA_FAV},
                 null, null, null, null, null );
 
         if(cursor.moveToFirst()){
             do {
-                FavoritoMusica auxFavMusica = new FavoritoMusica(0,
+                FavoritoMusica auxFavMusica = new FavoritoMusica(
                         cursor.getInt(1),
                         cursor.getInt(2));
-                auxFavMusica.setIdFavMusica(cursor.getLong(0));
                 favMusicas.add(auxFavMusica);
             }while(cursor.moveToNext());
         }
@@ -610,10 +589,10 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<Genero> getAllGenerosBD(){
         ArrayList<Genero> generos = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_GENERO, new String[]{"id", NOME_GENERO, DESCRICAO_GENERO, FOTO_GENERO},
+        Cursor cursor = this.database.query(TABLE_N_GENERO, new String[]{" id ", NOME_GENERO, DESCRICAO_GENERO, FOTO_GENERO},
                 null, null,null, null, null);
 
-        System.out.println("---->GeneroBD:" + cursor.getColumnName(1));
+        System.out.println("----->BD RECEBE CURSOR 6 : " + cursor.getCount());
 
         if(cursor.moveToFirst()){
             do{
@@ -622,6 +601,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getString(3));
                 auxGenero.setIdGenero(cursor.getLong(0));
+                System.out.println("----->BD RECEBE AUX 7 : " + auxGenero.getNome());
                 generos.add(auxGenero);
             }while(cursor.moveToNext());
         }

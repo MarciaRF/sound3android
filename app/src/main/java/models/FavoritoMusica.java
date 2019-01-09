@@ -4,24 +4,15 @@ import java.io.Serializable;
 
 public class FavoritoMusica implements Serializable {
 
-    private long IdFavMusica;
     private long IdUtilizador;
     private long IdMusica;
 
-    public FavoritoMusica(long idfav_musica, long id_Utilizador, long id_Musica){
-        IdFavMusica = idfav_musica;
+    public FavoritoMusica(long id_Utilizador, long id_Musica){
         IdUtilizador = id_Utilizador;
         IdMusica = id_Musica;
     }
 
 
-    public long getIdFavMusica() {
-        return IdFavMusica;
-    }
-
-    public void setIdFavMusica(long idFavMusica) {
-        IdFavMusica = idFavMusica;
-    }
 
     public long getIdUtilizador() {
         return IdUtilizador;

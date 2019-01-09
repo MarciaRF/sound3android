@@ -36,7 +36,6 @@ public class PesquisaActivity extends AppCompatActivity {
     private RecyclerView recyclerViewGeneros;
     private RecyclerView recyclerViewMusicas;
 
-
     private String pesquisa;
 
     @Override
@@ -46,7 +45,15 @@ public class PesquisaActivity extends AppCompatActivity {
 
         pesquisa = getIntent().getStringExtra(PESQUISA);
 
-        for (Album temp: SingletonGestorConteudo.getInstance(getApplicationContext()).getAlbunsBD()) {
+        this.setTitle("Resultado Pesquisa " + "(" + pesquisa + ")" );
+
+
+        lstMusica = new ArrayList<>();
+        lstAlbum = new ArrayList<>();
+        lstArtista = new ArrayList<>();
+        lstGenero = new ArrayList<>();
+
+        for (Album temp : SingletonGestorConteudo.getInstance(getApplicationContext()).getAlbunsBD()) {
             if (temp.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
                 lstAlbum.add(temp);
             }
@@ -54,6 +61,7 @@ public class PesquisaActivity extends AppCompatActivity {
 
         for (Musica temp: SingletonGestorConteudo.getInstance(getApplicationContext()).getMusicasBD()) {
             if (temp.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
+                System.out.println("---->Temp : " + temp.getNome());
                 lstMusica.add(temp);
             }
         }
@@ -70,28 +78,38 @@ public class PesquisaActivity extends AppCompatActivity {
             }
         }
 
-        recyclerViewAlbuns = findViewById(R.id.rV_pesquisa_albuns);
-        recyclerViewAlbuns.setHasFixedSize(true);//Otimização
-        recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, lstAlbum);
-        recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
+        if(lstAlbum != null){
+            recyclerViewAlbuns = findViewById(R.id.rV_pesquisa_albuns);
+            recyclerViewAlbuns.setHasFixedSize(true);//Otimização
+            recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, lstAlbum);
+            recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
+        }
 
-        recyclerViewGeneros = findViewById(R.id.rV_pesquisa_generos);
-        recyclerViewGeneros.setHasFixedSize(true);//Otimização
-        recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        GeneroPesquisaAdapter generoPesquisaAdapter = new GeneroPesquisaAdapter(this, lstGenero);
-        recyclerViewGeneros.setAdapter(generoPesquisaAdapter);
+        if(lstGenero != null){
+            recyclerViewGeneros = findViewById(R.id.rV_pesquisa_generos);
+            recyclerViewGeneros.setHasFixedSize(true);//Otimização
+            recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            GeneroPesquisaAdapter generoPesquisaAdapter = new GeneroPesquisaAdapter(this, lstGenero);
+            recyclerViewGeneros.setAdapter(generoPesquisaAdapter);
+        }
 
-        recyclerViewArtistas = findViewById(R.id.rV_pesquisa_artistas);
-        recyclerViewArtistas.setHasFixedSize(true);//Otimização
-        recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(this, lstArtista);
-        recyclerViewArtistas.setAdapter(artistaPesquisaAdapter);
 
-        recyclerViewMusicas = findViewById(R.id.rV_pesquisa_musicas);
-        recyclerViewMusicas.setHasFixedSize(true);//Otimização
-        recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        MusicaAdapter musicasAdapter = new MusicaAdapter(this, lstMusica);
-        recyclerViewMusicas.setAdapter(musicasAdapter);
+        if(lstArtista != null){
+            recyclerViewArtistas = findViewById(R.id.rV_pesquisa_artistas);
+            recyclerViewArtistas.setHasFixedSize(true);//Otimização
+            recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(this, lstArtista);
+            recyclerViewArtistas.setAdapter(artistaPesquisaAdapter);
+        }
+
+        if(lstMusica != null){
+            recyclerViewMusicas = findViewById(R.id.rV_pesquisa_musicas);
+            recyclerViewMusicas.setHasFixedSize(true);//Otimização
+            recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            MusicaAdapter musicasAdapter = new MusicaAdapter(this, lstMusica);
+            recyclerViewMusicas.setAdapter(musicasAdapter);
+        }
+
     }
 }

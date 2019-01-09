@@ -48,9 +48,13 @@ public class MusicaFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*lstMusica = new ArrayList<>();
-        lstMusica.add(new Musica("Venom", "314", 9, R.drawable.menu_hori, "ole", 3434));*/
-
         lstMusica = SingletonGestorConteudo.getInstance(getContext()).getMusicasBD();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        lstMusica.clear();
     }
 }

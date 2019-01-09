@@ -104,11 +104,10 @@ public class DadosJsonParser {
 
                 JSONObject favAlbum = (JSONObject) response.get(i);
 
-                int idFavAlbum = favAlbum.getInt("idFavAlbum");
                 int idUtilizador = favAlbum.getInt("idUtilizador");
                 int idAlbum = favAlbum.getInt("idAlbum");
 
-                FavoritoAlbum auxFavAlbum = new FavoritoAlbum(idFavAlbum, idUtilizador, idAlbum);
+                FavoritoAlbum auxFavAlbum = new FavoritoAlbum(idUtilizador, idAlbum);
                 tempListaFavAlbum.add(auxFavAlbum);
             }
 
@@ -128,11 +127,10 @@ public class DadosJsonParser {
 
                 JSONObject favArtista = (JSONObject) response.get(i);
 
-                int idFavArtista = favArtista.getInt("idFavArtista");
                 int idUtilizador = favArtista.getInt("idUtilizador");
                 int idArtista = favArtista.getInt("idArtista");
 
-                FavoritoArtista auxFavArtista = new FavoritoArtista(idFavArtista, idUtilizador, idArtista);
+                FavoritoArtista auxFavArtista = new FavoritoArtista(idUtilizador, idArtista);
                 tempListaFavArtista.add(auxFavArtista);
             }
 
@@ -152,11 +150,10 @@ public class DadosJsonParser {
 
                 JSONObject favGenero = (JSONObject) response.get(i);
 
-                int idFavGenero = favGenero.getInt("idFavGenero");
                 int idUtilizador = favGenero.getInt("idUtilizador");
                 int idGenero = favGenero.getInt("idGenero");
 
-                FavoritoGenero auxFavGenero = new FavoritoGenero(idFavGenero, idUtilizador, idGenero);
+                FavoritoGenero auxFavGenero = new FavoritoGenero(idUtilizador, idGenero);
                 tempListaFavGenero.add(auxFavGenero);
             }
 
@@ -176,11 +173,10 @@ public class DadosJsonParser {
 
                 JSONObject favMusica = (JSONObject) response.get(i);
 
-                int idFavMusica = favMusica.getInt("idFavMusica");
                 int idUtilizador = favMusica.getInt("idUtilizador");
                 int idMusica = favMusica.getInt("idMusica");
 
-                FavoritoMusica auxFavMusica = new FavoritoMusica(idFavMusica, idUtilizador, idMusica);
+                FavoritoMusica auxFavMusica = new FavoritoMusica(idUtilizador, idMusica);
                 tempListaFavMusica.add(auxFavMusica);
             }
 
@@ -256,11 +252,10 @@ public class DadosJsonParser {
 
         try{
             JSONObject favAlbum = new JSONObject(responde);
-            int idFavAlbum = favAlbum.getInt("idFavAlbum");
             int idUtilizador = favAlbum.getInt("idUtilizador");
             int idAlbum = favAlbum.getInt("idAlbum");
 
-            auxFavAlbum = new FavoritoAlbum(idFavAlbum, idUtilizador, idAlbum);
+            auxFavAlbum = new FavoritoAlbum(idUtilizador, idAlbum);
 
         }catch (JSONException e){
             e.printStackTrace();
@@ -274,11 +269,10 @@ public class DadosJsonParser {
 
         try{
             JSONObject favArtista = new JSONObject(responde);
-            int idFavArtista = favArtista.getInt("idFavArtista");
             int idUtilizador = favArtista.getInt("idUtilizador");
             int idArtista = favArtista.getInt("idArtista");
 
-            auxFavArtista = new FavoritoArtista(idFavArtista, idUtilizador, idArtista);
+            auxFavArtista = new FavoritoArtista(idUtilizador, idArtista);
 
         }catch (JSONException e){
             e.printStackTrace();
@@ -292,11 +286,10 @@ public class DadosJsonParser {
 
         try{
             JSONObject favGenero = new JSONObject(responde);
-            int idFavGenero = favGenero.getInt("idFavGenero");
             int idUtilizador = favGenero.getInt("idUtilizador");
             int idGenero = favGenero.getInt("idGenero");
 
-            auxFavGenero = new FavoritoGenero(idFavGenero, idUtilizador, idGenero);
+            auxFavGenero = new FavoritoGenero(idUtilizador, idGenero);
 
         }catch (JSONException e){
             e.printStackTrace();
@@ -310,11 +303,10 @@ public class DadosJsonParser {
 
         try{
             JSONObject favAGenero = new JSONObject(responde);
-            int idFavMusica = favAGenero.getInt("idFavMusica");
             int idUtilizador = favAGenero.getInt("idUtilizador");
             int idMusica = favAGenero.getInt("idMusica");
 
-            auxFavMusica = new FavoritoMusica(idFavMusica, idUtilizador, idMusica);
+            auxFavMusica = new FavoritoMusica(idUtilizador, idMusica);
 
         }catch (JSONException e){
             e.printStackTrace();

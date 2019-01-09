@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -13,7 +15,10 @@ import android.widget.Toast;
 import adaptadores.AlbumAdapter;
 import adaptadores.ViewPagerAdapter;
 import models.Album;
+import models.FavoritoAlbum;
 import models.SingletonGestorConteudo;
+import models.SingletonGestorDados;
+import models.Utilizador;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CommentFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.MusicaFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
@@ -29,6 +34,11 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
     private TextView albumAno;
     private TextView albumPreco;
     private ImageView albumImagem;
+
+    private FavoritoAlbum favAlbum;
+    private long idUser;
+
+    private SharedPreferences sharedPreferences;
 
     Album album;
     long idAlbum;
@@ -66,19 +76,30 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
-
+        
+        
+        
+        sharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
+        
+        idUser = sharedPreferences.getInt("idUser", 0);
+        
         tabLayout.getTabAt(0).setIcon(R.drawable.music_note_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.comment_24dp);
 
         //Remove shade from action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setElevation(0);
+        
     }
 
 
     public void albumAddFavoritos(View view) {
-        Toast.makeText(this, "Adicionado aos Favoritos", Toast.LENGTH_SHORT).show();
+        if(idUser > 0){
+            favAlbum = new FavoritoAlbum(idUser, idAlbum);
+            SingletonGestorDados.getInstance(this).addFavoritoAlbumBD(favAlbum);
+        }else {
+            Toast.makeText(this, "Não está logado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void albumAddCarrinho(View view) {
@@ -89,4 +110,6 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
     public void onClickCriarComment(View view) {
         Toast.makeText(this, "Criar Comment", Toast.LENGTH_SHORT).show();
     }
+
+
 }
