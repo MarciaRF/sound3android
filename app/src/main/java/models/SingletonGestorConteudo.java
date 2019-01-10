@@ -22,6 +22,7 @@ import java.util.Map;
 
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginListener;
 
 public class SingletonGestorConteudo  {
 
@@ -30,6 +31,8 @@ public class SingletonGestorConteudo  {
     private ArrayList<Artista> artistas;
     private ArrayList<Genero> generos;
     private ArrayList<Musica> musicas;
+
+    private LoginListener loginListener;
 
     private ArrayList<Musica> musicasAlbum;
     private ArrayList<Album> albunsArtista;
@@ -349,17 +352,17 @@ public class SingletonGestorConteudo  {
     }
 
     public boolean verificarLogin(final Context context, boolean isConnected,final String username, final String password){
-        final int[] res = new int[1];
+        final int[] idUtilizador = new int[1];
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url ="http://192.168.43.86/sound3application/frontend/web/api/user/verificarlogin";
+        String url ="http://10.200.28.243/sound3application/frontend/web/api/user/verificarlogin";
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
+                        idUtilizador[0] =Integer.parseInt(response);
                         // response
-                        Log.d("Response", response);
-                        res[0] = Integer.parseInt(response) ;
+                        System.out.println("-------->resposta de login: "+response);
                     }
                 },
                 new Response.ErrorListener()
@@ -367,6 +370,7 @@ public class SingletonGestorConteudo  {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
+                        System.out.println("-------->erro de resposta de login: "+ error.toString());
                         Log.d("ERROR","error => "+error.toString());
                     }
                 }
@@ -382,14 +386,18 @@ public class SingletonGestorConteudo  {
         };
 
         queue.add(getRequest);
-        if(res[0] == -1){
-            System.out.println("-------->Login inválido");
+
+        if(idUtilizador[0]==-1){
+            System.out.println("-------->Login é inválido");
             return false;
         }
-
         System.out.println("-------->Login é válido");
         return true;
 
+    }
+
+    public void setLoginListener(LoginListener loginListener){
+        this.loginListener = loginListener;
     }
 
 }

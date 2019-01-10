@@ -96,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
         }
 
-
-        .
-
         // Adiciona Fake Data na DB para TESTES
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
         SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
