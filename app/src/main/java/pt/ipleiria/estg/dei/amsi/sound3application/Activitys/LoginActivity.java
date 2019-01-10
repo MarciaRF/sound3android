@@ -192,6 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            System.out.println("-------->Executar Login?");
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -327,7 +328,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (InterruptedException e) {
                 return false;
             }
-
+            System.out.println("-------->Sim");
+            SingletonGestorConteudo.getInstance(getApplicationContext()).setLoginListener(this);
             if(!SingletonGestorConteudo.getInstance(getApplicationContext()).verificarLogin(getApplicationContext(),ConteudoJsonParser.isConnectionInternet(getApplicationContext()),mEmail,mPassword)){
                 return false;
             }
