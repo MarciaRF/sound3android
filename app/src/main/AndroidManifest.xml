@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activitys.MainActivity" >
+        <activity android:name=".Activitys.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,17 +37,23 @@
 
         </activity>
         <activity
+            android:name=".Activitys.LoginActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
             android:name=".Activitys.LoginActivity$RegistoActivity"
             android:parentActivityName=".Activitys.LoginActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Activitys.DetalhesAlbumActivity" />
-        <activity android:name=".Activitys.PesquisaActivity" />
+        <activity android:name=".Activitys.PesquisaActivity"
+            android:parentActivityName=".Activitys.MainActivity"
+            />
         <activity android:name=".Activitys.DetalhesArtistaActivity" />
         <activity android:name=".Activitys.DetalhesGeneroActivity" />
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-        <activity android:name=".RegistoCompras"></activity>
+        <activity android:name=".Activitys.RegistoCompras"></activity>
     </application>
 
 </manifest>

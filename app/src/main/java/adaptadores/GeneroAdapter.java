@@ -50,11 +50,6 @@ public class GeneroAdapter extends RecyclerView.Adapter<GeneroAdapter.MyViewHold
         //holder.mCapa.setImageResource(mData.get(position).getImagem());
         holder.mNome.setText(mData.get(position).getNome());
 
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.mipmap.ic_launcher_round)
-                .error(R.mipmap.ic_launcher_round);
-
         //Vai Buscar o IP do Singleton e Concatena com o caminho
         urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
 

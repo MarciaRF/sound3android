@@ -46,7 +46,7 @@
             android:id="@+id/textV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="diogo98"
+            android:text="username"
             android:layout_marginLeft="5dp"
             android:textColor="@color/silver"
             android:textSize="16sp" />
@@ -75,7 +75,7 @@
             android:id="@+id/texeftV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="diogocruz@gmail.com"
+            android:text="email"
             android:textColor="@color/silver"
             android:layout_marginLeft="5dp"
             android:textSize="16sp" />

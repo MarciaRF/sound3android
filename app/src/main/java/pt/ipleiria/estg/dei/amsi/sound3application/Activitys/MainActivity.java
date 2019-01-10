@@ -30,6 +30,7 @@ import models.Artista;
 import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
+import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CarrinhoFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.FavoritosFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.HomeFragment;
@@ -96,11 +97,14 @@ public class MainActivity extends AppCompatActivity {
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
         }
 
-        // Adiciona Fake Data na DB para TESTES
+        /*
+
+
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
         SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
         SingletonGestorConteudo.getInstance(this).adicionarMusicaBD(criarMusica());
-        //SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
+        SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
+        */
 
 
         String clientId = MqttClient.generateClientId();
@@ -244,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Gerar Fake Data para a DB
-    public ArrayList<Album> criarAlbum(){
+    /*public ArrayList<Album> criarAlbum(){
         lstAlbum = new ArrayList<>();
 
         lstAlbum.add(new Album( 1,"Filhos do Rossi", 2017, R.drawable.filhos_do_rossi,1,1));
@@ -293,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
 
         return lstGenero;
     }*/
+
 
 
 }

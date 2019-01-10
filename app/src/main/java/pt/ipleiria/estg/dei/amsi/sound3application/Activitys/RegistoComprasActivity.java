@@ -1,9 +1,11 @@
-package pt.ipleiria.estg.dei.amsi.sound3application;
+package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class RegistoCompras extends AppCompatActivity {
+import pt.ipleiria.estg.dei.amsi.sound3application.R;
+
+public class RegistoComprasActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -43,6 +43,8 @@ public class PesquisaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pesquisa);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         pesquisa = getIntent().getStringExtra(PESQUISA);
 
         this.setTitle("Resultado Pesquisa " + "(" + pesquisa + ")" );

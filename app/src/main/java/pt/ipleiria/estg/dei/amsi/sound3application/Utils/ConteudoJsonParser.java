@@ -22,20 +22,24 @@ public class ConteudoJsonParser {
 
     public static ArrayList<Album> parseJsonAlbum (JSONArray response, Context context){
         ArrayList<Album> tempListaAlbum = new ArrayList<>();
-/*
+
         try{
             for(int i=0; i< response.length(); i++){
 
                 JSONObject album = (JSONObject) response.get(i);
 
+                System.out.println("---->TOPALBUNS : " + album);
+
                 int idAlbum = album.getInt("id");
                 String nome = album.getString("nome");
                 int ano = album.getInt("ano");
-                String capa = album.getString("capa");
-                int idAutor = album.getInt("idAutor");
-                int idGenero = album.getInt("idGenero");
+                int preco = album.getInt("preco");
+                String capa = album.getString("caminhoImagem");
+                int idArtista = album.getInt("id_artista");
+                int idGenero = album.getInt("id_genero");
 
-                Album auxAlbum = new Album(idAlbum, nome, ano, capa, idAutor, idGenero);
+                Album auxAlbum = new Album(idAlbum, nome, ano, preco, capa, idArtista, idGenero);
+
                 tempListaAlbum.add(auxAlbum);
             }
 
@@ -43,7 +47,7 @@ public class ConteudoJsonParser {
             e.printStackTrace();
             Toast.makeText(context, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-*/
+
         return tempListaAlbum;
     }
 
@@ -86,8 +90,6 @@ public class ConteudoJsonParser {
                 String nome = genero.getString("nome");
                 String descricao = genero.getString("descricao");
                 String imagem = genero.getString("caminhoImagem");
-
-                //System.out.println("----->json: "+genero);
 
                 Genero auxGenero = new Genero(idGenero, nome, descricao, imagem);
                 tempListaGenero.add(auxGenero);

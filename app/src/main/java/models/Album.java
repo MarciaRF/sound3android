@@ -6,16 +6,18 @@ import java.io.Serializable;
 public class Album implements Serializable{
     private long IdAlbum;
     private String Nome;
-    private Integer Ano;
-    private Integer Imagem;
-    private Integer Id_Autor;
-    private Integer Id_Genero;
+    private int Ano;
+    private int Preco;
+    private String Imagem;
+    private int Id_Autor;
+    private int Id_Genero;
 
 
-    public Album(long idalbum, String nome, Integer ano, Integer imagem, Integer id_autor, Integer id_genero) {
+    public Album(long idalbum, String nome, int ano, int preco, String imagem, int id_autor, int id_genero) {
         IdAlbum = idalbum;
         Nome = nome;
         Ano = ano;
+        Preco = preco;
         Imagem = imagem;
         Id_Autor = id_autor;
         Id_Genero = id_genero;
@@ -29,19 +31,35 @@ public class Album implements Serializable{
 
     public void setNome(String nome) { Nome = nome; }
 
-    public Integer getAno() { return Ano; }
+    public int getAno() {
+        return Ano;
+    }
 
-    public void setAno(Integer ano) { Ano = ano; }
+    public void setAno(int ano) {
+        Ano = ano;
+    }
 
-    public Integer getImagem() { return Imagem; }
+    public String getImagem() { return Imagem; }
 
-    public void setImagem(Integer imagem) { Imagem = imagem; }
+    public int getPreco() { return Preco; }
 
-    public Integer getId_Autor() { return Id_Autor; }
+    public void setPreco(int preco) { Preco = preco; }
 
-    public void setId_Autor(Integer id_Autor) { Id_Autor = id_Autor; }
+    public void setImagem(String imagem) { Imagem = imagem; }
 
-    public Integer getId_Genero() { return Id_Genero; }
+    public int getId_Autor() {
+        return Id_Autor;
+    }
 
-    public void setId_Genero(Integer id_Genero) { Id_Genero = id_Genero;}
+    public void setId_Autor(int id_Autor) {
+        Id_Autor = id_Autor;
+    }
+
+    public int getId_Genero() {
+        return Id_Genero;
+    }
+
+    public void setId_Genero(int id_Genero) {
+        Id_Genero = id_Genero;
+    }
 }
