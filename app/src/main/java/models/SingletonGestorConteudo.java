@@ -24,7 +24,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginListener;
 
-public class SingletonGestorConteudo  {
+public class SingletonGestorConteudo implements LoginListener{
 
     private static SingletonGestorConteudo INSTANCE = null;
     private ArrayList<Album> albuns;
@@ -353,15 +353,24 @@ public class SingletonGestorConteudo  {
 
     public boolean verificarLogin(final Context context, boolean isConnected,final String username, final String password){
         final int[] idUtilizador = new int[1];
+        final boolean[] check = new boolean[1];
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url ="http://10.200.28.243/sound3application/frontend/web/api/user/verificarlogin";
+        String url ="http://10.200.25.224/sound3application/frontend/web/api/user/verificarlogin";
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
-                        idUtilizador[0] =Integer.parseInt(response);
-                        // response
+
+                        if(loginListener!=null){
+                            idUtilizador[0] =Integer.parseInt(response);
+                            System.out.println("*****idUser"+idUtilizador[0]);
+                            if(idUtilizador[0]!=-1){
+                                check[0]=true;
+                                System.out.println("*****trueSingleton"+check);
+                            }
+                        }
+
                         System.out.println("-------->resposta de login: "+response);
                     }
                 },
@@ -372,6 +381,7 @@ public class SingletonGestorConteudo  {
                         // TODO Auto-generated method stub
                         System.out.println("-------->erro de resposta de login: "+ error.toString());
                         Log.d("ERROR","error => "+error.toString());
+                        check[0] = false;
                     }
                 }
         ) {
@@ -387,17 +397,16 @@ public class SingletonGestorConteudo  {
 
         queue.add(getRequest);
 
-        if(idUtilizador[0]==-1){
-            System.out.println("-------->Login é inválido");
-            return false;
-        }
-        System.out.println("-------->Login é válido");
-        return true;
+        return check[0];
 
     }
 
     public void setLoginListener(LoginListener loginListener){
         this.loginListener = loginListener;
+    }
+    @Override
+    public boolean onConnectLogin(boolean check){
+        return false;
     }
 
 }
