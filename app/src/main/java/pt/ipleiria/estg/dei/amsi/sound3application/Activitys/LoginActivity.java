@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -37,6 +38,7 @@ import java.util.List;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginListener;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -294,6 +296,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -308,7 +311,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> implements LoginListener {
 
         private final String mEmail;
         private final String mPassword;
@@ -320,6 +323,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            boolean check;
             // TODO: attempt authentication against a network service.
 
             try {
@@ -330,10 +334,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
             System.out.println("-------->Sim");
             SingletonGestorConteudo.getInstance(getApplicationContext()).setLoginListener(this);
-            if(!SingletonGestorConteudo.getInstance(getApplicationContext()).verificarLogin(getApplicationContext(),ConteudoJsonParser.isConnectionInternet(getApplicationContext()),mEmail,mPassword)){
+            check=SingletonGestorConteudo.getInstance(getApplicationContext())
+                    .verificarLogin(getApplicationContext(),ConteudoJsonParser.isConnectionInternet(getApplicationContext()),mEmail,mPassword);
+            System.out.println("*****"+check);
+            if(!check){
+                System.out.println("*****invalidoAtividadeLogin");
                 return false;
             }
-
             /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
@@ -341,7 +348,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return pieces[1].equals(mPassword);
                 }
             }*/
-
+            System.out.println("-->boolean:"+check);
             // TODO: register the new account here.
             return true;
         }
@@ -365,6 +372,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        @Override
+        public boolean onConnectLogin(boolean check) {
+
+                System.out.println("-------->Check Login"+check);
+                return check;
+
+
         }
     }
 
