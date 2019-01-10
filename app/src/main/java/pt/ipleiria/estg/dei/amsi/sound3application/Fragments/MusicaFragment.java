@@ -27,10 +27,6 @@ public class MusicaFragment extends Fragment {
     private RecyclerView myrecyclerview;
     private List<Musica> lstMusica;
 
-    public MusicaFragment() {
-
-    }
-
 
     @Nullable
     @Override

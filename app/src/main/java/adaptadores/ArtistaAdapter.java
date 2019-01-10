@@ -60,6 +60,9 @@ public class ArtistaAdapter extends RecyclerView.Adapter<ArtistaAdapter.MyViewHo
                 mContext.startActivity(intent);
             }
         });
+
+
+
     }
 
 

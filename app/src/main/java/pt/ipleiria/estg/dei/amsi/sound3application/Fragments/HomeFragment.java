@@ -22,20 +22,16 @@ import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ConteudoListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
 
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment implements ConteudoListener {
 
     View view;
 
-    private ArrayList<Album> lstAlbuns;
-    private ArrayList<Musica> lstMusicas;
-    private ArrayList<Artista> lstArtistas;
-    private ArrayList<Genero> lstGeneros;
-
-    private RecyclerView recyclerViewAlbuns;
+    private RecyclerView recyclerViewTopAlbuns;
     private RecyclerView recyclerViewArtistas;
     private RecyclerView recyclerViewGeneros;
     private RecyclerView recyclerViewAlbunsRecentes;
@@ -44,12 +40,21 @@ public class HomeFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lstAlbuns = SingletonGestorConteudo.getInstance(getContext()).getAlbunsBD();
-        lstArtistas = SingletonGestorConteudo.getInstance(getContext()).getArtistasBD();
-        lstMusicas = SingletonGestorConteudo.getInstance(getContext()).getMusicasBD();
+        SingletonGestorConteudo.getInstance(getContext()).setConteudoListener(this);
 
 
-        lstGeneros = SingletonGestorConteudo.getInstance(getContext()).getGenerosBD();
+
+        SingletonGestorConteudo.getInstance(getContext()).getAllGenerosAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
+
+        SingletonGestorConteudo.getInstance(getContext()).getTopAlbunsAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
+
+        SingletonGestorConteudo.getInstance(getContext()).getArtistasMaisVendidosAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
+
+        SingletonGestorConteudo.getInstance(getContext()).getAlbunsMaisRecentesAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
 
 
     }
@@ -60,39 +65,84 @@ public class HomeFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-        //RV TOP ALBUNS
-        recyclerViewAlbuns = view.findViewById(R.id.rV_home_topAlbuns);
-        recyclerViewAlbuns.setHasFixedSize(true);//Otimização
-        recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        AlbumAdapter albumAdapter = new AlbumAdapter(getContext(), lstAlbuns);
-        recyclerViewAlbuns.setAdapter(albumAdapter);
-
-        //RV Generos
-        recyclerViewGeneros = view.findViewById(R.id.rV_home_Generos);
-        recyclerViewGeneros.setHasFixedSize(true);
-        recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        GeneroAdapter generoAdapter = new GeneroAdapter(getContext(), lstGeneros);
-        recyclerViewGeneros.setAdapter(generoAdapter);
-
-        //RV ARTISTAS DO MOMENTO
-        recyclerViewArtistas = view.findViewById(R.id.rV_home_artistas);
-        recyclerViewArtistas.setHasFixedSize(true);
-        recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        ArtistaAdapter artistaAdapter = new ArtistaAdapter(getContext(), lstArtistas);
-        recyclerViewArtistas.setAdapter(artistaAdapter);
-
-        //RV ALBUNS MAIS RECENTES
-        recyclerViewAlbunsRecentes = view.findViewById(R.id.rV_home_albunsRecentes);
-        recyclerViewAlbunsRecentes.setHasFixedSize(true);//Otimização
-        recyclerViewAlbunsRecentes.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), lstAlbuns);
-        recyclerViewAlbunsRecentes.setAdapter(albunsRecentesAdapter);
-
-
         return view;
     }
 
 
 
+    @Override
+    public void onRefreshTopAlbuns(ArrayList<Album> listaTopAlbuns) {
+        if(!listaTopAlbuns.isEmpty()){
+            System.out.println("---->listaGeneros albuns : " + listaTopAlbuns);
+
+            recyclerViewTopAlbuns = view.findViewById(R.id.rV_home_albunsRecentes);
+            recyclerViewTopAlbuns.setHasFixedSize(true);//Otimização
+            recyclerViewTopAlbuns.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaTopAlbuns);
+            recyclerViewTopAlbuns.setAdapter(albunsRecentesAdapter);
+        }
+    }
+
+    @Override
+    public void onRefreshAlbuns(ArrayList<Album> listaAlbuns) {
+    }
+
+    @Override
+    public void onRefreshArtistas(ArrayList<Artista> listaArtistas) {
+    }
+
+
+    @Override
+    public void onRefreshGeneros(ArrayList<Genero> listaGeneros) {
+        if(!listaGeneros.isEmpty()){
+            recyclerViewGeneros = view.findViewById(R.id.rV_home_Generos);
+            recyclerViewGeneros.setHasFixedSize(true);
+            recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            GeneroAdapter generoAdapter = new GeneroAdapter(getContext(), listaGeneros);
+            recyclerViewGeneros.setAdapter(generoAdapter);
+        }
+    }
+
+    @Override
+    public void onRefreshMusicas(ArrayList<Musica> listaMusicas) {
+    }
+
+    @Override
+    public void onRefreshArtistasMaisVendidos(ArrayList<Artista> listArtistasMaisVendidos) {
+        if(listArtistasMaisVendidos != null){
+            recyclerViewArtistas = view.findViewById(R.id.rV_home_artistas);
+            recyclerViewArtistas.setHasFixedSize(true);
+            recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            ArtistaAdapter artistaAdapter = new ArtistaAdapter(getContext(), listArtistasMaisVendidos);
+            recyclerViewArtistas.setAdapter(artistaAdapter);
+        }
+    }
+
+    @Override
+    public void onRefreshAlbunsMaisRecentes(ArrayList<Album> listaAlbunsMaisVendidos) {
+        if(listaAlbunsMaisVendidos != null)
+        recyclerViewAlbunsRecentes = view.findViewById(R.id.rV_home_albunsRecentes);
+        recyclerViewAlbunsRecentes.setHasFixedSize(true);//Otimização
+        recyclerViewAlbunsRecentes.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaAlbunsMaisVendidos);
+        recyclerViewAlbunsRecentes.setAdapter(albunsRecentesAdapter);
+    }
+
+
+    /*@Override
+    public void onResume() {
+        SingletonGestorConteudo.getInstance(getContext()).getTopAlbunsAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
+
+        SingletonGestorConteudo.getInstance(getContext()).getAllGenerosAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
+
+        SingletonGestorConteudo.getInstance(getContext()).getArtistasMaisVendidosAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
+
+        SingletonGestorConteudo.getInstance(getContext()).getAlbunsMaisRecentesAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()));
+
+        super.onResume();
+    }*/
 }

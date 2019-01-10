@@ -36,6 +36,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public static final String ID_ALBUM = "id";
     public static final String NOME_ALBUM = "nome";
     public static final String ANO_ALBUM = "ano";
+    public static final String PRECO_ALBUM = "preco";
     public static final String FOTO_ALBUM = "caminhoImagem";
     public static final String ID_AUTOR_ALBUM = "id_artista";
     public static final String ID_GENERO_DO_ALBUM = "id_genero";
@@ -131,7 +132,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 "(" + ID_ALBUM + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 NOME_ALBUM + " TEXT NOT NULL, " +
                 ANO_ALBUM + " INTEGER, "+
-                FOTO_ALBUM + " INTEGER, "+
+                FOTO_ALBUM + " TEXT, "+
                 ID_AUTOR_ALBUM + " INTEGER, "+
                 ID_GENERO_DO_ALBUM + " INTEGER, "+
                 "FOREIGN KEY ("+ ID_AUTOR_ALBUM + ") REFERENCES "+ TABLE_N_ARTISTA+"("+ ID_ARTISTA+")," +
@@ -350,6 +351,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
 
         values.put(NOME_ALBUM, album.getNome());
         values.put(ANO_ALBUM, album.getAno());
+        values.put(PRECO_ALBUM, album.getPreco());
         values.put(FOTO_ALBUM, album.getImagem());
         values.put(ID_AUTOR_ALBUM, album.getId_Autor());
         values.put(ID_GENERO_DO_ALBUM, album.getId_Genero());
@@ -548,7 +550,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<Album> getAllAlbunsBD(){
         ArrayList<Album> albuns = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_ALBUM, new String[]{" id ", NOME_ALBUM, ANO_ALBUM, FOTO_ALBUM, ID_AUTOR_ALBUM, ID_GENERO_DO_ALBUM},
+        Cursor cursor = this.database.query(TABLE_N_ALBUM, new String[]{" id ", NOME_ALBUM, ANO_ALBUM,PRECO_ALBUM, FOTO_ALBUM, ID_AUTOR_ALBUM, ID_GENERO_DO_ALBUM},
                 null, null,null, null, null);
 
         if(cursor.moveToFirst()){
@@ -557,8 +559,9 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getInt(2),
                         cursor.getInt(3),
-                        cursor.getInt(4),
-                        cursor.getInt(5));
+                        cursor.getString(4),
+                        cursor.getInt(5),
+                        cursor.getInt(6));
                 auxAlbum.setIdAlbum(cursor.getLong(0));
                 albuns.add(auxAlbum);
             }while(cursor.moveToNext());

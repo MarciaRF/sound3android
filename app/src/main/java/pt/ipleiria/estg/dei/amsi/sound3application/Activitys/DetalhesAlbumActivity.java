@@ -12,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import adaptadores.AlbumAdapter;
 import adaptadores.ViewPagerAdapter;
 import models.Album;
 import models.FavoritoAlbum;
+import models.LinhaCompra;
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
 import models.Utilizador;
@@ -40,6 +43,9 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    private long idCompra;
+    private LinhaCompra addCarrinho;
+
     Album album;
     long idAlbum;
 
@@ -63,7 +69,8 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
         //nomeArtista.setText(al);
         albumAno.setText("" + album.getAno());
         //albumPreco.setText(album.ge);
-        albumImagem.setImageResource(album.getImagem());
+        //albumImagem.setImageResource(album.getImagem());
+        Glide.with(this).load(""+album.getImagem()).into(albumImagem);
 
 
         // Codigo das Tabs
@@ -94,16 +101,24 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
 
 
     public void albumAddFavoritos(View view) {
-        if(idUser > 0){
+        //if(){
             favAlbum = new FavoritoAlbum(idUser, idAlbum);
             SingletonGestorDados.getInstance(this).addFavoritoAlbumBD(favAlbum);
-        }else {
-            Toast.makeText(this, "Não está logado", Toast.LENGTH_SHORT).show();
-        }
+            Toast.makeText(this, "Adicionado aos Favoritos", Toast.LENGTH_SHORT).show();
+        //}else {
+            Toast.makeText(this, "Removido dos Favorittos", Toast.LENGTH_SHORT).show();
+        //}
     }
 
     public void albumAddCarrinho(View view) {
-        Toast.makeText(this, "Adicionado ao Carrinho", Toast.LENGTH_SHORT).show();
+        //if(){
+            addCarrinho = new LinhaCompra(idCompra ,idAlbum);
+            SingletonGestorDados.getInstance(this).addLinhaCompraBD(addCarrinho);
+            Toast.makeText(this, "Adicionado ao Carrinho", Toast.LENGTH_SHORT).show();
+        //}else{
+            Toast.makeText(this, "Removido do Carrinho", Toast.LENGTH_SHORT).show();
+        //}
+
     }
 
 
