@@ -354,13 +354,17 @@ public class SingletonGestorConteudo  {
     public boolean verificarLogin(final Context context, boolean isConnected,final String username, final String password){
         final int[] idUtilizador = new int[1];
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url ="http://10.200.28.243/sound3application/frontend/web/api/user/verificarlogin";
+        String url ="http://192.168.1.218/sound3application/frontend/web/api/user/verificarlogin";
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
-                        idUtilizador[0] =Integer.parseInt(response);
+                        if(loginListener!=null){
+                            loginListener.onConnectLogin(response);
+                            idUtilizador[0] =Integer.parseInt(response);
+                        }
+
                         // response
                         System.out.println("-------->resposta de login: "+response);
                     }
@@ -386,12 +390,7 @@ public class SingletonGestorConteudo  {
         };
 
         queue.add(getRequest);
-
-        if(idUtilizador[0]==-1){
-            System.out.println("-------->Login é inválido");
-            return false;
-        }
-        System.out.println("-------->Login é válido");
+        //errado
         return true;
 
     }
