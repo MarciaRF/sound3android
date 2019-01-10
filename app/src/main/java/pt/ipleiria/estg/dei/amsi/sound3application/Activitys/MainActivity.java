@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     //MQTT
     MqttAndroidClient client;
-    private final String SERVERCONECTION = "tcp://192.168.43.86:1883";
+    private final String SERVERCONECTION = "tcp://192.168.1.218:1883";
     private final String TOPICOSUBSCRICAO = "INSERT";
 
 
@@ -97,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
         }
 
-
         /*
-        // Adiciona Fake Data na DB para TESTES
+
+
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
         SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
         SingletonGestorConteudo.getInstance(this).adicionarMusicaBD(criarMusica());
