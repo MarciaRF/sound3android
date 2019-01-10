@@ -24,7 +24,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginListener;
 
-public class SingletonGestorConteudo  {
+public class SingletonGestorConteudo implements LoginListener{
 
     private static SingletonGestorConteudo INSTANCE = null;
     private ArrayList<Album> albuns;
@@ -353,8 +353,10 @@ public class SingletonGestorConteudo  {
 
     public boolean verificarLogin(final Context context, boolean isConnected,final String username, final String password){
         final int[] idUtilizador = new int[1];
+        final boolean[] check = new boolean[1];
         RequestQueue queue = Volley.newRequestQueue(context);
         String url ="http://192.168.1.218/sound3application/frontend/web/api/user/verificarlogin";
+
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()
                 {
@@ -376,6 +378,7 @@ public class SingletonGestorConteudo  {
                         // TODO Auto-generated method stub
                         System.out.println("-------->erro de resposta de login: "+ error.toString());
                         Log.d("ERROR","error => "+error.toString());
+                        check[0] = false;
                     }
                 }
         ) {
@@ -393,10 +396,15 @@ public class SingletonGestorConteudo  {
         //errado
         return true;
 
+
     }
 
     public void setLoginListener(LoginListener loginListener){
         this.loginListener = loginListener;
+    }
+    @Override
+    public boolean onConnectLogin(boolean check){
+        return false;
     }
 
 }

@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Build;
@@ -187,7 +188,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent (getApplicationContext(), RegistoActivity.class);
         startActivity(intent);
     }
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -201,7 +201,6 @@ public class LoginActivity extends AppCompatActivity {
             mEmail = email;
             mPassword = password;
         }
-
         protected Boolean realizarRequest() {
             System.out.println("-------->Sim");
             SingletonGestorConteudo.getInstance(getApplicationContext()).setLoginListener(this);
@@ -217,6 +216,15 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("-------->Login é inválido");
             }
             System.out.println("-------->Login é válido");
+        }
+
+        @Override
+        public boolean onConnectLogin(boolean check) {
+
+                System.out.println("-------->Check Login"+check);
+                return check;
+
+
         }
     }
 

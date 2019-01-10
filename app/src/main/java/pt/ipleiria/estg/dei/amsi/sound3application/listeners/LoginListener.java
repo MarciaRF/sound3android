@@ -6,4 +6,5 @@ import java.util.ArrayList;
 
 public interface LoginListener {
     void onConnectLogin(String response);
+
 }
