@@ -8,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+import models.Comentario;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
-public class CommentFragment extends Fragment {
+public class CommentFragment extends Fragment implements CommentListener {
 
     View view;
 
@@ -27,5 +31,8 @@ public class CommentFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResfreshComment(ArrayList<Comentario> listaComentarios) {
 
+    }
 }

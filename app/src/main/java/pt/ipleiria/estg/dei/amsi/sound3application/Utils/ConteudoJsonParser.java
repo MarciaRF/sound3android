@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import models.Album;
 import models.Artista;
@@ -28,17 +30,15 @@ public class ConteudoJsonParser {
 
                 JSONObject album = (JSONObject) response.get(i);
 
-                System.out.println("---->TOPALBUNS : " + album);
-
                 int idAlbum = album.getInt("id");
                 String nome = album.getString("nome");
                 int ano = album.getInt("ano");
                 int preco = album.getInt("preco");
-                String capa = album.getString("caminhoImagem");
                 int idArtista = album.getInt("id_artista");
                 int idGenero = album.getInt("id_genero");
+                String capa = album.getString("caminhoImagem");
 
-                Album auxAlbum = new Album(idAlbum, nome, ano, preco, capa, idArtista, idGenero);
+                Album auxAlbum = new Album(idAlbum, nome, ano, preco, idArtista, idGenero, capa);
 
                 tempListaAlbum.add(auxAlbum);
             }
@@ -53,7 +53,7 @@ public class ConteudoJsonParser {
 
     public static ArrayList<Artista> parseJsonArtista (JSONArray response, Context context){
         ArrayList<Artista> tempListaArtista = new ArrayList<>();
-/*
+
         try{
             for(int i=0; i< response.length(); i++){
 
@@ -63,7 +63,7 @@ public class ConteudoJsonParser {
                 String nome = artista.getString("nome");
                 String nacionalidade = artista.getString("nacionalidade");
                 int ano = artista.getInt("ano");
-                String imagem = artista.getString("imagem");
+                String imagem = artista.getString("caminhoImagem");
 
 
                 Artista auxArtista = new Artista(idArtista, nome, nacionalidade, ano, imagem);
@@ -74,7 +74,7 @@ public class ConteudoJsonParser {
             e.printStackTrace();
             Toast.makeText(context, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-*/
+
         return tempListaArtista;
     }
 
@@ -131,6 +131,22 @@ public class ConteudoJsonParser {
         return tempListaMusica;
     }
 
+
+    public static Album parseJsonObejectAlbum (ArrayList<String> listaAlbum, Context context){
+        Album auxAlbum = null;
+
+        int idAlbum = Integer.parseInt(listaAlbum.get(0));
+        String nome = listaAlbum.get(1);
+        int ano = Integer.parseInt(listaAlbum.get(2));
+        int preco = Integer.parseInt(listaAlbum.get(3));
+        int idArtista = Integer.parseInt(listaAlbum.get(4));
+        int idGenero = Integer.parseInt(listaAlbum.get(5));
+        String capa = listaAlbum.get(6);
+
+        auxAlbum = new Album(idAlbum, nome, ano, preco, idArtista, idGenero, capa);
+
+        return auxAlbum;
+    }
 
 
     public static  boolean isConnectionInternet(Context context){

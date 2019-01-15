@@ -13,14 +13,14 @@ public class Album implements Serializable{
     private int Id_Genero;
 
 
-    public Album(long idalbum, String nome, int ano, int preco, String imagem, int id_autor, int id_genero) {
+    public Album(long idalbum, String nome, int ano, int preco, int id_autor, int id_genero, String imagem) {
         IdAlbum = idalbum;
         Nome = nome;
         Ano = ano;
         Preco = preco;
-        Imagem = imagem;
         Id_Autor = id_autor;
         Id_Genero = id_genero;
+        Imagem = imagem;
     }
 
     public long getIdAlbum() { return IdAlbum; }
@@ -31,9 +31,7 @@ public class Album implements Serializable{
 
     public void setNome(String nome) { Nome = nome; }
 
-    public int getAno() {
-        return Ano;
-    }
+    public int getAno() { return Ano; }
 
     public void setAno(int ano) {
         Ano = ano;

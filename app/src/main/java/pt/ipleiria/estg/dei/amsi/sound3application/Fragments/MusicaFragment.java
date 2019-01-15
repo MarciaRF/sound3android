@@ -18,24 +18,38 @@ import models.Musica;
 import adaptadores.MusicaAdapter;
 import models.Musica;
 import models.SingletonGestorConteudo;
+import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
-public class MusicaFragment extends Fragment {
+public class MusicaFragment extends Fragment implements MusicasListener {
 
     View view;
 
     private RecyclerView myrecyclerview;
-    private List<Musica> lstMusica;
 
+    private long idAlbum ;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_album_musicas, container, false);
-        myrecyclerview = view.findViewById(R.id.rv_Musicas);
-        MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), lstMusica);
-        myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myrecyclerview.setAdapter(musicaAdapter);
+
+        /*Bundle bundle = this.getArguments();
+
+        idAlbum = bundle.getLong("idAlbum");
+
+        System.out.println("-->ERRO Fragment:" + idAlbum);*/
+
+        System.out.println("FUNCIONA" + idAlbum);
+
+
+        /*SingletonGestorConteudo.getInstance(getContext()).setMusicasListener(this);
+
+        SingletonGestorConteudo.getInstance(getContext()).getMusicasAlbumAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);*/
 
         return view;
     }
@@ -44,13 +58,16 @@ public class MusicaFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lstMusica = SingletonGestorConteudo.getInstance(getContext()).getMusicasBD();
-    }
+        }
+
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-        lstMusica.clear();
+    public void onRefreshMusicas(ArrayList<Musica> listaMusicas) {
+        myrecyclerview = view.findViewById(R.id.rv_Musicas);
+        MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), listaMusicas);
+        myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myrecyclerview.setAdapter(musicaAdapter);
     }
+
+
 }

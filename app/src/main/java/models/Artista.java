@@ -7,10 +7,10 @@ public class Artista implements Serializable{
     private String Nome;
     private String Nacionalidade;
     private Integer Ano;
-    private Integer Imagem;
+    private String Imagem;
 
 
-    public Artista(long idArtista, String nome, String nacionalidade, Integer ano, Integer imagem){
+    public Artista(long idArtista, String nome, String nacionalidade, Integer ano, String imagem){
         IdArtista = idArtista;
         Nome = nome;
         Nacionalidade = nacionalidade;
@@ -35,7 +35,7 @@ public class Artista implements Serializable{
 
     public void setAno(Integer ano) { Ano = ano; }
 
-    public Integer getImagem() { return Imagem; }
+    public String getImagem() { return Imagem; }
 
-    public void setImagem(Integer imagem) { Imagem = imagem; }
+    public void setImagem(String imagem) { Imagem = imagem; }
 }

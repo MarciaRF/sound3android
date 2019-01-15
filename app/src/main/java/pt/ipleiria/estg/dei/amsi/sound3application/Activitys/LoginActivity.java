@@ -3,7 +3,6 @@ package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Build;
@@ -21,9 +20,7 @@ import android.widget.TextView;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
-import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginListener;
-
-import static android.Manifest.permission.READ_CONTACTS;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.LoginListener;
 
 /**
  * A login screen that offers login via email/password.
@@ -218,14 +215,7 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println("-------->Login é válido");
         }
 
-        @Override
-        public boolean onConnectLogin(boolean check) {
 
-                System.out.println("-------->Check Login"+check);
-                return check;
-
-
-        }
     }
 
     public static class RegistoActivity extends AppCompatActivity {

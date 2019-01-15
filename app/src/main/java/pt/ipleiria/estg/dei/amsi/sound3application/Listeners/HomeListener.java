@@ -7,7 +7,7 @@ import models.Artista;
 import models.Genero;
 import models.Musica;
 
-public interface ConteudoListener {
+public interface HomeListener {
     void onRefreshGeneros(ArrayList<Genero> listaGeneros);
     void onRefreshAlbuns(ArrayList<Album> listaAlbuns);
     void onRefreshArtistas(ArrayList<Artista> listaArtistas);

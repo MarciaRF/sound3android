@@ -15,19 +15,16 @@ import java.util.ArrayList;
 import adaptadores.AlbumAdapter;
 import adaptadores.ArtistaAdapter;
 import adaptadores.GeneroAdapter;
-import adaptadores.MusicaAdapter;
 import models.Album;
 import models.Artista;
 import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
-import models.SingletonGestorDados;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ConteudoListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.HomeListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
-
-public class HomeFragment extends Fragment implements ConteudoListener {
+public class HomeFragment extends Fragment implements HomeListener {
 
     View view;
 
@@ -42,12 +39,10 @@ public class HomeFragment extends Fragment implements ConteudoListener {
 
         SingletonGestorConteudo.getInstance(getContext()).setConteudoListener(this);
 
-
-
-        SingletonGestorConteudo.getInstance(getContext()).getAllGenerosAPI(getContext(),
+        SingletonGestorConteudo.getInstance(getContext()).getTopAlbunsAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
 
-        SingletonGestorConteudo.getInstance(getContext()).getTopAlbunsAPI(getContext(),
+        SingletonGestorConteudo.getInstance(getContext()).getAllGenerosAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
 
         SingletonGestorConteudo.getInstance(getContext()).getArtistasMaisVendidosAPI(getContext(),
@@ -55,8 +50,6 @@ public class HomeFragment extends Fragment implements ConteudoListener {
 
         SingletonGestorConteudo.getInstance(getContext()).getAlbunsMaisRecentesAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
-
-
     }
 
 
@@ -68,21 +61,6 @@ public class HomeFragment extends Fragment implements ConteudoListener {
         return view;
     }
 
-
-
-    @Override
-    public void onRefreshTopAlbuns(ArrayList<Album> listaTopAlbuns) {
-        if(!listaTopAlbuns.isEmpty()){
-            System.out.println("---->listaGeneros albuns : " + listaTopAlbuns);
-
-            recyclerViewTopAlbuns = view.findViewById(R.id.rV_home_albunsRecentes);
-            recyclerViewTopAlbuns.setHasFixedSize(true);//Otimização
-            recyclerViewTopAlbuns.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-            AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaTopAlbuns);
-            recyclerViewTopAlbuns.setAdapter(albunsRecentesAdapter);
-        }
-    }
-
     @Override
     public void onRefreshAlbuns(ArrayList<Album> listaAlbuns) {
     }
@@ -91,6 +69,23 @@ public class HomeFragment extends Fragment implements ConteudoListener {
     public void onRefreshArtistas(ArrayList<Artista> listaArtistas) {
     }
 
+    @Override
+    public void onRefreshMusicas(ArrayList<Musica> listaMusicas) {
+    }
+
+
+
+
+    @Override
+    public void onRefreshTopAlbuns(ArrayList<Album> listaTopAlbuns) {
+        if(!listaTopAlbuns.isEmpty()){
+            recyclerViewTopAlbuns = view.findViewById(R.id.rV_home_topAlbuns);
+            recyclerViewTopAlbuns.setHasFixedSize(true);//Otimização
+            recyclerViewTopAlbuns.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaTopAlbuns);
+            recyclerViewTopAlbuns.setAdapter(albunsRecentesAdapter);
+        }
+    }
 
     @Override
     public void onRefreshGeneros(ArrayList<Genero> listaGeneros) {
@@ -101,10 +96,6 @@ public class HomeFragment extends Fragment implements ConteudoListener {
             GeneroAdapter generoAdapter = new GeneroAdapter(getContext(), listaGeneros);
             recyclerViewGeneros.setAdapter(generoAdapter);
         }
-    }
-
-    @Override
-    public void onRefreshMusicas(ArrayList<Musica> listaMusicas) {
     }
 
     @Override

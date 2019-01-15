@@ -58,21 +58,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
         //Vai Buscar o IP do Singleton e Concatena com o caminho
         urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
 
-
-
         Glide.with(mContext)
                 .load(urlImagem)
                 .into(holder.mAlbumCapa);
 
-        /*Glide.with(mContext).
-                load(mData.get(position)
-                .into(holder.mAlbumCapa);*/
-
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(mContext, "posicao: " + position + "id: " + mData.get(position).getIdAlbum(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, DetalhesAlbumActivity.class);
                 intent.putExtra(DETALHES_ALBUM, mData.get(position).getIdAlbum());
                 mContext.startActivity(intent);
@@ -103,7 +95,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
             mAlbumCapa = itemView.findViewById(R.id.iV_album_capa);
             mAlbumNome = itemView.findViewById(R.id.tV_album_nome);
             //mAlbumArtista = itemView.findViewById(R.id.tV_album_artista);
-
         }
 
     }
