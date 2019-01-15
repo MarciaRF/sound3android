@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.DadosJsonParser;
 
-public class SingletonGestorDados {
+public class SingletonGestorDados implements CommentListener {
 
     private ArrayList<Utilizador> utilizadores;
     private ArrayList<LinhaCompra> linhaCompras;
@@ -28,6 +30,11 @@ public class SingletonGestorDados {
     private ArrayList<FavoritoArtista> favArtistas;
     private ArrayList<FavoritoGenero> favGeneros;
     private ArrayList<FavoritoMusica> favMusicas;
+
+
+    private CommentListener commentListener;
+
+    private ArrayList<Comentario> listaComments;
 
     private ModeloBDHelper modeloBDHelper = null;
     private static RequestQueue volleyQueue = null;
@@ -40,6 +47,10 @@ public class SingletonGestorDados {
     private String mUrlApiFavArtistas = "http://127.0.0.1/sound3application/frontend/api/favoritosArtistas";
     private String mUrlApiFavGeneros = "http://127.0.0.1/sound3application/frontend/api/favoritosGeneros";
     private String mUrlApiFavMusicas = "http://127.0.0.1/sound3application/frontend/api/favoritosMusicas";
+
+
+    private String mUrlAPIComentariosAlbum = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/api/comment/";
+
 
 
     public SingletonGestorDados(Context context) {
@@ -576,5 +587,33 @@ public class SingletonGestorDados {
         volleyQueue.add(req);
     }
 
+    //Vai Buscar o Comentarios de Um Album pelo ID
+    public void getComentariosAlbumAPI(final Context context, boolean isConnected, long id){
+        if(!isConnected){
 
+        }else{
+            final JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIComentariosAlbum + id, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    listaComments = DadosJsonParser.parseJsonComentarios(response, context);
+
+                    if(listaComments != null){
+                        commentListener.onResfreshComment(listaComments);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+
+    @Override
+    public void onResfreshComment(ArrayList<Comentario> listaComentarios) {
+
+    }
 }

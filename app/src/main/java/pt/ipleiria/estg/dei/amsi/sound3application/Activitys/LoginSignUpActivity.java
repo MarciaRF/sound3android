@@ -3,7 +3,6 @@ package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Build;
@@ -36,6 +35,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginSignUpListener;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -203,8 +203,6 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
                 e.printStackTrace();
             }
 
-
-
             //storing the user in shared preferences
 
 
@@ -220,6 +218,7 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
             focusView.requestFocus();
             System.out.println("-------->connectLogin FALSE");
         }
+
     }
 
     @Override

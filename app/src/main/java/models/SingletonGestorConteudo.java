@@ -8,17 +8,27 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ConteudoListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesArtistaListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.HomeListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.HomeListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.LoginListener;
 
 
-public class SingletonGestorConteudo  implements ConteudoListener {
+public class SingletonGestorConteudo  implements HomeListener, LoginListener, DetalhesAlbumListener, MusicasListener, DetalhesArtistaListener, ConteudoListener {
 
 
     private static SingletonGestorConteudo INSTANCE = null;
@@ -34,6 +44,7 @@ public class SingletonGestorConteudo  implements ConteudoListener {
 
 
 
+    private Album objetoAlbum;
 
     private ArrayList<Musica> musicasAlbum;
     private ArrayList<Album> albunsArtista;
@@ -42,10 +53,13 @@ public class SingletonGestorConteudo  implements ConteudoListener {
     private ModeloBDHelper modeloBDHelper = null;
     private static RequestQueue volleyQueue = null;
 
-    private ConteudoListener conteudoListener;
+    private HomeListener homeListener;
+    private DetalhesAlbumListener detalhesAlbumListener;
+    private MusicasListener musicasListener;
+    private DetalhesArtistaListener detalhesArtistaListener;
 
+    public static final String IP = "192.168.1.112";
 
-    public static final String IP = "192.168.1.68";
 
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://" + IP + "/sound3application/frontend/api/artista";
@@ -55,6 +69,10 @@ public class SingletonGestorConteudo  implements ConteudoListener {
     private String mUrlAPITopAlbuns = "http://" + IP + "/sound3application/frontend/web/api/album/topalbuns";
     private String mUrlAPIArtistasMaisVendidos = "http://" + IP + "/sound3application/frontend/web/api/artista/artistasrandom";
     private String mUrlAPIAlbunsMaisRecentes = "http://" + IP + "/sound3application/frontend/web/api/album/albunsrecentes";
+
+
+    private String mUrlAPIAlbum = "http://" + IP + "/sound3application/frontend/web/api/album/findalbumbyid?id=";
+    private String mUrlAPIMusicasAlbum =  "http://" + IP + "/sound3application/frontend/web/api/album/findmusicas?id=";
 
     public static synchronized SingletonGestorConteudo getInstance(Context context) {
         if(INSTANCE == null){
@@ -77,9 +95,6 @@ public class SingletonGestorConteudo  implements ConteudoListener {
 
         modeloBDHelper = new ModeloBDHelper(context);
     }
-
-
-
 
     public ArrayList<Album> getAlbunsBD(){
         albuns = modeloBDHelper.getAllAlbunsBD();
@@ -230,7 +245,6 @@ public class SingletonGestorConteudo  implements ConteudoListener {
     }
 
     public void addGeneroBD(Genero genero){
-        System.out.println("----->BD METE 1 A 1 BD 3 : " + genero);
         modeloBDHelper.adicionarGeneroBD(genero);
     }
 
@@ -256,7 +270,7 @@ public class SingletonGestorConteudo  implements ConteudoListener {
 
     public void adicionarGenerosBD(ArrayList<Genero> listaGeneros){
         modeloBDHelper.removeAllGeneros();
-        System.out.println("----->BD RECEBE ARRAY GENEROS METE BD 2 : " + listaGeneros);
+
         for(Genero genero : listaGeneros){
             addGeneroBD(genero);
         }
@@ -275,7 +289,7 @@ public class SingletonGestorConteudo  implements ConteudoListener {
         if(!isConnected){
             albuns = modeloBDHelper.getAllAlbunsBD();
             if(modeloBDHelper != null){
-                conteudoListener.onRefreshAlbuns(albuns);
+                homeListener.onRefreshAlbuns(albuns);
             }
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIAlbuns, null, new Response.Listener<JSONArray>() {
@@ -283,8 +297,8 @@ public class SingletonGestorConteudo  implements ConteudoListener {
                 public void onResponse(JSONArray response) {
                     albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
                     adicionarAlbunsBD(albuns);
-                    if(conteudoListener != null){
-                        conteudoListener.onRefreshAlbuns(albuns);
+                    if(homeListener != null){
+                        homeListener.onRefreshAlbuns(albuns);
                     }
 
                 }
@@ -302,7 +316,7 @@ public class SingletonGestorConteudo  implements ConteudoListener {
         if(!isConnected){
             artistas = modeloBDHelper.getAllArtistasBD();
             if(modeloBDHelper != null){
-                conteudoListener.onRefreshArtistas(artistas);
+                homeListener.onRefreshArtistas(artistas);
             }
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIArtistas, null, new Response.Listener<JSONArray>() {
@@ -310,8 +324,8 @@ public class SingletonGestorConteudo  implements ConteudoListener {
                 public void onResponse(JSONArray response) {
                     artistas = ConteudoJsonParser.parseJsonArtista(response, context);
                     adicionarArtistasBD(artistas);
-                    if(conteudoListener != null){
-                        conteudoListener.onRefreshArtistas(artistas);
+                    if(homeListener != null){
+                        homeListener.onRefreshArtistas(artistas);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -330,7 +344,7 @@ public class SingletonGestorConteudo  implements ConteudoListener {
         if(!isConnected){
             generos = modeloBDHelper.getAllGenerosBD();
             if(modeloBDHelper != null){
-                conteudoListener.onRefreshGeneros(generos);
+                homeListener.onRefreshGeneros(generos);
             }
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIGeneros, null, new Response.Listener<JSONArray>() {
@@ -338,10 +352,9 @@ public class SingletonGestorConteudo  implements ConteudoListener {
                 @Override
                 public void onResponse(JSONArray response) {
                     generos = ConteudoJsonParser.parseJsonGenero(response, context);
-                    System.out.println("---->listaGENEROS : ");
                     adicionarGenerosBD(generos);
-                    if(conteudoListener != null){
-                        conteudoListener.onRefreshGeneros(generos);
+                    if(homeListener != null){
+                        homeListener.onRefreshGeneros(generos);
                     }
 
                 }
@@ -363,7 +376,7 @@ public class SingletonGestorConteudo  implements ConteudoListener {
         if(!isConnected){
             musicas = modeloBDHelper.getAllMusicasBD();
             if(modeloBDHelper != null){
-                conteudoListener.onRefreshMusicas(musicas);
+                homeListener.onRefreshMusicas(musicas);
             }
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIMusicas, null, new Response.Listener<JSONArray>() {
@@ -371,8 +384,8 @@ public class SingletonGestorConteudo  implements ConteudoListener {
                 public void onResponse(JSONArray response) {
                     musicas = ConteudoJsonParser.parseJsonMusica(response, context);
                     adicionarMusicasBD(musicas);
-                    if(conteudoListener != null){
-                        conteudoListener.onRefreshMusicas(musicas);
+                    if(homeListener != null){
+                        homeListener.onRefreshMusicas(musicas);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -385,6 +398,9 @@ public class SingletonGestorConteudo  implements ConteudoListener {
         }
     }
 
+
+
+    // Métodos dos Dados da Home
     public void getTopAlbunsAPI(final Context context, boolean isConnected){
         if(!isConnected){
 
@@ -392,17 +408,16 @@ public class SingletonGestorConteudo  implements ConteudoListener {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPITopAlbuns, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    System.out.println("---->listaTopAlbuns : " + response);
                     topAlbuns = ConteudoJsonParser.parseJsonAlbum(response, context);
 
-                    if(conteudoListener != null){
-                        conteudoListener.onRefreshTopAlbuns(topAlbuns);
+                    if(homeListener != null){
+                        homeListener.onRefreshTopAlbuns(topAlbuns);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error4: " + error);
+                    System.out.println("-->Error: " + error);
                 }
             });
             volleyQueue.add(req);
@@ -418,8 +433,8 @@ public class SingletonGestorConteudo  implements ConteudoListener {
                 public void onResponse(JSONArray response) {
                     artistasMaisVendidos = ConteudoJsonParser.parseJsonArtista(response, context);
 
-                    if(conteudoListener != null){
-                        conteudoListener.onRefreshArtistasMaisVendidos(artistasMaisVendidos);
+                    if(homeListener != null){
+                        homeListener.onRefreshArtistasMaisVendidos(artistasMaisVendidos);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -440,8 +455,9 @@ public class SingletonGestorConteudo  implements ConteudoListener {
                 @Override
                 public void onResponse(JSONArray response) {
                     albunsMaisRecentes = ConteudoJsonParser.parseJsonAlbum(response, context);
-                    if(conteudoListener != null){
-                        conteudoListener.onRefreshAlbunsMaisRecentes(albunsMaisRecentes);
+
+                    if(homeListener != null){
+                        homeListener.onRefreshAlbunsMaisRecentes(albunsMaisRecentes);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -455,6 +471,86 @@ public class SingletonGestorConteudo  implements ConteudoListener {
     }
 
 
+    //Vai Buscar o Album pelo ID
+    public void getAlbumAPI(final Context context, boolean isConnected, final long idAlbum){
+        if(!isConnected){
+
+        }else{
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIAlbum + idAlbum,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JSONObject obj = null;
+                            String artista = null;
+
+                            try {
+                                obj = new JSONObject(response);
+                                JSONObject userJson = obj.getJSONObject("album");
+                                String artistaJson =("artista");
+
+                                ArrayList<String> tempAlbum = new ArrayList<>();
+
+                                tempAlbum.add("" + userJson.getLong("id"));
+                                tempAlbum.add(userJson.getString("nome"));
+                                tempAlbum.add("" + userJson.getInt("ano"));
+                                tempAlbum.add("" + userJson.getInt("preco"));
+                                tempAlbum.add("" + userJson.getLong("id_artista"));
+                                tempAlbum.add("" + userJson.getLong("id_genero"));
+                                tempAlbum.add(userJson.getString("caminhoImagem"));
+                                //tempAlbum.add(artistaJson.getString("artista"));
+
+                                System.out.println("-->TESTE : " + tempAlbum.get(0));
+
+                                objetoAlbum = ConteudoJsonParser.parseJsonObejectAlbum(tempAlbum, context);
+
+                                if (detalhesAlbumListener != null) {
+                                    detalhesAlbumListener.onRefreshAlbum(objetoAlbum);
+                                }
+
+
+                            }catch (Exception ex ){
+
+                            }
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error 1: " + error);
+                }
+            });
+
+            volleyQueue.add(req);
+        }
+
+    }
+
+    public void getMusicasAlbumAPI(final Context context, boolean isConnected, long IdAlbum){
+        if(!isConnected){
+            //musicas = modeloBDHelper.getAllMusicasBD();
+            if(modeloBDHelper != null){
+                //homeListener.onRefreshMusicas(musicas);
+            }
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIMusicasAlbum + IdAlbum, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    musicas = ConteudoJsonParser.parseJsonMusica(response, context);
+                    //adicionarMusicasBD(musicas);
+                    if(homeListener != null){
+                        musicasListener.onRefreshMusicas(musicas);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
 
     @Override
     public void onRefreshGeneros(ArrayList<Genero> listaGeneros) {
@@ -491,11 +587,39 @@ public class SingletonGestorConteudo  implements ConteudoListener {
 
     }
 
-    public void setConteudoListener(ConteudoListener conteudoListener){
-        this.conteudoListener = conteudoListener;
+    @Override
+    public void onRefreshAlbum(Album album) {
 
+    }
+
+    @Override
+    public void onRefreshArtista(Artista artista) {
+
+    }
+
+    @Override
+    public void onConnectLogin(String response) {
 
     }
 
 
+    public void setConteudoListener(HomeListener homeListener){
+        this.homeListener = homeListener;
+    }
+
+    public void setLoginListener(LoginListener loginListener){
+        this.loginListener = loginListener;
+    }
+
+    public void setDetalhesAlbumListener(DetalhesAlbumListener detalhesAlbumListener){
+        this.detalhesAlbumListener = detalhesAlbumListener;
+    }
+
+    public void setMusicasListener(MusicasListener musicasListener){
+        this.musicasListener = musicasListener;
+    }
+
+    public void setDetalhesArtistaListener(DetalhesArtistaListener detalhesArtistaListener){
+        this.detalhesArtistaListener = detalhesArtistaListener;
+    }
 }

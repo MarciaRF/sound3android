@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import adaptadores.AlbumPesquisaAdapter;
@@ -48,7 +50,11 @@ public class DetalhesArtistaActivity extends AppCompatActivity {
         idArtista = getIntent().getLongExtra(ArtistaAdapter.DETALHES_ARTISTA,0);
         artista = SingletonGestorConteudo.getInstance(getApplicationContext()).getArtista(idArtista);
 
-        ivImagemArtista.setImageResource(artista.getImagem());
+
+        Glide.with(this)
+                .load(""+artista.getImagem())
+                .into(ivImagemArtista);
+
         tvNomeArtista.setText(artista.getNome());
         tvNacionalidadeArtista.setText(artista.getNacionalidade());
         tvAnoArtista.setText("" + artista.getAno());

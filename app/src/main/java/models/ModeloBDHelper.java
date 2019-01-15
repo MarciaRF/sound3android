@@ -124,7 +124,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 NOME_ARTISTA + " TEXT NOT NULL, " +
                 NACIONALIDADE_ARTISTA + " TEXT NOT NULL, " +
                 ANO_ARTISTA + " INTEGER, " +
-                FOTO_ARTISTA + " INTEGER NOT NULL" + ");";
+                FOTO_ARTISTA + " TEXT NOT NULL" + ");";
         db.execSQL(createArtistaTable);
 
 
@@ -384,12 +384,11 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
 
     public Genero adicionarGeneroBD(Genero genero){
         ContentValues values = new ContentValues();
-        System.out.println("----->BD RECEBE BD 4 : " + genero.getNome());
+
         values.put(NOME_GENERO, genero.getNome());
         values.put(DESCRICAO_GENERO, genero.getDescricao());
         values.put(FOTO_GENERO, genero.getImagem());
 
-        System.out.println("----->BD INSERE BD 5 : " + this.database.insert(TABLE_N_GENERO, null, values));
         long id = this.database.insert(TABLE_N_GENERO, null, values);
 
 
@@ -559,9 +558,9 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getInt(2),
                         cursor.getInt(3),
-                        cursor.getString(4),
+                        cursor.getInt(4),
                         cursor.getInt(5),
-                        cursor.getInt(6));
+                        cursor.getString(6));
                 auxAlbum.setIdAlbum(cursor.getLong(0));
                 albuns.add(auxAlbum);
             }while(cursor.moveToNext());
@@ -581,7 +580,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3),
-                        cursor.getInt(4));
+                        cursor.getString(4));
                 auxArtista.setIdArtista(cursor.getLong(0));
                 artistas.add(auxArtista);
             }while (cursor.moveToNext());
@@ -595,8 +594,6 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         Cursor cursor = this.database.query(TABLE_N_GENERO, new String[]{" id ", NOME_GENERO, DESCRICAO_GENERO, FOTO_GENERO},
                 null, null,null, null, null);
 
-        System.out.println("----->BD RECEBE CURSOR 6 : " + cursor.getCount());
-
         if(cursor.moveToFirst()){
             do{
                 Genero auxGenero = new Genero(0,
@@ -604,7 +601,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getString(3));
                 auxGenero.setIdGenero(cursor.getLong(0));
-                System.out.println("----->BD RECEBE AUX 7 : " + auxGenero.getNome());
+
                 generos.add(auxGenero);
             }while(cursor.moveToNext());
         }

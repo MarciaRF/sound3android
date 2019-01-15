@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import adaptadores.AlbumAdapter;
 import adaptadores.ViewPagerAdapter;
 import models.Album;
@@ -24,9 +26,11 @@ import models.SingletonGestorDados;
 import models.Utilizador;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CommentFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.MusicaFragment;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
-public class DetalhesAlbumActivity extends AppCompatActivity {
+public class DetalhesAlbumActivity extends AppCompatActivity implements DetalhesAlbumListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -41,20 +45,15 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
     private FavoritoAlbum favAlbum;
     private long idUser;
 
-    private SharedPreferences sharedPreferences;
-
     private long idCompra;
     private LinhaCompra addCarrinho;
 
-    Album album;
-    long idAlbum;
+    long idAlbum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_album);
-
-        idAlbum = getIntent().getLongExtra(AlbumAdapter.DETALHES_ALBUM, 0);
 
         albumNome = findViewById(R.id.eT_detalhes_album_nomeAlbum);
         nomeArtista = findViewById(R.id.eT_detalhes_album_nomeArtista);
@@ -62,15 +61,14 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
         albumPreco = findViewById(R.id.eT_detalhes_album_preco);
         albumImagem = findViewById(R.id.iV_detalhes_album_imagem);
 
-        album = SingletonGestorConteudo.getInstance(getApplicationContext()).getAlbum(idAlbum);
+        //Recebe ID Album do onClick na lista
+        idAlbum = getIntent().getLongExtra(AlbumAdapter.DETALHES_ALBUM, 0);
 
+        SingletonGestorConteudo.getInstance(this).setDetalhesAlbumListener(this);
 
-        albumNome.setText(album.getNome());
-        //nomeArtista.setText(al);
-        albumAno.setText("" + album.getAno());
-        //albumPreco.setText(album.ge);
-        //albumImagem.setImageResource(album.getImagem());
-        Glide.with(this).load(""+album.getImagem()).into(albumImagem);
+        SingletonGestorConteudo.getInstance(this).getAlbumAPI(this,
+                ConteudoJsonParser.isConnectionInternet(this), idAlbum);
+
 
 
         // Codigo das Tabs
@@ -84,19 +82,34 @@ public class DetalhesAlbumActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         
-        
-        
-        sharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
-        
-        idUser = sharedPreferences.getInt("idUser", 0);
-        
         tabLayout.getTabAt(0).setIcon(R.drawable.music_note_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.comment_24dp);
+/*
+        //Passar o IDALBUM para o Fragmento das Musicas
+        Bundle bundle = new Bundle();
+        bundle.putLong("idAlbum", idAlbum);
+        MusicaFragment musicaFragment = new MusicaFragment();
+        musicaFragment.setArguments(bundle);
+
+        System.out.println("FUNCIONA: ");
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.vp_album, musicaFragment).commit();*/
 
         //Remove shade from action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setElevation(0);
-        
+
+    }
+
+    @Override
+    public void onRefreshAlbum(Album album) {
+        System.out.println("-->TESTE " + album);
+        albumNome.setText(album.getNome());
+        albumAno.setText("" + album.getAno());
+        albumPreco.setText("" + album.getPreco() + "€");
+        Glide.with(this)
+                .load("http://" + SingletonGestorConteudo.IP + "/sound3application/common/img/capas/" + album.getImagem())
+                .into(albumImagem);
     }
 
 
