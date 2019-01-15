@@ -9,27 +9,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import models.SingletonGestorConteudo;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
-import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginListener;
-
-import static android.Manifest.permission.READ_CONTACTS;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
+import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginSignUpListener;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
-
+public class LoginSignUpActivity extends AppCompatActivity implements LoginSignUpListener {
+    private LoginSignUpListener loginSignUpListener = null;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -45,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -61,16 +72,6 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         mPasswordView = findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -102,44 +103,33 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
         if (password.trim().isEmpty()|| !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
-            cancel = true;
+            focusView.requestFocus();
+            return;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // form field with an error.
-
             focusView.requestFocus();
             return;
-        } else {
-            // There was an error; don't attempt login and focus the first
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            System.out.println("-------->Executar Login");
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            res= mAuthTask.realizarRequest();
-
-            if(res == true){
-                System.out.println("-------->Login válido, siga main");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-            return;
         }
+
+        // Show a progress spinner, and kick off a background task to
+        // perform the user login attempt.
+        System.out.println("-------->Executar Login");
+        showProgress(true);
+        setLoginSignUpListener(this);
+        verificarLogin(getApplicationContext(),ConteudoJsonParser.isConnectionInternet(getApplicationContext()),email,password);
+
+        return;
+
 
 
     }
@@ -188,44 +178,100 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent (getApplicationContext(), RegistoActivity.class);
         startActivity(intent);
     }
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask implements LoginListener {
-        boolean check;
-        private final String mEmail;
-        private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-        protected Boolean realizarRequest() {
-            System.out.println("-------->Sim");
-            SingletonGestorConteudo.getInstance(getApplicationContext()).setLoginListener(this);
-            check = !SingletonGestorConteudo.getInstance(getApplicationContext())
-                    .verificarLogin(getApplicationContext(),ConteudoJsonParser.isConnectionInternet(getApplicationContext()),mEmail,mPassword);
-            //errado
-            return true;
-        }
+    @Override
+    public void onConnectLogin(String response) {
+        if( response.contains("user")){
+            System.out.println("-------->Login válido, siga main");
+            JSONObject obj = null;
+            try {
+                obj = new JSONObject(response);
+                JSONObject userJson = obj.getJSONObject("user");
+                //adicionar o user logado nas shared preferences
+                ArrayList<String> tempList = new ArrayList<String>();
+                tempList.add(""+userJson.getLong("id"));
+                tempList.add(userJson.getString("username"));
+                tempList.add(userJson.getString("email"));
 
-        @Override
-        public void onConnectLogin(String response) {
-            if(Integer.parseInt(response)==-1){
-                System.out.println("-------->Login é inválido");
+                GestorSharedPref.getInstance(getApplicationContext()).userLogin(tempList);
+
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            System.out.println("-------->Login é válido");
+
+
+
+            //storing the user in shared preferences
+
+
+        } else{
+            if(response.equals("erro")){
+                Toast.makeText(this, "Verifique a sua ligação!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            View focusView = null;
+            showProgress(false);
+            mPasswordView.setError(getString(R.string.pass_incorreta));
+            focusView = mPasswordView;
+            focusView.requestFocus();
+            System.out.println("-------->connectLogin FALSE");
         }
+    }
 
-        @Override
-        public boolean onConnectLogin(boolean check) {
+    @Override
+    public void onConnectSignUp(String response) {
 
-                System.out.println("-------->Check Login"+check);
-                return check;
+    }
+
+    public void setLoginSignUpListener(LoginSignUpListener loginSignUpListener){
+        this.loginSignUpListener = loginSignUpListener;
+    }
+
+    public void verificarLogin(final Context context, boolean isConnected,final String username, final String password){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url ="http://10.200.20.179/sound3application/frontend/web/api/user/verificarlogin";
+
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        if(loginSignUpListener !=null) {
+                            loginSignUpListener.onConnectLogin(response);
+                            System.out.println("-------->LISTENER != NULL");
+                        }
 
 
-        }
+                        // response
+                        System.out.println("-------->resposta de login: "+response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        System.out.println("-------->erro de resposta de login: "+ error.toString());
+                        Log.d("ERROR","error => "+error.toString());
+                        loginSignUpListener.onConnectLogin("erro");
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("username", username);
+                params.put("password", password);
+
+                return params;
+            }
+        };
+
+        queue.add(getRequest);
     }
 
     public static class RegistoActivity extends AppCompatActivity {
@@ -237,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         public void ligacaoLogin(View view) {
-            Intent intent = new Intent (getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent (getApplicationContext(), LoginSignUpActivity.class);
             startActivity(intent);
         }
     }

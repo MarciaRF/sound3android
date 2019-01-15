@@ -2,7 +2,7 @@
     <string name="app_name">sound3android</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_username">Nome de Utilizador</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -35,4 +35,5 @@
     <string name="resultados_artistas">Resultados Artistas</string>
     <string name="Pesquisa">Pesquisa</string>
     <string name="ver_todos">Ver Todos</string>
+    <string name="pass_incorreta">Insira a password correta</string>
 </resources>

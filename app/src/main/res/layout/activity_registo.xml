@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="pt.ipleiria.estg.dei.amsi.sound3application.Activitys.LoginActivity$RegistoActivity"
+    tools:context="pt.ipleiria.estg.dei.amsi.sound3application.Activitys.LoginSignUpActivity$RegistoActivity"
     android:background="@color/colorBlack">
 
     <Space
@@ -114,7 +114,7 @@
         android:hint="@string/button_sign_upRegisto"
         android:textSize="20sp"
         android:textColor="@color/colorBlack"
-        android:onClick="ligacaoLogin"/>
+        android:onClick="verificarRegisto"/>
 
     <Space
         android:layout_width="match_parent"
