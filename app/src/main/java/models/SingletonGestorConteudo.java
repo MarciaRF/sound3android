@@ -1,30 +1,24 @@
 package models;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ConteudoListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
-import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginListener;
 
 
-public class SingletonGestorConteudo  implements ConteudoListener, LoginListener {
+public class SingletonGestorConteudo  implements ConteudoListener {
 
 
     private static SingletonGestorConteudo INSTANCE = null;
@@ -38,7 +32,7 @@ public class SingletonGestorConteudo  implements ConteudoListener, LoginListener
     private ArrayList<Artista> artistasMaisVendidos;
     private ArrayList<Album> albunsMaisRecentes;
 
-    private LoginListener loginListener;
+
 
 
     private ArrayList<Musica> musicasAlbum;
@@ -51,7 +45,7 @@ public class SingletonGestorConteudo  implements ConteudoListener, LoginListener
     private ConteudoListener conteudoListener;
 
 
-    public static final String IP = "192.168.1.11";
+    public static final String IP = "192.168.1.68";
 
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://" + IP + "/sound3application/frontend/api/artista";
@@ -462,55 +456,6 @@ public class SingletonGestorConteudo  implements ConteudoListener, LoginListener
 
 
 
-
-    public boolean verificarLogin(final Context context, boolean isConnected,final String username, final String password){
-        final int[] idUtilizador = new int[1];
-        final boolean[] check = new boolean[1];
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url ="http://192.168.1.218/sound3application/frontend/web/api/user/verificarlogin";
-
-        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        if(loginListener!=null){
-                            loginListener.onConnectLogin(response);
-                            idUtilizador[0] =Integer.parseInt(response);
-                        }
-
-                        // response
-                        System.out.println("-------->resposta de login: "+response);
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-                        System.out.println("-------->erro de resposta de login: "+ error.toString());
-                        Log.d("ERROR","error => "+error.toString());
-                        check[0] = false;
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("username", username);
-                params.put("password", password);
-
-                return params;
-            }
-        };
-
-        queue.add(getRequest);
-        //errado
-        return true;
-    }
-
-
-
     @Override
     public void onRefreshGeneros(ArrayList<Genero> listaGeneros) {
 
@@ -546,24 +491,11 @@ public class SingletonGestorConteudo  implements ConteudoListener, LoginListener
 
     }
 
-
-
-
-
-
     public void setConteudoListener(ConteudoListener conteudoListener){
         this.conteudoListener = conteudoListener;
 
 
     }
 
-    public void setLoginListener(LoginListener loginListener){
-        this.loginListener = loginListener;
-    }
-    @Override
-    public boolean onConnectLogin(boolean check){
-        return false;
-
-    }
 
 }
