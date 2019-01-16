@@ -51,7 +51,7 @@ public class SingletonGestorConteudo  implements ConteudoListener, LoginListener
     private ConteudoListener conteudoListener;
 
 
-    public static final String IP = "192.168.1.11";
+    public static final String IP = "192.168.43.14";
 
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://" + IP + "/sound3application/frontend/api/artista";
@@ -560,10 +560,9 @@ public class SingletonGestorConteudo  implements ConteudoListener, LoginListener
     public void setLoginListener(LoginListener loginListener){
         this.loginListener = loginListener;
     }
+
     @Override
-    public boolean onConnectLogin(boolean check){
-        return false;
+    public void onConnectLogin(String response) {
 
     }
-
 }

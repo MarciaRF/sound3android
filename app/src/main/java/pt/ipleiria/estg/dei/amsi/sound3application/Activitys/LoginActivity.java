@@ -217,15 +217,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             System.out.println("-------->Login é válido");
         }
-
-        @Override
-        public boolean onConnectLogin(boolean check) {
-
-                System.out.println("-------->Check Login"+check);
-                return check;
-
-
-        }
     }
 
     public static class RegistoActivity extends AppCompatActivity {
