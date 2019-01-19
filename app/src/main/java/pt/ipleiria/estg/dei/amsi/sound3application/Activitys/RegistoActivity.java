@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
-import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginSignUpListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.LoginSignUpListener;
 
-public class RegistoActivity implements LoginSignUpListener{
+public class RegistoActivity extends AppCompatActivity implements LoginSignUpListener{
     LoginSignUpListener loginSignUpListener;
 
     private EditText mPasswordView;
-    privatEditText mRepeatPasswordView;
+    private EditText mRepeatPasswordView;
     private EditText mUsernameView;
     private EditText mEmailView;
 

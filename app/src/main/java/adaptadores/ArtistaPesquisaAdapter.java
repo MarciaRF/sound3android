@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 
 import models.Artista;
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesArtistaActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
@@ -25,11 +26,12 @@ public class ArtistaPesquisaAdapter extends RecyclerView.Adapter<ArtistaPesquisa
     Context mContext;
     List<Artista> mData;
 
+    String url = "/sound3application/common/img/artistas/";
+    String urlImagem;
 
     public ArtistaPesquisaAdapter(Context mContext, List<Artista> mData){
         this.mContext = mContext;
         this.mData = mData;
-
     }
 
 
@@ -49,7 +51,12 @@ public class ArtistaPesquisaAdapter extends RecyclerView.Adapter<ArtistaPesquisa
         //holder.mImagem.setImageResource(mData.get(position).getImagem());
         holder.mNome.setText(mData.get(position).getNome());
 
-        Glide.with(mContext).load(mData.get(position).getImagem()).into(holder.mImagem);
+        urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
+
+        Glide.with(mContext).
+                load(urlImagem)
+                .into(holder.mImagem);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

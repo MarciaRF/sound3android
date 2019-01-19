@@ -34,6 +34,6 @@
     <string name="resultados_musicas">Resultados Músicas</string>
     <string name="resultados_artistas">Resultados Artistas</string>
     <string name="Pesquisa">Pesquisa</string>
-    <string name="ver_todos">Ver Todos</string>
+    <string name="ver_todos">Ver +</string>
     <string name="pass_incorreta">Insira a password correta</string>
 </resources>

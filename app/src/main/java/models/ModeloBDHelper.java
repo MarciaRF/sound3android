@@ -621,8 +621,8 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getInt(3),
                         cursor.getInt(4),
-                        cursor.getString(5),
-                        cursor.getInt(6));
+                        cursor.getInt(5),
+                        cursor.getString(6));
                 auxMusica.setIdMusica(cursor.getLong(0));
                 musicas.add(auxMusica);
             }while(cursor.moveToNext());

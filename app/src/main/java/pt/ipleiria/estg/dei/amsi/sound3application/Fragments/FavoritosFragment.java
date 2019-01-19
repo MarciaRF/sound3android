@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,13 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 import adaptadores.AlbumPesquisaAdapter;
 import adaptadores.ArtistaPesquisaAdapter;
 import adaptadores.GeneroAdapter;
+import adaptadores.GeneroPesquisaAdapter;
 import adaptadores.MusicaAdapter;
 
 import models.Album;
@@ -30,106 +34,166 @@ import models.Musica;
 
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
+import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.FavoritosRecyclerActivity;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class FavoritosFragment extends Fragment {
+public class FavoritosFragment extends Fragment implements FavoritosListener {
 
     View view;
+
+    private long idUtilizador;
 
     private RecyclerView recyclerViewMusicas;
     private RecyclerView recyclerViewAlbuns;
     private RecyclerView recyclerViewArtistas;
     private RecyclerView recyclerViewGeneros;
 
-    private ArrayList<FavoritoMusica> favMusicas;
-    private ArrayList<FavoritoAlbum> favAlbums;
-    private ArrayList<FavoritoArtista> favArtistas;
-    private ArrayList<FavoritoGenero> favGeneros;
-
-    private ArrayList<Musica> lstMusicas;
-    private ArrayList<Album> lstAlbuns;
-    private ArrayList<Artista> lstArtistas;
-    private ArrayList<Genero> lstGeneros;
+    private Button BtnVerAlbuns;
+    private Button BtnVerMusicas;
+    private Button BtnVerGeneros;
+    private Button BtnVerArtistas;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        favMusicas = SingletonGestorDados.getInstance(getContext()).getFavoritosMusicaBD();
-        favAlbums = SingletonGestorDados.getInstance(getContext()).getFavoritosAlbumBD();
-        favArtistas = SingletonGestorDados.getInstance(getContext()).getFavoritosArtistaBD();
-        favGeneros = SingletonGestorDados.getInstance(getContext()).getFavoritosGeneroBD();
+        //Vai Buscar Id do Utilizador as Shared Preferences
+        ArrayList utilizador = GestorSharedPref.getInstance(getContext()).getUser();
+        idUtilizador = Integer.parseInt(utilizador.get(0).toString());
 
-        if(favMusicas != null){
-            for (FavoritoMusica musicas: favMusicas) {
-                lstMusicas.add(SingletonGestorConteudo.getInstance(getContext()).getMusica(musicas.getIdMusica()));
-            }
-        }
 
-        if(favAlbums != null){
-            for (FavoritoAlbum albuns: favAlbums) {
-                lstAlbuns.add(SingletonGestorConteudo.getInstance(getContext()).getAlbum(albuns.getIdAlbum()));
-            }
-        }
+        SingletonGestorDados.getInstance(getContext()).setFavoritosListener(this);
 
-        if(favArtistas != null){
-            for (FavoritoArtista artistas: favArtistas) {
-                lstArtistas.add(SingletonGestorConteudo.getInstance(getContext()).getArtista(artistas.getIdArtista()));
-            }
-        }
+        SingletonGestorDados.getInstance(getContext()).getFavoritosArtistaAtividadeAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador);
 
-        if(favGeneros != null){
-            for (FavoritoGenero generos: favGeneros) {
-                lstGeneros.add(SingletonGestorConteudo.getInstance(getContext()).getGenero(generos.getIdGenero()));
-            }
-        }
+        SingletonGestorDados.getInstance(getContext()).getFavoritosAlbumAtividadeAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador);
+
+        SingletonGestorDados.getInstance(getContext()).getFavoritosGeneroAtividadeAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador);
+
+        SingletonGestorDados.getInstance(getContext()).getFavoritosMusicaAtividadeAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador);
 
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_favoritos, container, false);
 
+        BtnVerAlbuns =  view.findViewById(R.id.btn_favoritos_albuns);
+        BtnVerMusicas =  view.findViewById(R.id.btn_favoritos_musicas);
+        BtnVerGeneros =  view.findViewById(R.id.btn_favoritos_generos);
+        BtnVerArtistas =  view.findViewById(R.id.btn_favoritos_artistas);
 
-        if(lstMusicas != null){
-            recyclerViewMusicas = view.findViewById(R.id.rV_favoritos_musicas);
-            recyclerViewMusicas.setHasFixedSize(true);
-            recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-            MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), lstMusicas);
-            recyclerViewMusicas.setAdapter(musicaAdapter);
-        }
+        BtnVerAlbuns.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FavoritosRecyclerActivity.class);
+                intent.putExtra(FavoritosRecyclerActivity.MOSTRAS_DADOS, 1);
+                startActivity(intent);
+            }
+        });
 
-        if(lstAlbuns != null){
-            recyclerViewAlbuns = view.findViewById(R.id.rV_favoritos_albuns);
-            recyclerViewAlbuns.setHasFixedSize(true);
-            recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(getContext(), lstAlbuns);
-            recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
-        }
+        BtnVerMusicas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FavoritosRecyclerActivity.class);
+                intent.putExtra(FavoritosRecyclerActivity.MOSTRAS_DADOS, 2);
+                startActivity(intent);
+            }
+        });
 
+        BtnVerGeneros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FavoritosRecyclerActivity.class);
+                intent.putExtra(FavoritosRecyclerActivity.MOSTRAS_DADOS, 3);
+                startActivity(intent);
+            }
+        });
 
-        if(lstGeneros != null){
-            recyclerViewGeneros = view.findViewById(R.id.rV_favoritos_generos);
-            recyclerViewGeneros.setHasFixedSize(true);
-            recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.HORIZONTAL, false));
-            GeneroAdapter generoAdapter = new GeneroAdapter(getContext(), lstGeneros);
-            recyclerViewGeneros.setAdapter(generoAdapter);
-        }
-
-        if(lstArtistas != null){
-            recyclerViewArtistas = view.findViewById(R.id.rV_favoritos_artistas);
-            recyclerViewArtistas.setHasFixedSize(true);
-            recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-            ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(getContext(), lstArtistas);
-            recyclerViewArtistas.setAdapter(artistaPesquisaAdapter);
-        }
-
+        BtnVerArtistas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FavoritosRecyclerActivity.class);
+                intent.putExtra(FavoritosRecyclerActivity.MOSTRAS_DADOS, 4);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
 
+    @Override
+    public void onRefreshAlbunsFavoritos(ArrayList<Album> albuns) {
+        if(albuns != null){
+            recyclerViewAlbuns = view.findViewById(R.id.rV_favoritos_albuns);
+            recyclerViewAlbuns.setHasFixedSize(true);
+            recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(getContext(), albuns);
+            recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
+
+            if(albuns.size() < 5){
+                BtnVerAlbuns.setEnabled(false);
+                BtnVerAlbuns.setVisibility(view.INVISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onRefreshArtistasFavoritos(ArrayList<Artista> artistas) {
+        if(artistas != null){
+            recyclerViewArtistas = view.findViewById(R.id.rV_favoritos_artistas);
+            recyclerViewArtistas.setHasFixedSize(true);
+            recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+            ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(getContext(), artistas);
+            recyclerViewArtistas.setAdapter(artistaPesquisaAdapter);
+
+            if(artistas.size() < 5){
+                BtnVerArtistas.setEnabled(false);
+                BtnVerArtistas.setVisibility(view.INVISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onRefreshGenerosFavoritos(ArrayList<Genero> generos) {
+        if(generos != null){
+            recyclerViewGeneros = view.findViewById(R.id.rV_favoritos_generos);
+            recyclerViewGeneros.setHasFixedSize(true);
+            recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+            GeneroPesquisaAdapter generoPesquisaAdapter = new GeneroPesquisaAdapter(getContext(), generos);
+            recyclerViewGeneros.setAdapter(generoPesquisaAdapter);
+
+            if(generos.size() < 5){
+                BtnVerGeneros.setEnabled(false);
+                BtnVerGeneros.setVisibility(view.INVISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas) {
+        if (musicas != null){
+            recyclerViewMusicas = view.findViewById(R.id.rV_favoritos_musicas);
+            recyclerViewMusicas.setHasFixedSize(true);
+            recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
+            MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), musicas);
+            recyclerViewMusicas.setAdapter(musicaAdapter);
+
+            if(musicas.size() < 5){
+                BtnVerMusicas.setEnabled(false);
+                BtnVerMusicas.setVisibility(view.INVISIBLE);
+            }
+        }
+    }
 
 
 }

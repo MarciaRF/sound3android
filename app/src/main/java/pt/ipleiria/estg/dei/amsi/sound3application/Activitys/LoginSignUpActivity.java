@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Build;
@@ -34,7 +35,7 @@ import java.util.Map;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
-import pt.ipleiria.estg.dei.amsi.sound3application.listeners.LoginSignUpListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.LoginSignUpListener;
 
 
 /**
@@ -230,9 +231,9 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
         this.loginSignUpListener = loginSignUpListener;
     }
 
-    public void verificarLogin(final Context context, boolean isConnected,final String username, final String password){
+    public void verificarLogin(final Context context, boolean isConnected, final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url ="http://10.200.20.179/sound3application/frontend/web/api/user/verificarlogin";
+        String url ="http://192.168.1.83/sound3application/frontend/web/api/user/verificarlogin";
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()

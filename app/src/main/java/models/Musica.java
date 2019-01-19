@@ -8,18 +8,20 @@ public class Musica implements Serializable{
     private String Duracao;
     private int Preco;
     private int IdAlbum;
-    private String CaminhoMusica;
     private Integer Posicao;
+    private String CaminhoMusica;
 
 
-    public Musica(long idMusica, String nome, String duracao, int preco, int idAlbum, String caminhoMusica, Integer posicao){
+
+    public Musica(long idMusica, String nome, String duracao, int preco, int idAlbum, Integer posicao, String caminhoMusica){
         IdMusica = idMusica;
         Nome = nome;
         Duracao = duracao;
         Preco = preco;
         IdAlbum = idAlbum;
-        CaminhoMusica = caminhoMusica;
         Posicao = posicao;
+        CaminhoMusica = caminhoMusica;
+
     }
 
     public long getIdMusica() { return IdMusica; }

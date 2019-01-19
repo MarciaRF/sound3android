@@ -115,11 +115,11 @@ public class ConteudoJsonParser {
                 String nome = musica.getString("nome");
                 String duracao = musica.getString("duracao");
                 int preco = musica.getInt("preco");
-                int idAlbum = musica.getInt("idAlbum");
-                String caminhoMusica = musica.getString("caminhoMusica");
+                int idAlbum = musica.getInt("id_album");
                 int posicao = musica.getInt("posicao");
+                String caminhoMusica = musica.getString("caminhoMP3");
 
-                Musica auxMusica = new Musica(idMusica, nome, duracao, preco, idAlbum, caminhoMusica, posicao);
+                Musica auxMusica = new Musica(idMusica, nome, duracao, preco, idAlbum, posicao, caminhoMusica);
                 tempListaMusica.add(auxMusica);
             }
 

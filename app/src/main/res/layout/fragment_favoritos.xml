@@ -26,6 +26,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <Button
+            android:id="@+id/btn_favoritos_musicas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ver_todos"
@@ -37,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Álbuns"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="@color/light_font"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
@@ -50,6 +51,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <Button
+            android:id="@+id/btn_favoritos_albuns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ver_todos"
@@ -61,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Artistas"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="@color/light_font"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
@@ -74,6 +76,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <Button
+            android:id="@+id/btn_favoritos_artistas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ver_todos"
@@ -85,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generos"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="@color/light_font"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
@@ -98,6 +101,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <Button
+            android:id="@+id/btn_favoritos_generos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ver_todos"
