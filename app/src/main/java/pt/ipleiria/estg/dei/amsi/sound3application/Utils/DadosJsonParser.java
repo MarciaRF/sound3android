@@ -104,8 +104,8 @@ public class DadosJsonParser {
 
                 JSONObject favAlbum = (JSONObject) response.get(i);
 
-                int idUtilizador = favAlbum.getInt("idUtilizador");
-                int idAlbum = favAlbum.getInt("idAlbum");
+                int idUtilizador = favAlbum.getInt("id_utilizador");
+                int idAlbum = favAlbum.getInt("id_album");
 
                 FavoritoAlbum auxFavAlbum = new FavoritoAlbum(idUtilizador, idAlbum);
                 tempListaFavAlbum.add(auxFavAlbum);
@@ -127,8 +127,8 @@ public class DadosJsonParser {
 
                 JSONObject favArtista = (JSONObject) response.get(i);
 
-                int idUtilizador = favArtista.getInt("idUtilizador");
-                int idArtista = favArtista.getInt("idArtista");
+                int idUtilizador = favArtista.getInt("id_utilizador");
+                int idArtista = favArtista.getInt("id_artista");
 
                 FavoritoArtista auxFavArtista = new FavoritoArtista(idUtilizador, idArtista);
                 tempListaFavArtista.add(auxFavArtista);
@@ -150,8 +150,8 @@ public class DadosJsonParser {
 
                 JSONObject favGenero = (JSONObject) response.get(i);
 
-                int idUtilizador = favGenero.getInt("idUtilizador");
-                int idGenero = favGenero.getInt("idGenero");
+                int idUtilizador = favGenero.getInt("id_utilizador");
+                int idGenero = favGenero.getInt("id_genero");
 
                 FavoritoGenero auxFavGenero = new FavoritoGenero(idUtilizador, idGenero);
                 tempListaFavGenero.add(auxFavGenero);
@@ -173,8 +173,8 @@ public class DadosJsonParser {
 
                 JSONObject favMusica = (JSONObject) response.get(i);
 
-                int idUtilizador = favMusica.getInt("idUtilizador");
-                int idMusica = favMusica.getInt("idMusica");
+                int idUtilizador = favMusica.getInt("id_utilizador");
+                int idMusica = favMusica.getInt("id_musica");
 
                 FavoritoMusica auxFavMusica = new FavoritoMusica(idUtilizador, idMusica);
                 tempListaFavMusica.add(auxFavMusica);

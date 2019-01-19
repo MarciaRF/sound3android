@@ -3,6 +3,7 @@ package models;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -12,16 +13,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.AlbumFavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.DadosJsonParser;
 
-public class SingletonGestorDados implements CommentListener {
+public class SingletonGestorDados implements CommentListener, AlbumFavoritosListener, FavoritosListener {
 
     private ArrayList<Utilizador> utilizadores;
     private ArrayList<LinhaCompra> linhaCompras;
@@ -31,8 +35,16 @@ public class SingletonGestorDados implements CommentListener {
     private ArrayList<FavoritoGenero> favGeneros;
     private ArrayList<FavoritoMusica> favMusicas;
 
+    private ArrayList<Artista> artistas;
+    private ArrayList<Genero> generos;
+    private ArrayList<Musica> musicas;
+    private ArrayList<Album> albuns;
 
+    private AlbumFavoritosListener albumFavoritosListener;
+    private FavoritosListener favoritosListener;
     private CommentListener commentListener;
+
+    private Album objetoAlbum;
 
     private ArrayList<Comentario> listaComments;
 
@@ -40,21 +52,20 @@ public class SingletonGestorDados implements CommentListener {
     private static RequestQueue volleyQueue = null;
     private static SingletonGestorDados INSTANCE = null;
 
-    private String mUrlApiUtilizadores = "http://127.0.0.1/sound3application/frontend/api/utilizadores";
-    private String mUrlApiLinhaCompras = "http://127.0.0.1/sound3application/frontend/api/linhaCompras";
-    private String mUrlApiComentarios = "http://127.0.0.1/sound3application/frontend/api/comentarios";
-    private String mUrlApiFavAlbuns = "http://127.0.0.1/sound3application/frontend/api/favoritosAlbuns";
-    private String mUrlApiFavArtistas = "http://127.0.0.1/sound3application/frontend/api/favoritosArtistas";
-    private String mUrlApiFavGeneros = "http://127.0.0.1/sound3application/frontend/api/favoritosGeneros";
-    private String mUrlApiFavMusicas = "http://127.0.0.1/sound3application/frontend/api/favoritosMusicas";
+    private String mUrlApiUtilizadores = "http://127.0.0.1/sound3application/frontend/web/api/utilizadores";
+    private String mUrlApiLinhaCompras = "http://127.0.0.1/sound3application/frontend/web/api/linhaCompras";
+    private String mUrlAPIComentarios = "http://192.168.1.83/sound3application/frontend/web/api/comment/";
 
+    // Favoritos
+    private String mUrlFavAlbumAPI = "http://192.168.1.83/sound3application/frontend/web/api/favalbum/";
+    private String mUrlFavArtistasAPI = "http://192.168.1.83/sound3application/frontend/web/api/favartista/";
+    private String mUrlFavGenerosAPI = "http://192.168.1.83/sound3application/frontend/web/api/favgenero/";
+    private String mUrlFavMusicasAPI = "http://192.168.1.83/sound3application/frontend/web/api/favmusica/";
 
-    private String mUrlAPIComentariosAlbum = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/api/comment/";
-
+    private String mUrlAPIAlbum = "http://192.168.1.83/sound3application/frontend/web/api/album/";
 
 
     public SingletonGestorDados(Context context) {
-
         comentarios = new ArrayList<>();
         favAlbuns = new ArrayList<>();
         favArtistas = new ArrayList<>();
@@ -66,13 +77,11 @@ public class SingletonGestorDados implements CommentListener {
         modeloBDHelper = new ModeloBDHelper(context);
     }
 
-
     public static synchronized SingletonGestorDados getInstance(Context context) {
         if(INSTANCE == null){
             INSTANCE = new SingletonGestorDados(context);
             volleyQueue = Volley.newRequestQueue(context);
         }
-
         return INSTANCE;
     }
 
@@ -105,7 +114,6 @@ public class SingletonGestorDados implements CommentListener {
     public void addFavoritoMusicBD(FavoritoMusica favoritoMusica){
         modeloBDHelper.adicionarMusicaFavoritoDB(favoritoMusica);
     }
-
 
 
     //Adiciona Array á BD
@@ -159,7 +167,6 @@ public class SingletonGestorDados implements CommentListener {
     }
 
 
-
     //Vai Buscar Dados á BD
     public ArrayList<Utilizador> getAllUtilizadoresBD(){
         utilizadores = modeloBDHelper.getAllUtilizadoresBD();
@@ -195,7 +202,6 @@ public class SingletonGestorDados implements CommentListener {
         favMusicas = modeloBDHelper.getAllMusicasFavoritosBD();
         return favMusicas;
     }
-
 
 
     //Vai buscar um item espcifico
@@ -263,6 +269,31 @@ public class SingletonGestorDados implements CommentListener {
     }*/
 
 
+    // Vai Buscar o Comentarios de Um Album pelo ID
+    public void getComentariosAlbumAPI(final Context context, boolean isConnected, long id){
+        if(!isConnected){
+
+        }else{
+            final JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIComentarios + id, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    listaComments = DadosJsonParser.parseJsonComentarios(response, context);
+
+                    if(listaComments != null){
+                        commentListener.onResfreshComment(listaComments);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+
     // Vai buscar Dados á API  e insere nos arrays e BD
     public void getAllUtilizadoresAPI(final Context context, boolean isConnected){
         if(!isConnected){
@@ -309,7 +340,7 @@ public class SingletonGestorDados implements CommentListener {
         if(!isConnected){
             comentarios = modeloBDHelper.getAllComentariosDB();
         }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlApiComentarios, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIComentarios, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     comentarios = DadosJsonParser.parseJsonComentarios(response, context);
@@ -326,86 +357,6 @@ public class SingletonGestorDados implements CommentListener {
         }
     }
 
-    public void getAllFavoritosAlbumAPI(final Context context, boolean isConnected){
-        if(!isConnected){
-            favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlApiFavAlbuns, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    favAlbuns = DadosJsonParser.parseJsonFavAlbuns(response, context);
-                    adicionarFavoritosAlbumBD(favAlbuns);
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }
-    }
-
-    public void getAllFavoritosArtistaAPI(final Context context, boolean isConnected){
-        if(!isConnected){
-            favArtistas = modeloBDHelper.getAllArtistasFavoritosBD();
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlApiFavArtistas, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    favArtistas = DadosJsonParser.parseJsonFavArtista(response, context);
-                    adicionarFavoritosArtistaBD(favArtistas);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }
-    }
-
-    public void getAllFavoritosGeneroAPI(final Context context, boolean isConnected){
-        if(!isConnected){
-            favGeneros = modeloBDHelper.getAllGenerosFavoritosBD();
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlApiFavGeneros, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    favGeneros = DadosJsonParser.parseJsonFavGenero(response, context);
-                    adicionarFavoritosGeneroBD(favGeneros);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }
-    }
-
-    public void getAllFavoritosMusicaAPI(final Context context, boolean isConnected){
-        if(!isConnected){
-            favMusicas = modeloBDHelper.getAllMusicasFavoritosBD();
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlApiFavMusicas, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    favMusicas = DadosJsonParser.parseJsonFavMusica(response, context);
-                    adicionarFavoritosMusicaBD(favMusicas);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }
-    }
 
 
     // Enviar Dados para a API
@@ -461,7 +412,7 @@ public class SingletonGestorDados implements CommentListener {
     }
 
     public void adicionarComentarioAPI(final Comentario comentario, final  Context context){
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlApiComentarios, new Response.Listener<String>() {
+        StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIComentarios, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 System.out.println("-->Resposta Add Post" + response);
@@ -487,33 +438,45 @@ public class SingletonGestorDados implements CommentListener {
         volleyQueue.add(req);
     }
 
-    public void adicionarFavoritosAlbumAPI(final FavoritoAlbum favoritoAlbum, final  Context context){
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlApiFavAlbuns, new Response.Listener<String>() {
+
+
+    //Adiconar Album aos Fav
+    public void adicionarFavoritosAlbumAPI(final  Context context, final long utilizadorId, final long albumId){
+        StringRequest req = new StringRequest(Request.Method.POST, mUrlFavAlbumAPI + "criarfavoritoalbum",
+        new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("-->Resposta Add Post" + response);
+                System.out.println("-->Resposta Add Post : " + response);
+                /*if(albumFavoritosListener != null){
+                    albumFavoritosListener.onUpdateFavoritosAlbumBD(DadosJsonParser.parseJsonFavAlbum(response, context));
+                }*/
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(context, "Não Foi Possível Add", Toast.LENGTH_SHORT).show();
+                System.out.println("-->Error add: " + error);
             }
-        }){
+        }) {
             @Override
-            protected Map<String,String> getParams(){
+            protected Map<String,String> getParams()
+            {
                 Map<String,String> params = new HashMap<>();
-                params.put("token", "AMSI-TOKEN");
-                params.put("idUtilizador", "" + favoritoAlbum.getIdUtilizador());
-                params.put("idAlbum", "" + favoritoAlbum.getIdAlbum());
+                params.put("id_album", "" + utilizadorId);
+                params.put("id_utilizador", "" + albumId);
 
+                System.out.println("-->Error params: " + params);
                 return params;
             }
+
         };
+
+        System.out.println("-->Error req: " + req);
         volleyQueue.add(req);
     }
 
     public void adicionarFavoritosArtistaAPI(final FavoritoArtista favoritoArtista, final  Context context){
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlApiFavArtistas, new Response.Listener<String>() {
+        StringRequest req = new StringRequest(Request.Method.POST,  mUrlFavArtistasAPI, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 System.out.println("-->Resposta Add Post" + response);
@@ -538,7 +501,7 @@ public class SingletonGestorDados implements CommentListener {
     }
 
     public void adicionarFavoritosGeneroAPI(final FavoritoGenero favoritoGenero, final  Context context){
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlApiFavGeneros, new Response.Listener<String>() {
+        StringRequest req = new StringRequest(Request.Method.POST, mUrlFavGenerosAPI, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 System.out.println("-->Resposta Add Post" + response);
@@ -563,7 +526,7 @@ public class SingletonGestorDados implements CommentListener {
     }
 
     public void adicionarFavoritosMusicaAPI(final FavoritoMusica favoritoMusica, final  Context context) {
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlApiFavMusicas, new Response.Listener<String>() {
+        StringRequest req = new StringRequest(Request.Method.POST, mUrlFavMusicasAPI, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 System.out.println("-->Resposta Add Post" + response);
@@ -587,18 +550,93 @@ public class SingletonGestorDados implements CommentListener {
         volleyQueue.add(req);
     }
 
-    //Vai Buscar o Comentarios de Um Album pelo ID
-    public void getComentariosAlbumAPI(final Context context, boolean isConnected, long id){
-        if(!isConnected){
 
-        }else{
-            final JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIComentariosAlbum + id, null, new Response.Listener<JSONArray>() {
+
+
+    // VAI BUSCAR TODOS OS FAVORITOS DO USER
+    public void getAllFavoritosAlbumAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+            //favArtistas = modeloBDHelper.getAllArtistasFavoritosBD();
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlFavAlbumAPI + "getallalbunsfavoritos?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    listaComments = DadosJsonParser.parseJsonComentarios(response, context);
+                    albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
+                    if(favoritosListener != null){
+                        favoritosListener.onRefreshAlbunsFavoritos(albuns);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
 
-                    if(listaComments != null){
-                        commentListener.onResfreshComment(listaComments);
+    public void getAllFavoritosArtistaAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+            //favArtistas = modeloBDHelper.getAllArtistasFavoritosBD();
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavArtistasAPI + "getallartistasfavoritos?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    artistas = ConteudoJsonParser.parseJsonArtista(response, context);
+                    //adicionarFavoritosArtistaBD(favArtistas);
+                    if (favoritosListener != null){
+                        favoritosListener.onRefreshArtistasFavoritos(artistas);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getAllFavoritosGeneroAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+            //favGeneros = modeloBDHelper.getAllGenerosFavoritosBD();
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlFavGenerosAPI + "getallgenerosfavoritos?userId="+ userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    generos = ConteudoJsonParser.parseJsonGenero(response, context);
+                    //adicionarFavoritosGeneroBD(favGeneros);
+                    if (favoritosListener != null){
+                        favoritosListener.onRefreshGenerosFavoritos(generos);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getAllFavoritosMusicaAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+            //favMusicas = modeloBDHelper.getAllMusicasFavoritosBD();
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlFavMusicasAPI + "getallmusicasfavoritos?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    musicas = ConteudoJsonParser.parseJsonMusica(response, context);
+                    //adicionarFavoritosMusicaBD(favMusicas);
+                    if (favoritosListener != null){
+                        favoritosListener.onRefreshMusicasFavoritos(musicas);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -612,8 +650,258 @@ public class SingletonGestorDados implements CommentListener {
     }
 
 
+
+    // Dados Para a Atividade dos Favoritos
+    public void getFavoritosArtistaAtividadeAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavArtistasAPI + "getartistasfavoritos?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    artistas = ConteudoJsonParser.parseJsonArtista(response, context);
+
+                    if(favoritosListener != null){
+                        favoritosListener.onRefreshArtistasFavoritos(artistas);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getFavoritosAlbumAtividadeAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavAlbumAPI + "getalbunsfavoritos?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
+
+                    if(favoritosListener != null){
+                        favoritosListener.onRefreshAlbunsFavoritos(albuns);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error 1: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getFavoritosGeneroAtividadeAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavGenerosAPI + "getgenerosfavoritos?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    generos = ConteudoJsonParser.parseJsonGenero(response, context);
+
+                    if(favoritosListener != null){
+                        favoritosListener.onRefreshGenerosFavoritos(generos);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getFavoritosMusicaAtividadeAPI(final Context context, boolean isConnected, final long userId){
+        if(!isConnected){
+
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavMusicasAPI + "getmusicasfavoritos?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    musicas = ConteudoJsonParser.parseJsonMusica(response, context);
+                    if(favoritosListener != null){
+                        favoritosListener.onRefreshMusicasFavoritos(musicas);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+
+
+    // Vai Buscar Dados do Album
+    public void getAlbumAPI(final Context context, boolean isConnected, final long idAlbum){
+        if(!isConnected){
+
+        }else{
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIAlbum + "findalbumbyid?id=" + idAlbum, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    JSONObject obj = null;
+                    String artista = null;
+
+                    try {
+                        obj = new JSONObject(response);
+                        JSONObject userJson = obj.getJSONObject("album");
+                        String artistaJson =("artista");
+
+                        ArrayList<String> tempAlbum = new ArrayList<>();
+
+                        tempAlbum.add("" + userJson.getLong("id"));
+                        tempAlbum.add(userJson.getString("nome"));
+                        tempAlbum.add("" + userJson.getInt("ano"));
+                        tempAlbum.add("" + userJson.getInt("preco"));
+                        tempAlbum.add("" + userJson.getLong("id_artista"));
+                        tempAlbum.add("" + userJson.getLong("id_genero"));
+                        tempAlbum.add(userJson.getString("caminhoImagem"));
+                        //tempAlbum.add(artistaJson.getString("artista"));
+
+                        objetoAlbum = ConteudoJsonParser.parseJsonObejectAlbum(tempAlbum, context);
+
+                        if (albumFavoritosListener != null) {
+                            albumFavoritosListener.onRefreshAlbum(objetoAlbum);
+                        }
+                    }catch (Exception ex ){
+
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error : " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+
+    // Ve que Musicas do Album Fav estão nos Fav
+    public void getAllMusicasFavoritosAlbumAPI(final Context context, boolean isConnected, final Long userId, final Long musicaId){
+        if(!isConnected){
+            //favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
+        }else {
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlFavAlbumAPI + "findfavmusica?userId="+userId+"&musicaId="+musicaId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //favAlbuns = DadosJsonParser.parseJsonFavAlbuns(response, context);
+                            //adicionarFavoritosAlbumBD(favAlbuns);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error : " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    // Verificar se o Album está nos Favoritos
+    public void getAlbumFavoritoAPI(final Context context, boolean isConnected, final Long userId, final Long albumId){
+        if(!isConnected){
+            //favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
+        }else {
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlFavAlbumAPI+"findfavalbum?userId="+userId+"&albumId="+albumId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            if(albumFavoritosListener != null){
+                                albumFavoritosListener.checkAlbumInFavoritos(response);
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+
+
+
+
+    public void setAlbumFavoritosListener(AlbumFavoritosListener albumFavoritosListener){
+        this.albumFavoritosListener = albumFavoritosListener;
+    }
+
+    public void setFavoritosListener(FavoritosListener favoritosListener){
+        this.favoritosListener = favoritosListener;
+    }
+
+    public void setCommentListener(CommentListener commentListener){
+        this.commentListener = commentListener;
+    }
+
+
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios) {
+
+    }
+
+    @Override
+    public void onRefreshFavoritosAlbum(ArrayList<FavoritoAlbum> favoritoAlbums) {
+
+    }
+
+    @Override
+    public void checkAlbumInFavoritos(String check) {
+
+    }
+
+    @Override
+    public void onRefreshAlbum(Album album) {
+
+    }
+
+    @Override
+    public void onUpdateFavoritosAlbumBD(FavoritoAlbum favoritoAlbum) {
+
+    }
+
+    @Override
+    public void onRefreshAlbunsFavoritos(ArrayList<Album> albuns) {
+
+    }
+
+    @Override
+    public void onRefreshArtistasFavoritos(ArrayList<Artista> artistas) {
+
+    }
+
+    @Override
+    public void onRefreshGenerosFavoritos(ArrayList<Genero> generos) {
+
+    }
+
+    @Override
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas) {
 
     }
 }

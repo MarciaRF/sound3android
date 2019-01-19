@@ -58,7 +58,7 @@ public class GestorSharedPref {
     public ArrayList<String> getUser() {
         ArrayList<String> tempList = new ArrayList<String>();
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(NOME_SHARED_PREF, Context.MODE_PRIVATE);
-        tempList.add(""+sharedPreferences.getInt(KEY_ID, -1));
+        tempList.add(""+sharedPreferences.getLong(KEY_ID, -1));
         tempList.add(sharedPreferences.getString(KEY_USERNAME, null));
         tempList.add(sharedPreferences.getString(KEY_EMAIL, null));
 

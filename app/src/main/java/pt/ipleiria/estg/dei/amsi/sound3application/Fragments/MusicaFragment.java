@@ -11,18 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import adaptadores.MusicaAdapter;
 import models.Musica;
-import adaptadores.MusicaAdapter;
-import models.Musica;
-import models.SingletonGestorConteudo;
-import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
-import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
 public class MusicaFragment extends Fragment implements MusicasListener {
 

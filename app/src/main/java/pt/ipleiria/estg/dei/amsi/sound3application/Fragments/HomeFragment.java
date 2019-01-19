@@ -23,6 +23,7 @@ import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.HomeListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
 public class HomeFragment extends Fragment implements HomeListener {
 
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment implements HomeListener {
 
         SingletonGestorConteudo.getInstance(getContext()).getAlbunsMaisRecentesAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
+
     }
 
 

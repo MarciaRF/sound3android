@@ -1,13 +1,12 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Activitys;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,14 +22,14 @@ import models.FavoritoAlbum;
 import models.LinhaCompra;
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
-import models.Utilizador;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CommentFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.MusicaFragment;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.AlbumFavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class DetalhesAlbumActivity extends AppCompatActivity implements DetalhesAlbumListener {
+public class DetalhesAlbumActivity extends AppCompatActivity implements  AlbumFavoritosListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -42,8 +41,14 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements Detalhes
     private TextView albumPreco;
     private ImageView albumImagem;
 
+    private ImageButton btnAddCarrinho;
+    private ImageButton btnAddFavoritos;
+
+    private ArrayList utilizador;
+    private long idUtilizador;
+
+    private String checkAlbumFav;
     private FavoritoAlbum favAlbum;
-    private long idUser;
 
     private long idCompra;
     private LinhaCompra addCarrinho;
@@ -61,14 +66,33 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements Detalhes
         albumPreco = findViewById(R.id.eT_detalhes_album_preco);
         albumImagem = findViewById(R.id.iV_detalhes_album_imagem);
 
+        btnAddCarrinho = findViewById(R.id.iB_add_carrinho);
+        btnAddFavoritos = findViewById(R.id.iB_add_favoritos);
+
+
         //Recebe ID Album do onClick na lista
         idAlbum = getIntent().getLongExtra(AlbumAdapter.DETALHES_ALBUM, 0);
 
-        SingletonGestorConteudo.getInstance(this).setDetalhesAlbumListener(this);
+        // Vai Buscar Id do Utilizador as Shared
+        utilizador = GestorSharedPref.getInstance(this).getUser();
+        idUtilizador = Integer.parseInt(utilizador.get(0).toString());
 
-        SingletonGestorConteudo.getInstance(this).getAlbumAPI(this,
+
+        SingletonGestorDados.getInstance(this).setAlbumFavoritosListener(this);
+
+        // Vai Buscar Info. do Album
+        SingletonGestorDados.getInstance(this).getAlbumAPI(this,
                 ConteudoJsonParser.isConnectionInternet(this), idAlbum);
 
+        // Ver Se este Album esta nos Favoritos
+        SingletonGestorDados.getInstance(this).getAlbumFavoritoAPI(this,
+                ConteudoJsonParser.isConnectionInternet(this),idUtilizador, idAlbum);
+
+        //Ver as Musicas Favoritas Deste Album
+        long userid = 2;
+        long musicaid = 4;
+        SingletonGestorDados.getInstance(this).getAllMusicasFavoritosAlbumAPI(this,
+                ConteudoJsonParser.isConnectionInternet(this), userid, musicaid);
 
 
         // Codigo das Tabs
@@ -90,15 +114,11 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements Detalhes
         bundle.putLong("idAlbum", idAlbum);
         MusicaFragment musicaFragment = new MusicaFragment();
         musicaFragment.setArguments(bundle);
-
-        System.out.println("FUNCIONA: ");
-
         getSupportFragmentManager().beginTransaction().replace(R.id.vp_album, musicaFragment).commit();*/
 
         //Remove shade from action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setElevation(0);
-
     }
 
     @Override
@@ -112,26 +132,25 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements Detalhes
                 .into(albumImagem);
     }
 
-
     public void albumAddFavoritos(View view) {
-        //if(){
-            favAlbum = new FavoritoAlbum(idUser, idAlbum);
-            SingletonGestorDados.getInstance(this).addFavoritoAlbumBD(favAlbum);
-            Toast.makeText(this, "Adicionado aos Favoritos", Toast.LENGTH_SHORT).show();
-        //}else {
-            Toast.makeText(this, "Removido dos Favorittos", Toast.LENGTH_SHORT).show();
-        //}
+        if(checkAlbumFav.equals("false")){
+            SingletonGestorDados.getInstance(this).adicionarFavoritosAlbumAPI(this, idUtilizador, idAlbum);
+            Toast.makeText(this, "Adicionado aos Favoritos 3" + checkAlbumFav, Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Removido dos Favorittos"+ checkAlbumFav, Toast.LENGTH_SHORT).show();
+            System.out.println();
+        }
+
     }
 
     public void albumAddCarrinho(View view) {
-        //if(){
+        if(checkAlbumFav.equals("false")){
             addCarrinho = new LinhaCompra(idCompra ,idAlbum);
             SingletonGestorDados.getInstance(this).addLinhaCompraBD(addCarrinho);
             Toast.makeText(this, "Adicionado ao Carrinho", Toast.LENGTH_SHORT).show();
-        //}else{
+        }else{
             Toast.makeText(this, "Removido do Carrinho", Toast.LENGTH_SHORT).show();
-        //}
-
+        }
     }
 
 
@@ -140,4 +159,24 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements Detalhes
     }
 
 
+    @Override
+    public void onRefreshFavoritosAlbum(ArrayList<FavoritoAlbum> favoritoAlbums) {
+
+    }
+
+    @Override
+    public void checkAlbumInFavoritos(String check) {
+        checkAlbumFav = check;
+
+        if(checkAlbumFav.equals("false")){
+            btnAddFavoritos.setImageResource(R.drawable.outline_favorite_border_white_24);
+        }else{
+            btnAddFavoritos.setImageResource(R.drawable.ic_favorite_white_cheio_24dp);
+        }
+    }
+
+    @Override
+    public void onUpdateFavoritosAlbumBD(FavoritoAlbum favoritoAlbum) {
+
+    }
 }

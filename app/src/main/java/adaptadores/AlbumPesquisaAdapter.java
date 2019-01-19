@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import models.Album;
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
@@ -23,6 +24,9 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
 
     Context mContext;
     List<Album> mData;
+
+    String url = "/sound3application/common/img/capas/";
+    String urlImagem;
 
     public static final String DETALHES_ALBUM = "ALBUM";
 
@@ -52,7 +56,11 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
         holder.mAlbumArtista.setText(mData.get(position).getNome());
         //holder.mAlbumCapa.setImageResource(mData.get(position).getImagem());
 
-        Glide.with(mContext).load(mData.get(position).getImagem()).into(holder.mAlbumCapa);
+        urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
+
+        Glide.with(mContext)
+                .load(urlImagem)
+                .into(holder.mAlbumCapa);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
