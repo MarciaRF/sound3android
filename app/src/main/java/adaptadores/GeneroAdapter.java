@@ -40,14 +40,14 @@ public class GeneroAdapter extends RecyclerView.Adapter<GeneroAdapter.MyViewHold
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View v;
         v = LayoutInflater.from(mContext).inflate(R.layout.item_lista_genero, parent, false);
-        GeneroAdapter.MyViewHolder vHolder = new GeneroAdapter.MyViewHolder(v);
+        final MyViewHolder vHolder = new GeneroAdapter.MyViewHolder(v);
 
         return vHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        //holder.mCapa.setImageResource(mData.get(position).getImagem());
+
         holder.mNome.setText(mData.get(position).getNome());
 
         //Vai Buscar o IP do Singleton e Concatena com o caminho
@@ -56,7 +56,6 @@ public class GeneroAdapter extends RecyclerView.Adapter<GeneroAdapter.MyViewHold
         Glide.with(mContext).
                 load(urlImagem)
                 .into(holder.mCapa);
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

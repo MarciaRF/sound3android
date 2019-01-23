@@ -19,10 +19,12 @@ import models.Artista;
 import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
+import models.SingletonGestorDados;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.PesquisaListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
-public class PesquisaActivity extends AppCompatActivity {
-
+public class PesquisaActivity extends AppCompatActivity implements PesquisaListener {
 
     public static final String PESQUISA = "PESQUISA";
 
@@ -48,7 +50,6 @@ public class PesquisaActivity extends AppCompatActivity {
         pesquisa = getIntent().getStringExtra(PESQUISA);
 
         this.setTitle("Resultado Pesquisa " + "(" + pesquisa + ")" );
-
 
         lstMusica = new ArrayList<>();
         lstAlbum = new ArrayList<>();
@@ -80,38 +81,64 @@ public class PesquisaActivity extends AppCompatActivity {
             }
         }
 
-        if(lstAlbum != null){
+
+        SingletonGestorDados.getInstance(this).setPesquisaListener(this);
+
+        SingletonGestorDados.getInstance(this).getPesquisaAlbunsAPI(this,
+                ConteudoJsonParser.isConnectionInternet(this), pesquisa);
+
+        SingletonGestorDados.getInstance(this).getPesquisaGenerosAPI(this,
+                ConteudoJsonParser.isConnectionInternet(this), pesquisa);
+
+        SingletonGestorDados.getInstance(this).getPesquisaArtistasAPI(this,
+                ConteudoJsonParser.isConnectionInternet(this), pesquisa);
+
+        SingletonGestorDados.getInstance(this).getPesquisaMusicasAPI(this,
+                ConteudoJsonParser.isConnectionInternet(this), pesquisa);
+
+    }
+
+    @Override
+    public void onRefreshAlbunsPesquisa(ArrayList<Album> pesquisaAlbuns) {
+        if(pesquisaAlbuns != null){
             recyclerViewAlbuns = findViewById(R.id.rV_pesquisa_albuns);
             recyclerViewAlbuns.setHasFixedSize(true);//Otimização
             recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, lstAlbum);
+            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, pesquisaAlbuns);
             recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
         }
+    }
 
-        if(lstGenero != null){
+    @Override
+    public void onRefreshGenerosPesquisa(ArrayList<Genero> pesquisaGeneros) {
+        if(pesquisaGeneros != null){
             recyclerViewGeneros = findViewById(R.id.rV_pesquisa_generos);
             recyclerViewGeneros.setHasFixedSize(true);//Otimização
             recyclerViewGeneros.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            GeneroPesquisaAdapter generoPesquisaAdapter = new GeneroPesquisaAdapter(this, lstGenero);
+            GeneroPesquisaAdapter generoPesquisaAdapter = new GeneroPesquisaAdapter(this, pesquisaGeneros);
             recyclerViewGeneros.setAdapter(generoPesquisaAdapter);
         }
+    }
 
-
-        if(lstArtista != null){
+    @Override
+    public void onRefreshArtistasPesquisa(ArrayList<Artista> pesquisaArtistas) {
+        if(pesquisaArtistas != null){
             recyclerViewArtistas = findViewById(R.id.rV_pesquisa_artistas);
             recyclerViewArtistas.setHasFixedSize(true);//Otimização
             recyclerViewArtistas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(this, lstArtista);
+            ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(this, pesquisaArtistas);
             recyclerViewArtistas.setAdapter(artistaPesquisaAdapter);
         }
+    }
 
-        if(lstMusica != null){
+    @Override
+    public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas) {
+        if(pesquisaMusicas != null){
             recyclerViewMusicas = findViewById(R.id.rV_pesquisa_musicas);
             recyclerViewMusicas.setHasFixedSize(true);//Otimização
             recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            MusicaAdapter musicasAdapter = new MusicaAdapter(this, lstMusica);
+            MusicaAdapter musicasAdapter = new MusicaAdapter(this, pesquisaMusicas);
             recyclerViewMusicas.setAdapter(musicasAdapter);
         }
-
     }
 }

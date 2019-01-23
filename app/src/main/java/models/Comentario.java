@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Comentario implements Serializable {
     private long idComentario;

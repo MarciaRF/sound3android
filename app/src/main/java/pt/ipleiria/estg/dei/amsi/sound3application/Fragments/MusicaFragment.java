@@ -14,8 +14,11 @@ import java.util.ArrayList;
 
 import adaptadores.MusicaAdapter;
 import models.Musica;
+import models.SingletonGestorConteudo;
+import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
 public class MusicaFragment extends Fragment implements MusicasListener {
 
@@ -30,19 +33,13 @@ public class MusicaFragment extends Fragment implements MusicasListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_album_musicas, container, false);
 
-        /*Bundle bundle = this.getArguments();
+        DetalhesAlbumActivity atividade = (DetalhesAlbumActivity)getActivity();
+        idAlbum = atividade.idAlbum;
 
-        idAlbum = bundle.getLong("idAlbum");
-
-        System.out.println("-->ERRO Fragment:" + idAlbum);*/
-
-        System.out.println("FUNCIONA" + idAlbum);
-
-
-        /*SingletonGestorConteudo.getInstance(getContext()).setMusicasListener(this);
+        SingletonGestorConteudo.getInstance(getContext()).setMusicasListener(this);
 
         SingletonGestorConteudo.getInstance(getContext()).getMusicasAlbumAPI(getContext(),
-                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);*/
+                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);
 
         return view;
     }
