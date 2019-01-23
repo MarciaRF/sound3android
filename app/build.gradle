@@ -44,5 +44,5 @@ dependencies {
     //DROPDOWN NA RECYCLER VIEW
     implementation 'com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1'
 
-    implementation 'com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1'
+    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
 }

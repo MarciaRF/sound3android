@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     //MQTT
     MqttAndroidClient client;
-    private final String SERVERCONECTION = "tcp://192.168.1.68:1883";
+    private final String SERVERCONECTION = "tcp://192.168.1.146:1883";
     private final String TOPICOSUBSCRICAO = "INSERT";
 
 
@@ -244,6 +245,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PesquisaActivity.class);
         intent.putExtra(PesquisaActivity.PESQUISA, newText);
         startActivity(intent);
+    }
+
+    public void mostrarCompras(View view) {
+        Intent intent = new Intent(this,ComprasActivity.class);
+        startActivity(intent);
+
     }
 
 

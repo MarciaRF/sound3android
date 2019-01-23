@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activitys.MainActivity"></activity>
+        <activity android:name=".Activitys.MainActivity" />
         <activity
             android:name=".Activitys.LoginSignUpActivity"
             android:windowSoftInputMode="adjustPan">
@@ -46,7 +46,8 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity android:name=".Activitys.RegistoComprasActivity" />
-        <activity android:name=".Activitys.FavoritosRecyclerActivity"></activity>
+        <activity android:name=".Activitys.FavoritosRecyclerActivity" />
+        <activity android:name=".Activitys.ComprasActivity"></activity>
     </application>
 
 </manifest>

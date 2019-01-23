@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.ComprasActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.AlbumFavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ComprasRegistadasListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.DadosJsonParser;
@@ -39,10 +41,12 @@ public class SingletonGestorDados implements CommentListener, AlbumFavoritosList
     private ArrayList<Genero> generos;
     private ArrayList<Musica> musicas;
     private ArrayList<Album> albuns;
+    private ArrayList<Compra> compras;
 
     private AlbumFavoritosListener albumFavoritosListener;
     private FavoritosListener favoritosListener;
     private CommentListener commentListener;
+    private ComprasRegistadasListener comprasRegistadasListener;
 
     private Album objetoAlbum;
 
@@ -52,17 +56,18 @@ public class SingletonGestorDados implements CommentListener, AlbumFavoritosList
     private static RequestQueue volleyQueue = null;
     private static SingletonGestorDados INSTANCE = null;
 
-    private String mUrlApiUtilizadores = "http://127.0.0.1/sound3application/frontend/web/api/utilizadores";
-    private String mUrlApiLinhaCompras = "http://127.0.0.1/sound3application/frontend/web/api/linhaCompras";
-    private String mUrlAPIComentarios = "http://192.168.1.83/sound3application/frontend/web/api/comment/";
+    private String mUrlApiUtilizadores = "http://192.168.1.146/sound3application/frontend/web/api/utilizadores";
+    private String mUrlApiLinhaCompras = "http://192.168.1.146/sound3application/frontend/web/api/linhaCompras";
+    private String mUrlApiCompras = "http://192.168.1.146/sound3application/frontend/web/api/compra/";
+    private String mUrlAPIComentarios = "http://192.168.1.146/sound3application/frontend/web/api/comment/";
 
     // Favoritos
-    private String mUrlFavAlbumAPI = "http://192.168.1.83/sound3application/frontend/web/api/favalbum/";
-    private String mUrlFavArtistasAPI = "http://192.168.1.83/sound3application/frontend/web/api/favartista/";
-    private String mUrlFavGenerosAPI = "http://192.168.1.83/sound3application/frontend/web/api/favgenero/";
-    private String mUrlFavMusicasAPI = "http://192.168.1.83/sound3application/frontend/web/api/favmusica/";
+    private String mUrlFavAlbumAPI = "http://192.168.1.146/sound3application/frontend/web/api/favalbum/";
+    private String mUrlFavArtistasAPI = "http://192.168.1.146/sound3application/frontend/web/api/favartista/";
+    private String mUrlFavGenerosAPI = "http://192.168.1.146/sound3application/frontend/web/api/favgenero/";
+    private String mUrlFavMusicasAPI = "http://192.168.1.146/sound3application/frontend/web/api/favmusica/";
 
-    private String mUrlAPIAlbum = "http://192.168.1.83/sound3application/frontend/web/api/album/";
+    private String mUrlAPIAlbum = "http://192.168.1.146/sound3application/frontend/web/api/album/";
 
 
     public SingletonGestorDados(Context context) {
@@ -843,8 +848,29 @@ public class SingletonGestorDados implements CommentListener, AlbumFavoritosList
         }
     }
 
+    public void getComprasRegistadasAPI(final Context context, boolean isConnected, final long userId) {
+        if(!isConnected){
 
-
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlApiCompras + "getcomprasregistadas?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    compras = ConteudoJsonParser.parseJsonCompra(response, context);
+                    if(comprasRegistadasListener != null){
+                        comprasRegistadasListener.onResponseGetCompras(compras);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                    System.out.println("----->FALHOU");
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
 
 
     public void setAlbumFavoritosListener(AlbumFavoritosListener albumFavoritosListener){
@@ -859,6 +885,9 @@ public class SingletonGestorDados implements CommentListener, AlbumFavoritosList
         this.commentListener = commentListener;
     }
 
+    public void setComprasRegistadasListener(ComprasRegistadasListener comprasRegistadasListener){
+        this.comprasRegistadasListener = comprasRegistadasListener;
+    }
 
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios) {
@@ -904,4 +933,6 @@ public class SingletonGestorDados implements CommentListener, AlbumFavoritosList
     public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas) {
 
     }
+
+
 }

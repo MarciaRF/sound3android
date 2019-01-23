@@ -12,11 +12,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import models.Album;
 import models.Artista;
+import models.Compra;
 import models.Genero;
 import models.Musica;
 
@@ -129,6 +134,34 @@ public class ConteudoJsonParser {
         }
 
         return tempListaMusica;
+    }
+
+    public static ArrayList<Compra> parseJsonCompra (JSONArray response, Context context){
+        ArrayList<Compra> tempListaCompra = new ArrayList<>();
+
+        try{
+            for(int i=0; i< response.length(); i++){
+
+                JSONObject compra = (JSONObject) response.get(i);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d", Locale.UK);
+
+                int idCompra = compra.getInt("id");
+                Date data_compra = dateFormat.parse(compra.getString("data_compra"));
+                int valor_total = compra.getInt("valor_total");
+                boolean efetivada = (1 == compra.getInt("efetivada"));
+                int id_utilizador = compra.getInt("id_utilizador");
+
+                Compra auxCompra = new Compra(idCompra, data_compra, valor_total, efetivada, id_utilizador);
+                tempListaCompra.add(auxCompra);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+            Toast.makeText(context, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return tempListaCompra;
     }
 
 
