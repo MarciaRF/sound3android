@@ -23,10 +23,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
 
     Context mContext;
     List<Album> mData;
-
     String url = "/sound3application/common/img/capas/";
     String urlImagem;
-
 
     public static final String DETALHES_ALBUM = "ALBUM";
 

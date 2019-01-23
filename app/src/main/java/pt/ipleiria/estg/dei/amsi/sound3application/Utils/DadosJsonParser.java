@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import models.Album;
@@ -80,11 +81,12 @@ public class DadosJsonParser {
 
                 int idComentario = comentario.getInt("id");
                 String conteudo = comentario.getString("conteudo");
-                String dataCriacao = comentario.getString("dataCriacao");
-                int idUtilizador = comentario.getInt("idUtilizador");
-                int idAlbum = comentario.getInt("idAlbum");
+                String dataCriacao = comentario.getString("data_criacao");
+                long idUtilizador = comentario.getInt("id_utilizador");
+                int idAlbum = comentario.getInt("id_album");
 
-                Comentario auxComentario = new Comentario(idComentario, conteudo, dataCriacao, idUtilizador, idAlbum);
+
+                Comentario auxComentario = new Comentario(idComentario, conteudo,  dataCriacao, idUtilizador, idAlbum);
                 tempListaComentario.add(auxComentario);
             }
 
@@ -234,11 +236,11 @@ public class DadosJsonParser {
             JSONObject comentario = new JSONObject(responde);
             int idComentario = comentario.getInt("id");
             String conteudo = comentario.getString("conteudo");
-            String dataCriacao = comentario.getString("dataCriacao");
-            int idUtilizador = comentario.getInt("idUtilizador");
+            String dataCriacao = comentario.getString("data_criacao");
+            long idUtilizador = comentario.getInt("idUtilizador");
             int idAlbum = comentario.getInt("idAlbum");
 
-            auxComentario = new Comentario(idComentario, conteudo, dataCriacao, idUtilizador, idAlbum);
+            auxComentario = new Comentario(idComentario, conteudo,  dataCriacao, idUtilizador, idAlbum);
 
         }catch (JSONException e){
             e.printStackTrace();
