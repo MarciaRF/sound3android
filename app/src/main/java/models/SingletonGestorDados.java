@@ -18,10 +18,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
+import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.ComprasActivity;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.AlbumFavoritosListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ComprasRegistadasListener;
+
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesArtistaListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesGeneroListener;
+
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.PesquisaListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
@@ -43,15 +50,18 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     private ArrayList<Genero> generos;
     private ArrayList<Musica> musicas;
     private ArrayList<Album> albuns;
+    private ArrayList<Compra> compras;
 
 
     private FavoritosListener favoritosListener;
     private CommentListener commentListener;
+
+    private ComprasRegistadasListener comprasRegistadasListener;
+
     private DetalhesGeneroListener detalhesGeneroListener;
     private DetalhesArtistaListener detalhesArtistaListener;
     private PesquisaListener pesquisaListener;
     private DetalhesAlbumListener detalhesAlbumListener;
-
 
     private Album objetoAlbum;
     private Genero objetoGenero;
@@ -64,10 +74,13 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     private static SingletonGestorDados INSTANCE = null;
 
 
+    private String mUrlApiCompras = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/compra/";
+
+    private String mUrlAPIAlbum = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/album/";
+
     private String mUrlApiUtilizadores = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/utilizadores";
     private String mUrlApiLinhaCompras = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/linhaCompras";
-    private String mUrlAPIComentarios = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/comment/";
-
+    
     // Favoritos
     private String mUrlFavAlbumAPI = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/favalbum/";
     private String mUrlFavArtistasAPI = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/favartista/";
@@ -956,6 +969,30 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         }
     }
 
+    public void getComprasRegistadasAPI(final Context context, boolean isConnected, final long userId) {
+        if(!isConnected){
+
+
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlApiCompras + "getcomprasregistadas?userId=" + userId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    compras = ConteudoJsonParser.parseJsonCompra(response, context);
+                    if(comprasRegistadasListener != null){
+                        comprasRegistadasListener.onResponseGetCompras(compras);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                    System.out.println("----->FALHOU");
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
 
     // Vai Buscar Artista que Criou Album
     public void getArtistaAlbumAPI(final Context context, boolean isConnected, final long idAlbum){
@@ -966,6 +1003,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                 @Override
                 public void onResponse(String response) {
                     JSONObject obj = null;
+
 
                     try {
                         obj = new JSONObject(response);
@@ -978,6 +1016,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                         tempArtista.add(artistaJson.getString("nacionalidade"));
                         tempArtista.add("" + artistaJson.getInt("ano"));
                         tempArtista.add(artistaJson.getString("caminhoImagem"));
+
 
                         objetoArtista = ConteudoJsonParser.parseJsonObejectArtista(tempArtista, context);
 
@@ -996,6 +1035,10 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             });
             volleyQueue.add(req);
         }
+    }
+    
+    public void setComprasRegistadasListener(ComprasRegistadasListener comprasRegistadasListener){
+        this.comprasRegistadasListener = comprasRegistadasListener;
     }
 
     // Remover Album do Carrinho

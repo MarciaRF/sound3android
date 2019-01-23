@@ -8,15 +8,15 @@ public class Compra implements Serializable {
     private long IDCompra;
     private Date DataCompra;
     private int ValorTotal;
-    private int Efetividade;
+    private boolean Efetivada;
     private long IDUtilizador;
 
 
-    public Compra(int id_compra, Date data_compra, int valor_total, int efetividade, long id_utilizador){
+    public Compra(int id_compra, Date data_compra, int valor_total, boolean efetivada, long id_utilizador){
         IDCompra = id_compra;
         DataCompra = data_compra;
         ValorTotal = valor_total;
-        Efetividade = efetividade;
+        Efetivada = efetivada;
         IDUtilizador = id_utilizador;
     }
 
@@ -32,9 +32,12 @@ public class Compra implements Serializable {
 
     public void setValorTotal(int valorTotal) { ValorTotal = valorTotal; }
 
-    public int getEfetividade() { return Efetividade; }
-
-    public void setEfetividade(int efetividade) { Efetividade = efetividade; }
+    public boolean getEfetivada() {
+        return Efetivada;
+    }
+    public void setEfetivada(boolean efetivada) {
+        Efetivada = efetivada;
+    }
 
     public long getIDUtilizador() { return IDUtilizador; }
 
