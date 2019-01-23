@@ -8,15 +8,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.AlbumFavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesArtistaListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.HomeListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
@@ -32,14 +29,9 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     private ArrayList<Genero> generos;
     private ArrayList<Musica> musicas;
 
-
     private ArrayList<Album> topAlbuns;
     private ArrayList<Artista> artistasMaisVendidos;
     private ArrayList<Album> albunsMaisRecentes;
-
-
-
-
 
     private ArrayList<Musica> musicasAlbum;
     private ArrayList<Album> albunsArtista;
@@ -54,7 +46,6 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     public static final String IP = "192.168.1.146";
 
-
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://" + IP + "/sound3application/frontend/api/artista";
     private String mUrlAPIGeneros = "http://" + IP + "/sound3application/frontend/web/api/genero";
@@ -63,8 +54,6 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     private String mUrlAPITopAlbuns = "http://" + IP + "/sound3application/frontend/web/api/album/topalbuns";
     private String mUrlAPIArtistasMaisVendidos = "http://" + IP + "/sound3application/frontend/web/api/artista/artistasrandom";
     private String mUrlAPIAlbunsMaisRecentes = "http://" + IP + "/sound3application/frontend/web/api/album/albunsrecentes";
-
-
 
     private String mUrlAPIMusicasAlbum =  "http://" + IP + "/sound3application/frontend/web/api/album/findmusicas?id=";
 
@@ -333,34 +322,26 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     }
 
     public void getAllGenerosAPI(final Context context, boolean isConnected){
-        Toast.makeText(context, "isConnected"+ isConnected, Toast.LENGTH_SHORT).show();
-
         if(!isConnected){
-            generos = modeloBDHelper.getAllGenerosBD();
+            /*generos = modeloBDHelper.getAllGenerosBD();
             if(modeloBDHelper != null){
                 homeListener.onRefreshGeneros(generos);
-            }
+            }*/
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIGeneros, null, new Response.Listener<JSONArray>() {
-
                 @Override
                 public void onResponse(JSONArray response) {
                     generos = ConteudoJsonParser.parseJsonGenero(response, context);
-                    adicionarGenerosBD(generos);
+                    //adicionarGenerosBD(generos);
                     if(homeListener != null){
                         homeListener.onRefreshGeneros(generos);
                     }
-
                 }
-
-
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(context, "Erros Generos: " + error, Toast.LENGTH_SHORT).show();
                 }
-
-
             });
             volleyQueue.add(req);
         }
@@ -464,9 +445,6 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
         }
     }
 
-
-
-
     public void getMusicasAlbumAPI(final Context context, boolean isConnected, long IdAlbum){
         if(!isConnected){
             //musicas = modeloBDHelper.getAllMusicasBD();
@@ -492,6 +470,10 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
             volleyQueue.add(req);
         }
     }
+
+
+
+
 
     @Override
     public void onRefreshGeneros(ArrayList<Genero> listaGeneros) {
@@ -533,7 +515,15 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     }
 
+    @Override
+    public void onRefreshAbunsArtista(ArrayList<Album> albunsArtista) {
 
+    }
+
+    @Override
+    public void checkArtistaInFavoritos(String check) {
+
+    }
 
 
     public void setConteudoListener(HomeListener homeListener){

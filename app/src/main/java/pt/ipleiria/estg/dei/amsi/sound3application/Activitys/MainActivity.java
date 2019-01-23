@@ -70,12 +70,9 @@ public class MainActivity extends AppCompatActivity {
     private final String SERVERCONECTION = "tcp://192.168.1.146:1883";
     private final String TOPICOSUBSCRICAO = "INSERT";
 
-
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     @Override
@@ -85,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-
 
         if (savedInstanceState == null) {
             //define a home como default ao abrir a app
@@ -99,18 +94,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         /*
-
-
         SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
         SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
         SingletonGestorConteudo.getInstance(this).adicionarMusicaBD(criarMusica());
         SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
         */
 
-
+        // Código do MQTT
         String clientId = MqttClient.generateClientId();
         client = new MqttAndroidClient(this.getApplicationContext(), SERVERCONECTION, clientId);
-
         try {
             IMqttToken token = client.connect();
             token.setActionCallback(new IMqttActionListener() {
@@ -120,20 +112,14 @@ public class MainActivity extends AppCompatActivity {
                     // Chama método de subscricao
                     subscription();
                 }
-
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                     Toast.makeText(MainActivity.this, ""+exception, Toast.LENGTH_LONG).show();
-                    System.out.println("----->Ex"+exception);
-
                 }
             });
         } catch (MqttException e) {
             e.printStackTrace();
         }
-
-
-
         client.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
@@ -160,11 +146,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
 
-// Subscrever Tópico
+    // Subscrever Tópico MQTT
     private void subscription(){
         try {
             IMqttToken subToken = client.subscribe(TOPICOSUBSCRICAO, 1);
@@ -185,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    //Código do Menu de Baixo
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -212,9 +197,6 @@ public class MainActivity extends AppCompatActivity {
             };
 
 
-
-
-
     // Código Barra de Pesquisa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -229,14 +211,11 @@ public class MainActivity extends AppCompatActivity {
                 intentPesquisa(s);
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-
         });
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -252,8 +231,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-
     // Gerar Fake Data para a DB
     /*public ArrayList<Album> criarAlbum(){
         lstAlbum = new ArrayList<>();
@@ -304,7 +281,4 @@ public class MainActivity extends AppCompatActivity {
 
         return lstGenero;
     }*/
-
-
-
 }

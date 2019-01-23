@@ -23,7 +23,6 @@ import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.HomeListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
-import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
 public class HomeFragment extends Fragment implements HomeListener {
 
@@ -40,6 +39,7 @@ public class HomeFragment extends Fragment implements HomeListener {
 
         SingletonGestorConteudo.getInstance(getContext()).setConteudoListener(this);
 
+        // Vai Buscar os Dados a API
         SingletonGestorConteudo.getInstance(getContext()).getTopAlbunsAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
 
@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment implements HomeListener {
 
         SingletonGestorConteudo.getInstance(getContext()).getAlbunsMaisRecentesAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
-
     }
 
 
@@ -62,20 +61,6 @@ public class HomeFragment extends Fragment implements HomeListener {
 
         return view;
     }
-
-    @Override
-    public void onRefreshAlbuns(ArrayList<Album> listaAlbuns) {
-    }
-
-    @Override
-    public void onRefreshArtistas(ArrayList<Artista> listaArtistas) {
-    }
-
-    @Override
-    public void onRefreshMusicas(ArrayList<Musica> listaMusicas) {
-    }
-
-
 
 
     @Override
@@ -115,10 +100,23 @@ public class HomeFragment extends Fragment implements HomeListener {
     public void onRefreshAlbunsMaisRecentes(ArrayList<Album> listaAlbunsMaisVendidos) {
         if(listaAlbunsMaisVendidos != null)
         recyclerViewAlbunsRecentes = view.findViewById(R.id.rV_home_albunsRecentes);
-        recyclerViewAlbunsRecentes.setHasFixedSize(true);//Otimização
+        recyclerViewAlbunsRecentes.setHasFixedSize(true);
         recyclerViewAlbunsRecentes.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaAlbunsMaisVendidos);
         recyclerViewAlbunsRecentes.setAdapter(albunsRecentesAdapter);
+    }
+
+
+    @Override
+    public void onRefreshAlbuns(ArrayList<Album> listaAlbuns) {
+    }
+
+    @Override
+    public void onRefreshArtistas(ArrayList<Artista> listaArtistas) {
+    }
+
+    @Override
+    public void onRefreshMusicas(ArrayList<Musica> listaMusicas) {
     }
 
 

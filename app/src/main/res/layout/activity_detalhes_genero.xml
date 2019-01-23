@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activitys.DetalhesArtistaActivity">
+    tools:context=".Activitys.DetalhesGeneroActivity">
 
 
     <LinearLayout
@@ -28,23 +28,6 @@
             android:id="@+id/rV_detalhes_generoAlbuns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mais Géneros"
-            android:textColor="@color/light_font"
-            android:textStyle="bold"
-            android:textSize="24dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rV_detalhes_generoMaisAbuns"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
         </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
@@ -74,16 +57,33 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/hiphop" />
 
-                <TextView
-                    android:id="@+id/tV_detalhes_generoNome"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Hip Hop"
-                    android:textColor="@color/light_font"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tV_detalhes_generoNome"
+                        android:layout_width="346dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Hip Hop"
+                        android:textColor="@color/light_font"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/ib_addFavoritos_genero"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="addGeneroFav"
+                        app:srcCompat="@drawable/outline_favorite_border_white_24" />
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/tV_detalhes_generoDescricao"

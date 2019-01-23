@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
@@ -179,6 +180,37 @@ public class ConteudoJsonParser {
         auxAlbum = new Album(idAlbum, nome, ano, preco, idArtista, idGenero, capa);
 
         return auxAlbum;
+    }
+
+    public static Genero parseJsonObejectGenero (ArrayList<String> listaGenero, Context context){
+
+        Genero auxGenero = null;
+
+        int idGenero = Integer.parseInt(listaGenero.get(0));
+        String nome = listaGenero.get(1);
+        String descricao = listaGenero.get(2);
+        String imagem = listaGenero.get(3);
+
+        auxGenero = new Genero(idGenero, nome, descricao, imagem);
+
+        return auxGenero;
+    }
+
+    public static Artista parseJsonObejectArtista (ArrayList<String> listaArtista, Context context){
+
+        Artista auxArtista = null;
+
+        int idArtista = Integer.parseInt(listaArtista.get(0));
+        String nome = listaArtista.get(1);
+        String nacionalidade = listaArtista.get(2);
+        int ano = Integer.parseInt(listaArtista.get(3));
+        String caminhoImagem = listaArtista.get(4);
+
+        System.out.println("-->Artista dentro JSON: " + nome);
+
+        auxArtista = new Artista(idArtista, nome, nacionalidade, ano, caminhoImagem);
+
+        return auxArtista;
     }
 
 
