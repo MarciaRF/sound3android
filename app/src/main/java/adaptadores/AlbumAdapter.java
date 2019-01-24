@@ -51,7 +51,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.mAlbumNome.setText(mData.get(position).getNome());
         //holder.mAlbumArtista.setText(mData.get(position).getNome());
-        //holder.mAlbumCapa.setImageResource(mData.get(position).getImagem());
 
         //Vai Buscar o IP do Singleton e Concatena com o caminho
         urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();

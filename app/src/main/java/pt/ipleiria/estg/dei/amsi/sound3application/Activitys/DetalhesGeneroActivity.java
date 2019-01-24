@@ -100,7 +100,6 @@ public class DetalhesGeneroActivity extends AppCompatActivity implements Detalhe
 
     @Override
     public void checkGeneroInFavoritos(String check) {
-        System.out.println("-->GENERo CHECK :" + check);
         checkGeneroFav = check;
 
         if(checkGeneroFav.equals("false")){
@@ -114,11 +113,11 @@ public class DetalhesGeneroActivity extends AppCompatActivity implements Detalhe
     public void addGeneroFav(View view) {
         if(checkGeneroFav.equals("false")){
             SingletonGestorDados.getInstance(this).adicionarFavoritosGeneroAPI(this, idUtilizador, idGenero);
-            Toast.makeText(this, "Adicionado aos Favoritos 3" + checkGeneroFav, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Adicionado aos Favoritos ", Toast.LENGTH_SHORT).show();
         }else {
             SingletonGestorDados.getInstance(this).apagarFavoritosGeneroAPI(this,
                     ConteudoJsonParser.isConnectionInternet(this), idUtilizador, idGenero);
-            Toast.makeText(this, "Removido dos Favorittos"+ checkGeneroFav, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Removido dos Favoritos", Toast.LENGTH_SHORT).show();
         }
     }
 }
