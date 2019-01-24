@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.github.aakira.expandablelayout.ExpandableLayout;
 import com.github.aakira.expandablelayout.ExpandableLayoutListener;
 import com.github.aakira.expandablelayout.ExpandableLayoutListenerAdapter;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
@@ -54,7 +56,7 @@ class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-            linhaCompraClickListener.onClick(v,getAdapterPosition(),false);
+        linhaCompraClickListener.onClick(v,getAdapterPosition(),false);
     }
 }
 public class CompraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -71,9 +73,10 @@ public class CompraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-       this.context=viewGroup.getContext();
+        this.context=viewGroup.getContext();
         LayoutInflater inflater=LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.list_item_compras_parent,viewGroup,false);
         return new MyViewHolder(view);
@@ -84,6 +87,7 @@ public class CompraAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (viewHolder.getItemViewType()){
             case 0:
             {
+                System.out.println("----->AdaptComprasOnResponse");
                 final MyViewHolder myViewHolder =(MyViewHolder)viewHolder;
                 final Compra compra= compras.get(i);
                 myViewHolder.setIsRecyclable(false);

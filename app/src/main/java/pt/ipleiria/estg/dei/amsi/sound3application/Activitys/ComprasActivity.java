@@ -18,9 +18,9 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
 public class ComprasActivity extends AppCompatActivity implements ComprasRegistadasListener {
 
-    RecyclerView list;
-    RecyclerView.LayoutManager layoutManager;
-    List<Compra> compras = new ArrayList<>();
+    private RecyclerView list;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Compra> compras;
     private long idUtilizador;
 
     @Override
@@ -39,14 +39,15 @@ public class ComprasActivity extends AppCompatActivity implements ComprasRegista
         layoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(layoutManager);
 
-        if(compras!=null){
-            CompraAdapter compraAdapter = new CompraAdapter(this,compras);
-            list.setAdapter(compraAdapter);
-        }
+
     }
 
     @Override
     public void onResponseGetCompras(ArrayList<Compra> compras) {
-        this.compras=compras;
+        if(compras!=null){
+            System.out.println("----->ActComprasOnResponse");
+            CompraAdapter compraAdapter = new CompraAdapter(this,compras);
+            list.setAdapter(compraAdapter);
+        }
     }
 }
