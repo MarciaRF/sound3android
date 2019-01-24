@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activitys.RegistoActivity"></activity>
         <activity android:name=".Activitys.MainActivity"></activity>
         <activity
             android:name=".Activitys.LoginSignUpActivity"
@@ -34,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activitys.LoginSignUpActivity$RegistoActivity"
+            android:name=".Activitys.RegistoActivity"
             android:parentActivityName=".Activitys.LoginSignUpActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Activitys.DetalhesAlbumActivity"

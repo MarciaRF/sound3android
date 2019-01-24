@@ -49,7 +49,7 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
 
         pesquisa = getIntent().getStringExtra(PESQUISA);
 
-        this.setTitle("Resultado Pesquisa " + "(" + pesquisa + ")" );
+        this.setTitle("Resultados de Pesquisa " + "(" + pesquisa + ")" );
 
         lstMusica = new ArrayList<>();
         lstAlbum = new ArrayList<>();

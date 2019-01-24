@@ -38,4 +38,8 @@
     <string name="pass_incorreta">Insira a password correta</string>
     <string name="download_musicas">Download Músicas</string>
     <string name="registo_de_compras">Registo de Compras</string>
+    <string name="logout">Logout</string>
+    <string name="erro_username">Username não disponível!</string>
+    <string name="erro_username_vazio">Username não pode estar vazio</string>
+    <string name="erro_email_usado">Email já está em uso!</string>
 </resources>
