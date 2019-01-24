@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
@@ -12,11 +13,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import models.Album;
 import models.Artista;
+import models.Compra;
 import models.Genero;
 import models.Musica;
 
@@ -131,6 +137,35 @@ public class ConteudoJsonParser {
         return tempListaMusica;
     }
 
+    public static ArrayList<Compra> parseJsonCompra (JSONArray response, Context context){
+        ArrayList<Compra> tempListaCompra = new ArrayList<>();
+
+        try{
+            for(int i=0; i< response.length(); i++){
+
+                JSONObject compra = (JSONObject) response.get(i);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d", Locale.UK);
+
+                int idCompra = compra.getInt("id");
+                Date data_compra = dateFormat.parse(compra.getString("data_compra"));
+                int valor_total = compra.getInt("valor_total");
+                boolean efetivada = (1 == compra.getInt("efetivada"));
+                int id_utilizador = compra.getInt("id_utilizador");
+
+                Compra auxCompra = new Compra(idCompra, data_compra, valor_total, efetivada, id_utilizador);
+                tempListaCompra.add(auxCompra);
+            }
+            Toast.makeText(context, "----->"+tempListaCompra.get(0).getValorTotal(), Toast.LENGTH_SHORT).show();
+        }catch (JSONException e){
+            e.printStackTrace();
+            Toast.makeText(context, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return tempListaCompra;
+    }
+
 
     public static Album parseJsonObejectAlbum (ArrayList<String> listaAlbum, Context context){
         Album auxAlbum = null;
@@ -146,6 +181,37 @@ public class ConteudoJsonParser {
         auxAlbum = new Album(idAlbum, nome, ano, preco, idArtista, idGenero, capa);
 
         return auxAlbum;
+    }
+
+    public static Genero parseJsonObejectGenero (ArrayList<String> listaGenero, Context context){
+
+        Genero auxGenero = null;
+
+        int idGenero = Integer.parseInt(listaGenero.get(0));
+        String nome = listaGenero.get(1);
+        String descricao = listaGenero.get(2);
+        String imagem = listaGenero.get(3);
+
+        auxGenero = new Genero(idGenero, nome, descricao, imagem);
+
+        return auxGenero;
+    }
+
+    public static Artista parseJsonObejectArtista (ArrayList<String> listaArtista, Context context){
+
+        Artista auxArtista = null;
+
+        int idArtista = Integer.parseInt(listaArtista.get(0));
+        String nome = listaArtista.get(1);
+        String nacionalidade = listaArtista.get(2);
+        int ano = Integer.parseInt(listaArtista.get(3));
+        String caminhoImagem = listaArtista.get(4);
+
+        System.out.println("-->Artista dentro JSON: " + nome);
+
+        auxArtista = new Artista(idArtista, nome, nacionalidade, ano, caminhoImagem);
+
+        return auxArtista;
     }
 
 

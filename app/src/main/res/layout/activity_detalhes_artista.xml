@@ -89,6 +89,7 @@
                         android:id="@+id/iB_detalhes_artista_favoritos"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:onClick="addArtistaFav"
                         android:layout_marginTop="15dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/outline_favorite_border_white_24" />

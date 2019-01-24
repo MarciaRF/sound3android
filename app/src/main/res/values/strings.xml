@@ -36,4 +36,6 @@
     <string name="Pesquisa">Pesquisa</string>
     <string name="ver_todos">Ver +</string>
     <string name="pass_incorreta">Insira a password correta</string>
+    <string name="download_musicas">Download Músicas</string>
+    <string name="registo_de_compras">Registo de Compras</string>
 </resources>

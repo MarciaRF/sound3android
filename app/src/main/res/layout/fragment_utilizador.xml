@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageViewPerfil"
         android:layout_width="match_parent"
         android:layout_height="267dp"
         android:scaleType="centerCrop"
@@ -81,54 +81,40 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="47dp"
-        android:text="Termisnar Sessão"
-        android:textColor="@color/silver"
-        android:drawablePadding="10dp"
-        android:drawableStart="@drawable/logout_icon"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
+
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonRegistoCompra"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
-        android:layout_height="89dp"
-        android:layout_below="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewPerfil"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="-149dp"
-        android:layout_marginBottom="60dp"
         android:drawableStart="@drawable/list_icon"
         android:drawablePadding="10dp"
-        android:text="Registo de Compras"
+        android:text="@string/registo_de_compras"
         android:textColor="@color/silver"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:onClick="mostrarCompras"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonDownload"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="189dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button"
-        android:layout_alignStart="@+id/button"
+        android:layout_alignStart="@+id/buttonRegistoCompra"
+        android:layout_below="@id/buttonRegistoCompra"
         android:layout_marginStart="3dp"
         android:layout_marginBottom="18dp"
         android:drawablePadding="10dp"
-        android:text="Sacar Músicas"
+        android:text="@string/download_musicas"
         android:drawableStart="@drawable/download_icon"
         android:textColor="@color/silver"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imageViewEditar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
