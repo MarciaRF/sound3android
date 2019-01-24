@@ -52,17 +52,17 @@ public class SingletonGestorDados implements CommentListener, AlbumFavoritosList
     private static RequestQueue volleyQueue = null;
     private static SingletonGestorDados INSTANCE = null;
 
-    private String mUrlApiUtilizadores = "http://127.0.0.1/sound3application/frontend/web/api/utilizadores";
-    private String mUrlApiLinhaCompras = "http://127.0.0.1/sound3application/frontend/web/api/linhaCompras";
-    private String mUrlAPIComentarios = "http://192.168.1.83/sound3application/frontend/web/api/comment/";
+    private String mUrlApiUtilizadores = "http://10.200.9.224/sound3application/frontend/web/api/utilizadores";
+    private String mUrlApiLinhaCompras = "http://10.200.9.224/sound3application/frontend/web/api/linhaCompras";
+    private String mUrlAPIComentarios = "http://10.200.9.224/sound3application/frontend/web/api/comment/";
 
     // Favoritos
-    private String mUrlFavAlbumAPI = "http://192.168.1.83/sound3application/frontend/web/api/favalbum/";
-    private String mUrlFavArtistasAPI = "http://192.168.1.83/sound3application/frontend/web/api/favartista/";
+    private String mUrlFavAlbumAPI = "http://10.200.9.224/sound3application/frontend/web/api/favalbum/";
+    private String mUrlFavArtistasAPI = "http://10.200.9.224/sound3application/frontend/web/api/favartista/";
     private String mUrlFavGenerosAPI = "http://192.168.1.83/sound3application/frontend/web/api/favgenero/";
     private String mUrlFavMusicasAPI = "http://192.168.1.83/sound3application/frontend/web/api/favmusica/";
 
-    private String mUrlAPIAlbum = "http://192.168.1.83/sound3application/frontend/web/api/album/";
+    private String mUrlAPIAlbum = "http://10.200.9.224/sound3application/frontend/web/api/album/";
 
 
     public SingletonGestorDados(Context context) {
