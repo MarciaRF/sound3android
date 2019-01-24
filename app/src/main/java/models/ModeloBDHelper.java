@@ -174,7 +174,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
         String createCompraTable = " CREATE TABLE " + TABLE_N_COMPRA +
                 "(" + ID_COMPRA+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DATA_COMPRA + " DATE, " +
-                VALOR_TOTAL_COMPRA + " TEXT, "+
+                VALOR_TOTAL_COMPRA + " INTEGER, "+
                 EFETIVADA_COMPRA + " BOOLEAN, " +
                 ID_UTILIZADOR_COMPRA + " INTEGER, " +
                 "FOREIGN KEY ("+  ID_UTILIZADOR_COMPRA+ ") REFERENCES "+ TABLE_N_UTILIZADOR +"("+ ID_UTILIZADOR+"))";

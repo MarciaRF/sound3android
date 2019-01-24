@@ -22,6 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activitys.RegistoActivity"></activity>
         <activity android:name=".Activitys.MainActivity"></activity>
         <activity
             android:name=".Activitys.LoginSignUpActivity"
@@ -36,17 +37,26 @@
             android:name=".Activitys.LoginSignUpActivity$RegistoActivity"
             android:parentActivityName=".Activitys.LoginSignUpActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activitys.DetalhesAlbumActivity" />
+        <activity android:name=".Activitys.DetalhesAlbumActivity"
+            android:parentActivityName=".Activitys.MainActivity"/>
         <activity
             android:name=".Activitys.PesquisaActivity"
             android:parentActivityName=".Activitys.MainActivity" />
-        <activity android:name=".Activitys.DetalhesArtistaActivity" />
-        <activity android:name=".Activitys.DetalhesGeneroActivity" />
+
+        <activity android:name=".Activitys.DetalhesArtistaActivity"
+            android:parentActivityName=".Activitys.MainActivity"/>
+        <activity android:name=".Activitys.DetalhesGeneroActivity"
+            android:parentActivityName=".Activitys.MainActivity"/>
+
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-        <activity android:name=".Activitys.RegistoComprasActivity" />
-        <activity android:name=".Activitys.FavoritosRecyclerActivity"></activity>
+        <activity android:name=".Activitys.RegistoComprasActivity"
+            android:parentActivityName=".Activitys.MainActivity"/>
+        <activity android:name=".Activitys.FavoritosRecyclerActivity"
+            android:parentActivityName=".Activitys.MainActivity"/>
+        <activity android:name=".Activitys.ComprasActivity"
+            android:parentActivityName=".Activitys.MainActivity"/>
     </application>
 
 </manifest>

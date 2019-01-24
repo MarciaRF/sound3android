@@ -182,7 +182,7 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
 
     @Override
     public void onConnectLogin(String response) {
-        if( response.contains("user")){
+        if(response.contains("user")){
             System.out.println("-------->Login válido, siga main");
             JSONObject obj = null;
             try {
@@ -203,9 +203,6 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            //storing the user in shared preferences
-
 
         } else{
             if(response.equals("erro")){
@@ -233,7 +230,8 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
 
     public void verificarLogin(final Context context, boolean isConnected, final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url ="http://192.168.1.83/sound3application/frontend/web/api/user/verificarlogin";
+      
+        String url ="http://10.200.9.224/sound3application/frontend/web/api/user/verificarlogin";
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()

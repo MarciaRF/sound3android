@@ -10,3 +10,4 @@
 /captures
 .externalNativeBuild
 app/src/main/java/pt/ipleiria/estg/dei/amsi/sound3application/Listeners/LoginSignUpListener.java
+app/src/main/java/pt/ipleiria/estg/dei/amsi/sound3application/Listeners/LoginListener.java
