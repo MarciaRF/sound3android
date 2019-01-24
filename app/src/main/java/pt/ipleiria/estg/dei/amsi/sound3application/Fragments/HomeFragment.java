@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment implements HomeListener {
         SingletonGestorConteudo.getInstance(getContext()).setConteudoListener(this);
 
         // Vai Buscar os Dados a API
+
         SingletonGestorConteudo.getInstance(getContext()).getTopAlbunsAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
 

@@ -155,6 +155,7 @@ public class ConteudoJsonParser {
                 Compra auxCompra = new Compra(idCompra, data_compra, valor_total, efetivada, id_utilizador);
                 tempListaCompra.add(auxCompra);
             }
+            Toast.makeText(context, "----->"+tempListaCompra.get(0).getValorTotal(), Toast.LENGTH_SHORT).show();
         }catch (JSONException e){
             e.printStackTrace();
             Toast.makeText(context, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();

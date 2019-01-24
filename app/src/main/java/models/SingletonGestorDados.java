@@ -20,7 +20,6 @@ import java.util.Map;
 
 
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.ComprasActivity;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.AlbumFavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ComprasRegistadasListener;
 
@@ -35,7 +34,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.DadosJsonParser;
 
 public class SingletonGestorDados implements CommentListener, FavoritosListener,
-        DetalhesGeneroListener, DetalhesArtistaListener, PesquisaListener, DetalhesAlbumListener
+        DetalhesGeneroListener, DetalhesArtistaListener, PesquisaListener, DetalhesAlbumListener, ComprasRegistadasListener
 {
 
     private ArrayList<Utilizador> utilizadores;
@@ -87,7 +86,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     private String mUrlFavGenerosAPI = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/favgenero/";
     private String mUrlFavMusicasAPI = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/favmusica/";
 
-    private String mUrlAPIAlbum = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/album/";
     private String mUrlAPIGenero = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/genero/";
     private String mUrlAPIArtista = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/artista/";
 
@@ -95,7 +93,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     private String mUrlCompraAPI = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/compra/";
 
-    private String mUrlComentarioAPI = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/comment/";
+    private String mUrlAPIComentarios = "http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/comment/";
 
 
     public SingletonGestorDados(Context context) {
@@ -980,6 +978,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                 public void onResponse(JSONArray response) {
                     compras = ConteudoJsonParser.parseJsonCompra(response, context);
                     if(comprasRegistadasListener != null){
+                        System.out.println("----->ComprasOnResponse"+compras);
                         comprasRegistadasListener.onResponseGetCompras(compras);
                     }
                 }
@@ -1323,7 +1322,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         if(!isConnected){
 
         }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlComentarioAPI + "getallcomments?albumId=" + albumId,
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlAPIComentarios + "getallcomments?albumId=" + albumId,
                     null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
@@ -1349,7 +1348,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void adicionarAlbumCarrinhoAPI(final  Context context, boolean isConnected, final long utilizadorId, final long albumId){
         if(!isConnected){
         }else{
-            StringRequest req = new StringRequest(Request.Method.POST, mUrlCompraAPI + "adicionaralbum?userId="+ utilizadorId+
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI + "adicionaralbum?userId="+ utilizadorId+
                     "&albumId=" +albumId,
                     new Response.Listener<String>() {
                         @Override
@@ -1529,5 +1528,10 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     @Override
     public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas) {
 
+    }
+
+    @Override
+    public void onResponseGetCompras(ArrayList<Compra> compras) {
+        System.out.println("----->ComprasOnResponse"+compras);
     }
 }
