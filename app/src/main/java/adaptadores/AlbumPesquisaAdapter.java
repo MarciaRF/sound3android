@@ -53,8 +53,8 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.mAlbumNome.setText(mData.get(position).getNome());
-        holder.mAlbumArtista.setText(mData.get(position).getNome());
-        //holder.mAlbumCapa.setImageResource(mData.get(position).getImagem());
+        //holder.mAlbumPreco.setText(mData.get(position).getPreco());
+        //holder.mAlbumArtista.setText();
 
         urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
 
@@ -90,13 +90,15 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
         public ImageView mAlbumCapa;
         public TextView mAlbumNome;
         public TextView mAlbumArtista;
+        //public TextView mAlbumPreco;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mAlbumCapa = itemView.findViewById(R.id.iV_pesquisa_albumCapa);
             mAlbumNome = itemView.findViewById(R.id.tV_pesquisa_albumNome);
-            mAlbumArtista = itemView.findViewById(R.id.tV_pesquisa_albumPreco);
+            mAlbumArtista = itemView.findViewById(R.id.tV_pesquisa_albumArtista);
+            //mAlbumPreco = itemView.findViewById(R.id.tV_pesquisa_albumPreco);
 
         }
 

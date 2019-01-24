@@ -447,7 +447,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                     return params;
                 }
             };
-            System.out.println("-->Error req: " + req);
             volleyQueue.add(req);
         }
     }
@@ -503,7 +502,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                 params.put("id_utilizador", "" + utilizadorId);
                 params.put("id_genero", "" + generoId);
 
-                System.out.println("-->Error params: " + params);
                 return params;
             }
         };
@@ -565,7 +563,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                     return params;
                 }
             };
-            System.out.println("-->Error req: " + req);
             volleyQueue.add(req);
         }
     }
@@ -575,7 +572,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
         }else{
             StringRequest req = new StringRequest(Request.Method.DELETE, mUrlFavArtistasAPI +
-                    "apagarfavartista?userId=" + utilizadorId + "&artistaId=" + artistaId,
+                    "apagarfavoritoartista?userId=" + utilizadorId + "&artistaId=" + artistaId,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -599,7 +596,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                     return params;
                 }
             };
-            System.out.println("-->Error req: " + req);
             volleyQueue.add(req);
         }
     }
@@ -633,7 +629,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                     return params;
                 }
             };
-            System.out.println("-->Error req: " + req);
             volleyQueue.add(req);
         }
     }
@@ -891,6 +886,8 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                         obj = new JSONObject(response);
                         JSONObject userJson = obj.getJSONObject("genero");
 
+
+
                         ArrayList<String> tempGenero = new ArrayList<>();
 
                         tempGenero.add("" + userJson.getLong("id"));
@@ -991,7 +988,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error : " + error);
+                    System.out.println("-->Error 1: " + error);
                 }
             });
             volleyQueue.add(req);

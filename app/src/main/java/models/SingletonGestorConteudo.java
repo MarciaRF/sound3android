@@ -44,7 +44,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     private MusicasListener musicasListener;
     private DetalhesArtistaListener detalhesArtistaListener;
 
-    public static final String IP = "10.200.24.3";
+    public static final String IP = "192.168.1.83";
 
 
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
@@ -387,7 +387,6 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
                 @Override
                 public void onResponse(JSONArray response) {
                     topAlbuns = ConteudoJsonParser.parseJsonAlbum(response, context);
-
                     if(homeListener != null){
                         homeListener.onRefreshTopAlbuns(topAlbuns);
                     }
