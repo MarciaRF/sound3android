@@ -132,6 +132,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
                 "(" + ID_ALBUM + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 NOME_ALBUM + " TEXT NOT NULL, " +
                 ANO_ALBUM + " INTEGER, "+
+                PRECO_ALBUM + " INTEGER, "+
                 FOTO_ALBUM + " TEXT, "+
                 ID_AUTOR_ALBUM + " INTEGER, "+
                 ID_GENERO_DO_ALBUM + " INTEGER, "+
@@ -549,7 +550,7 @@ public class ModeloBDHelper extends SQLiteOpenHelper {
     public ArrayList<Album> getAllAlbunsBD(){
         ArrayList<Album> albuns = new ArrayList<>();
 
-        Cursor cursor = this.database.query(TABLE_N_ALBUM, new String[]{" id ", NOME_ALBUM, ANO_ALBUM,PRECO_ALBUM, FOTO_ALBUM, ID_AUTOR_ALBUM, ID_GENERO_DO_ALBUM},
+        Cursor cursor = this.database.query(TABLE_N_ALBUM, new String[]{" id ", NOME_ALBUM, ANO_ALBUM, PRECO_ALBUM, FOTO_ALBUM, ID_AUTOR_ALBUM, ID_GENERO_DO_ALBUM},
                 null, null,null, null, null);
 
         if(cursor.moveToFirst()){

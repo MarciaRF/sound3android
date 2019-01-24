@@ -69,12 +69,18 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
+
+        if (GestorSharedPref.getInstance(this).isLoggedIn()) {
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+            return;
+        }
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         mPasswordView = findViewById(R.id.password);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,7 +189,6 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
     @Override
     public void onConnectLogin(String response) {
         if(response.contains("user")){
-            System.out.println("-------->Login válido, siga main");
             JSONObject obj = null;
             try {
                 obj = new JSONObject(response);
@@ -214,7 +219,6 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
             mPasswordView.setError(getString(R.string.pass_incorreta));
             focusView = mPasswordView;
             focusView.requestFocus();
-            System.out.println("-------->connectLogin FALSE");
         }
 
     }
@@ -231,7 +235,7 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
     public void verificarLogin(final Context context, boolean isConnected, final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(context);
       
-        String url ="http://10.200.9.224/sound3application/frontend/web/api/user/verificarlogin";
+        String url ="http://192.168.1.119/sound3application/frontend/web/api/user/verificarlogin";
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()
@@ -270,20 +274,6 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
         };
 
         queue.add(getRequest);
-    }
-
-    public static class RegistoActivity extends AppCompatActivity {
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_registo);
-        }
-
-        public void ligacaoLogin(View view) {
-            Intent intent = new Intent (getApplicationContext(), LoginSignUpActivity.class);
-            startActivity(intent);
-        }
     }
 }
 
