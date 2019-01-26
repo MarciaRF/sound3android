@@ -45,7 +45,6 @@ public class GestorSharedPref {
         editor.putString(KEY_USERNAME, user.get(1));
         editor.putString(KEY_EMAIL, user.get(2));
         editor.apply();
-        System.out.println("-------->"+sharedPreferences.contains(KEY_USERNAME));
     }
 
     //this method will check whether user is already logged in or not
@@ -72,5 +71,13 @@ public class GestorSharedPref {
         editor.clear();
         editor.apply();
         mCtx.startActivity(new Intent(mCtx, LoginSignUpActivity.class));
+    }
+
+
+    public long getIdUtilizador(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(NOME_SHARED_PREF, Context.MODE_PRIVATE);
+        long idUser = sharedPreferences.getLong(KEY_ID, -1);
+
+        return idUser;
     }
 }

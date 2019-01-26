@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import adaptadores.AlbumPesquisaAdapter;
 import adaptadores.GeneroAdapter;
 import models.Album;
+import models.Artista;
 import models.FavoritoGenero;
 import models.Genero;
 import models.SingletonGestorConteudo;
@@ -35,7 +36,6 @@ public class DetalhesGeneroActivity extends AppCompatActivity implements Detalhe
     private String checkGeneroFav;
     private ImageButton btnAddFavoritos;
 
-    private ArrayList utilizador;
     private long idUtilizador;
 
     private RecyclerView recyclerViewAlbuns;
@@ -49,8 +49,8 @@ public class DetalhesGeneroActivity extends AppCompatActivity implements Detalhe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_genero);
 
-        utilizador = GestorSharedPref.getInstance(this).getUser();
-        idUtilizador = Integer.parseInt(utilizador.get(0).toString());
+        // Vai Buscar Id do Utilizador as Shared
+        idUtilizador = GestorSharedPref.getInstance(this).getIdUtilizador();
 
         getSupportActionBar().setTitle("Detalhes Genero");
 
@@ -62,7 +62,8 @@ public class DetalhesGeneroActivity extends AppCompatActivity implements Detalhe
 
         //Recebe o Id do Genero
         idGenero = getIntent().getLongExtra(GeneroAdapter.DETALHES_GENERO,0);
-        System.out.println("-->GENERO : " + idGenero);
+
+
 
         SingletonGestorDados.getInstance(this).setDetalhesGeneroListener(this);
 
@@ -74,7 +75,7 @@ public class DetalhesGeneroActivity extends AppCompatActivity implements Detalhe
         SingletonGestorDados.getInstance(this).getAllAlbunsDoGeneroAPI(this,
                 ConteudoJsonParser.isConnectionInternet(this), idGenero);
 
-        // CHeca se o Album esta nos Favoritos
+        // Checa se o Album esta nos Favoritos
         SingletonGestorDados.getInstance(this).getGeneroFavoritoAPI(this,
                 ConteudoJsonParser.isConnectionInternet(this),idUtilizador, idGenero);
 
@@ -90,11 +91,11 @@ public class DetalhesGeneroActivity extends AppCompatActivity implements Detalhe
     }
 
     @Override
-    public void onRefreshAlbunsGeneros(ArrayList<Album> albunsGenero) {
+    public void onRefreshAlbunsGeneros(ArrayList<Album> albunsGenero, ArrayList<Artista> artistas) {
         recyclerViewAlbuns = findViewById(R.id.rV_detalhes_generoAlbuns);
         recyclerViewAlbuns.setHasFixedSize(true);
         recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, albunsGenero);
+        AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, albunsGenero, artistas);
         recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
     }
 

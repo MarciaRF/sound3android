@@ -52,12 +52,6 @@ import static pt.ipleiria.estg.dei.amsi.sound3application.Activitys.PesquisaActi
 
 public class MainActivity extends AppCompatActivity {
 
-    //Arrays do Fake Data
-    private ArrayList<Album> lstAlbum;
-    private ArrayList<Musica> lstMusica;
-    private ArrayList<Artista> lstArtista;
-    private ArrayList<Genero> lstGenero;
-
     private SingletonGestorConteudo gestorConteudo;
     private static final String ESTADO_GESTOR_ALBUNS = "ESTADO_GESTOR_ALBUNS";
 
@@ -93,12 +87,6 @@ public class MainActivity extends AppCompatActivity {
                     savedInstanceState.getSerializable(ESTADO_GESTOR_ALBUNS);
         }
 
-        /*
-        SingletonGestorConteudo.getInstance(this).adicionarAlbumBD(criarAlbum());
-        SingletonGestorConteudo.getInstance(this).adicionarArtistaBD(criarArtista());
-        SingletonGestorConteudo.getInstance(this).adicionarMusicaBD(criarMusica());
-        SingletonGestorConteudo.getInstance(this).adicionarGeneroBD(criarGenero());
-        */
 
         // Código do MQTT
         String clientId = MqttClient.generateClientId();
@@ -231,54 +219,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-    // Gerar Fake Data para a DB
-    /*public ArrayList<Album> criarAlbum(){
-        lstAlbum = new ArrayList<>();
 
-        lstAlbum.add(new Album( 1,"Filhos do Rossi", 2017, R.drawable.filhos_do_rossi,1,1));
-        lstAlbum.add(new Album( 2,"Bad", 1987, R.drawable.bad,2,2));
-        lstAlbum.add(new Album( 3,"Avici", 2017, R.drawable.avici,3,3));
-        lstAlbum.add(new Album( 4,"Master of Puppets", 1986, R.drawable.mastertofpuppets,4,4));
-        lstAlbum.add(new Album( 5,"Legend", 1984, R.drawable.legend,5,5));
-
-        return lstAlbum;
-    }
-
-    public ArrayList<Musica> criarMusica(){
-        lstMusica = new ArrayList<>();
-
-        lstMusica.add(new Musica(1, "Intro", "2:17", 2, 1, "nao tem", 1));
-        lstMusica.add(new Musica(2, "Todos Olham", "3:48", 2, 1, "nao tem", 2));
-        lstMusica.add(new Musica(3, "Essa life é Good", "4:07", 2, 1, "nao tem", 3));
-        lstMusica.add(new Musica(4, "Não Sinto", "5:11", 2, 1, "nao tem", 4));
-        lstMusica.add(new Musica(5, "Kill 'Em All", "4:09", 2, 1, "nao tem", 5));
-        lstMusica.add(new Musica(6, "Pagode", "3:37", 2, 1, "nao tem", 6));
-        lstMusica.add(new Musica(7, "Não Tens Visto", "5:27", 2, 1, "nao tem", 7));
-
-        return lstMusica;
-    }
-
-    public ArrayList<Artista> criarArtista(){
-        lstArtista = new ArrayList<>();
-
-        lstArtista.add(new Artista(1, "Wet Bed Gang", "PT", 2014, R.drawable.wbg));
-        lstArtista.add(new Artista(2, "Michael Jackson", "EUA", 1964, R.drawable.michael_jackson));
-        lstArtista.add(new Artista(3, "Avicii", "SWE", 2006, R.drawable.avicii));
-        lstArtista.add(new Artista(4, "Metallica", "EUA", 1981, R.drawable.metallica));
-        lstArtista.add(new Artista(5, "Bob Marlley", "JAM", 1962, R.drawable.bob_marley));
-
-        return lstArtista;
-    }
-
-    /*public ArrayList<Genero> criarGenero(){
-        lstGenero = new ArrayList<>();
-
-        lstGenero.add(new Genero(1, "Eletronic", "Por definição, música eletrônica é toda e qualquer música criada ou modificada por meio de equipamentos e instrumentos eletrônicos, como gravadores digitais, computadores, softwares e sintetizadores.", R.drawable.eletronic));
-        lstGenero.add(new Genero(2, "Hip Hop", "DescriçãoHip hop é um gênero musical, com uma subcultura iniciada durante a década de 1970, nas áreas centrais de comunidades jamaicanas, latinas e afro-americanas da cidade de Nova Iorque.", R.drawable.hiphop));
-        lstGenero.add(new Genero(3, "Pop", "A música pop é um gênero da música popular que se originou durante a década de 1950 nos Estados Unidos e Reino Unido.", R.drawable.ppop));
-        lstGenero.add(new Genero(4, "Rock", "Rock é um termo abrangente que define um gênero musical de música popular que se desenvolveu durante e após a década de 1950.", R.drawable.rock));
-        lstGenero.add(new Genero(5, "Reggae", "Reggae é um gênero musical desenvolvido originalmente na Jamaica do fim da década de 1960. Embora por vezes seja usado num sentido mais amplo para se referir à maior parte dos tipos de música jamaicana.", R.drawable.reggae));
-
-        return lstGenero;
-    }*/
 }

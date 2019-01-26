@@ -14,9 +14,10 @@ public interface HomeListener {
     void onRefreshMusicas(ArrayList<Musica> listaMusicas);
 
 
-    void onRefreshTopAlbuns(ArrayList<Album> listaTopAlbuns);
+    void onRefreshTopAlbuns(ArrayList<Album> listaTopAlbuns, ArrayList<Artista> listaArtistasTopAlbuns);
     void onRefreshArtistasMaisVendidos(ArrayList<Artista> listArtistasMaisVendidos);
-    void onRefreshAlbunsMaisRecentes(ArrayList<Album> listaAlbunsMaisVendidos);
+    void onRefreshAlbunsMaisRecentes(ArrayList<Album> listaAlbunsMaisVendidos, ArrayList<Artista> listaArtistasTopAlbuns);
 
+    //void onRefreshTopAlbunsArtistas(ArrayList<Artista> listaArtistasTopAlbuns);
 
 }

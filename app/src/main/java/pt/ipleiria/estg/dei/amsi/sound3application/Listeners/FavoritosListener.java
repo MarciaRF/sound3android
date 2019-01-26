@@ -8,8 +8,8 @@ import models.Genero;
 import models.Musica;
 
 public interface FavoritosListener {
-    void onRefreshAlbunsFavoritos(ArrayList<Album> albuns);
+    void onRefreshAlbunsFavoritos(ArrayList<Album> albuns, ArrayList<Artista> artistas);
     void onRefreshArtistasFavoritos(ArrayList<Artista> artistas);
     void onRefreshGenerosFavoritos(ArrayList<Genero> generos);
-    void onRefreshMusicasFavoritos(ArrayList<Musica> musicas);
+    void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> album);
 }

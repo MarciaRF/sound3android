@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import models.Album;
+import models.Artista;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
@@ -25,12 +26,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     List<Album> mData;
     String url = "/sound3application/common/img/capas/";
     String urlImagem;
+    List<Artista> mArtista;
 
     public static final String DETALHES_ALBUM = "ALBUM";
 
-    public AlbumAdapter(Context mContext, List<Album> mData){
+    public AlbumAdapter(Context mContext, List<Album> mData, List<Artista> mArtista){
         this.mContext = mContext;
         this.mData = mData;
+        this.mArtista = mArtista;
     }
 
 
@@ -50,6 +53,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.mAlbumNome.setText(mData.get(position).getNome());
+        holder.mAlbumArtista.setText(mArtista.get(position).getNome());
         //holder.mAlbumArtista.setText(mData.get(position).getNome());
 
         //Vai Buscar o IP do Singleton e Concatena com o caminho
@@ -91,7 +95,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
 
             mAlbumCapa = itemView.findViewById(R.id.iV_album_capa);
             mAlbumNome = itemView.findViewById(R.id.tV_album_nome);
-            //mAlbumArtista = itemView.findViewById(R.id.tV_album_artista);
+            mAlbumArtista = itemView.findViewById(R.id.tV_album_artista);
         }
 
     }

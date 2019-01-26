@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment implements HomeListener {
     private RecyclerView recyclerViewGeneros;
     private RecyclerView recyclerViewAlbunsRecentes;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,6 @@ public class HomeFragment extends Fragment implements HomeListener {
         SingletonGestorConteudo.getInstance(getContext()).setConteudoListener(this);
 
         // Vai Buscar os Dados a API
-
         SingletonGestorConteudo.getInstance(getContext()).getTopAlbunsAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()));
 
@@ -65,12 +65,12 @@ public class HomeFragment extends Fragment implements HomeListener {
 
 
     @Override
-    public void onRefreshTopAlbuns(ArrayList<Album> listaTopAlbuns) {
+    public void onRefreshTopAlbuns(ArrayList<Album> listaTopAlbuns, ArrayList<Artista> listaArtistasTopAlbuns) {
         if(!listaTopAlbuns.isEmpty()){
             recyclerViewTopAlbuns = view.findViewById(R.id.rV_home_topAlbuns);
             recyclerViewTopAlbuns.setHasFixedSize(true);//Otimização
             recyclerViewTopAlbuns.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-            AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaTopAlbuns);
+            AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaTopAlbuns, listaArtistasTopAlbuns);
             recyclerViewTopAlbuns.setAdapter(albunsRecentesAdapter);
         }
     }
@@ -98,12 +98,11 @@ public class HomeFragment extends Fragment implements HomeListener {
     }
 
     @Override
-    public void onRefreshAlbunsMaisRecentes(ArrayList<Album> listaAlbunsMaisVendidos) {
-        if(listaAlbunsMaisVendidos != null)
+    public void onRefreshAlbunsMaisRecentes(ArrayList<Album> listaAlbunsMaisVendidos, ArrayList<Artista> listaArtistasTopAlbuns) {
         recyclerViewAlbunsRecentes = view.findViewById(R.id.rV_home_albunsRecentes);
         recyclerViewAlbunsRecentes.setHasFixedSize(true);
         recyclerViewAlbunsRecentes.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaAlbunsMaisVendidos);
+        AlbumAdapter albunsRecentesAdapter = new AlbumAdapter(getContext(), listaAlbunsMaisVendidos, listaArtistasTopAlbuns);
         recyclerViewAlbunsRecentes.setAdapter(albunsRecentesAdapter);
     }
 

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import models.Album;
+import models.Artista;
 import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
@@ -24,6 +25,7 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
 
     Context mContext;
     List<Album> mData;
+    List<Artista> mArtista;
 
     String url = "/sound3application/common/img/capas/";
     String urlImagem;
@@ -31,9 +33,10 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
     public static final String DETALHES_ALBUM = "ALBUM";
 
 
-    public AlbumPesquisaAdapter(Context mContext, List<Album> mData){
+    public AlbumPesquisaAdapter(Context mContext, List<Album> mData, List<Artista> mArtista){
         this.mContext = mContext;
         this.mData = mData;
+        this.mArtista = mArtista;
     }
 
 
@@ -53,8 +56,8 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.mAlbumNome.setText(mData.get(position).getNome());
-        //holder.mAlbumPreco.setText(mData.get(position).getPreco());
-        //holder.mAlbumArtista.setText();
+        holder.mAlbumPreco.setText(""+mData.get(position).getPreco()+"€");
+        holder.mAlbumArtista.setText(mArtista.get(position).getNome());
 
         urlImagem = "http://" + SingletonGestorConteudo.IP + url + mData.get(position).getImagem();
 
@@ -90,7 +93,7 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
         public ImageView mAlbumCapa;
         public TextView mAlbumNome;
         public TextView mAlbumArtista;
-        //public TextView mAlbumPreco;
+        public TextView mAlbumPreco;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,7 +101,7 @@ public class AlbumPesquisaAdapter extends Adapter<AlbumPesquisaAdapter.MyViewHol
             mAlbumCapa = itemView.findViewById(R.id.iV_pesquisa_albumCapa);
             mAlbumNome = itemView.findViewById(R.id.tV_pesquisa_albumNome);
             mAlbumArtista = itemView.findViewById(R.id.tV_pesquisa_albumArtista);
-            //mAlbumPreco = itemView.findViewById(R.id.tV_pesquisa_albumPreco);
+            mAlbumPreco = itemView.findViewById(R.id.tV_pesquisa_albumPreco);
 
         }
 

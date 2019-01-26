@@ -20,11 +20,13 @@ import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.PesquisaListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class PesquisaActivity extends AppCompatActivity implements PesquisaListener {
+public class PesquisaActivity extends AppCompatActivity implements PesquisaListener, MusicaFavoritosCarrinhoListenner {
 
     public static final String PESQUISA = "PESQUISA";
 
@@ -40,6 +42,10 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
 
     private String pesquisa;
 
+    private long idUtilizador;
+
+    private ArrayList<Musica> musicasFavoritos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,9 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
         pesquisa = getIntent().getStringExtra(PESQUISA);
 
         this.setTitle("Resultado Pesquisa " + "(" + pesquisa + ")" );
+
+        // Vai Buscar Id do Utilizador as Shared
+        idUtilizador = GestorSharedPref.getInstance(this).getIdUtilizador();
 
         lstMusica = new ArrayList<>();
         lstAlbum = new ArrayList<>();
@@ -64,7 +73,6 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
 
         for (Musica temp: SingletonGestorConteudo.getInstance(getApplicationContext()).getMusicasBD()) {
             if (temp.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
-                System.out.println("---->Temp : " + temp.getNome());
                 lstMusica.add(temp);
             }
         }
@@ -99,12 +107,12 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
     }
 
     @Override
-    public void onRefreshAlbunsPesquisa(ArrayList<Album> pesquisaAlbuns) {
+    public void onRefreshAlbunsPesquisa(ArrayList<Album> pesquisaAlbuns, ArrayList<Artista> artistas) {
         if(pesquisaAlbuns != null){
             recyclerViewAlbuns = findViewById(R.id.rV_pesquisa_albuns);
             recyclerViewAlbuns.setHasFixedSize(true);//Otimização
             recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, pesquisaAlbuns);
+            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, pesquisaAlbuns, artistas);
             recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
         }
     }
@@ -132,13 +140,23 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
     }
 
     @Override
-    public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas) {
+    public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas, ArrayList<Album> albuns) {
         if(pesquisaMusicas != null){
             recyclerViewMusicas = findViewById(R.id.rV_pesquisa_musicas);
             recyclerViewMusicas.setHasFixedSize(true);//Otimização
             recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            MusicaAdapter musicasAdapter = new MusicaAdapter(this, pesquisaMusicas);
+            MusicaAdapter musicasAdapter = new MusicaAdapter(this, pesquisaMusicas, albuns, idUtilizador, musicasFavoritos);
             recyclerViewMusicas.setAdapter(musicasAdapter);
         }
+    }
+
+    @Override
+    public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
+        musicasFavoritos = listaMusicasFavoritos;
+    }
+
+    @Override
+    public void onMusicasNosCarrinho(ArrayList<Musica> listaMusicasCarrinho) {
+
     }
 }

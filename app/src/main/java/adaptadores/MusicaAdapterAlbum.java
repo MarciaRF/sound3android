@@ -12,26 +12,23 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import models.Album;
 import models.Musica;
-
-import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
-public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHolder>{
+public class MusicaAdapterAlbum extends RecyclerView.Adapter<MusicaAdapterAlbum.MyViewHolder>{
 
         Context mContext;
         List<Musica> mData;
         Long idUser;
         List<Musica> mFav;
-        ArrayList<Album> mAlbum;
+        Album mAlbum;
 
-        public MusicaAdapter(Context mContext, List<Musica> mData, ArrayList<Album> mAlbum, Long idUser, List<Musica> mFav) {
+        public MusicaAdapterAlbum(Context mContext, List<Musica> mData, Album mAlbum, Long idUser, List<Musica> mFav) {
             this.mContext = mContext;
             this.mData = mData;
             this.mAlbum = mAlbum;
@@ -94,9 +91,10 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
                 }
             });
 
+
             holder.mNome.setText(mData.get(position).getNome());
             holder.mTempo.setText(mData.get(position).getDuracao());
-            holder.mArtista.setText(mAlbum.get(position).getNome());
+            holder.mArtista.setText(mAlbum.getNome());
             holder.mPreco.setText(""+mData.get(position).getPreco()+"€");
 
         }
