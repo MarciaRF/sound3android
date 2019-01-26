@@ -55,7 +55,7 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
 
         pesquisa = getIntent().getStringExtra(PESQUISA);
 
-        this.setTitle("Resultado Pesquisa " + "(" + pesquisa + ")" );
+        this.setTitle("Resultados de Pesquisa " + "(" + pesquisa + ")" );
 
         // Vai Buscar Id do Utilizador as Shared
         idUtilizador = GestorSharedPref.getInstance(this).getIdUtilizador();

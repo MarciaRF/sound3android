@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="pt.ipleiria.estg.dei.amsi.sound3application.Activitys.RegistoActivity"
-    android:background="@color/colorBlack">
+    android:background="@drawable/login">
 
     <Space
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
         android:backgroundTint="@color/vermelhoPrincipal"
         android:drawableLeft="@drawable/ic_action_password"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:hint="@string/textView_passwordRegisto"
         android:textColorHint="@color/colorWhite"
         android:textColor="@color/colorWhite"
@@ -91,7 +91,7 @@
         android:backgroundTint="@color/vermelhoPrincipal"
         android:drawableLeft="@drawable/ic_action_password"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:hint="@string/textView_repetirPasswordRegisto"
         android:textColorHint="@color/colorWhite"
         android:textColor="@color/colorWhite"

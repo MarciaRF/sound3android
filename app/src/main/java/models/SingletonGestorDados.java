@@ -22,6 +22,7 @@ import java.util.Map;
 
 
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.ComprasActivity;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CarrinhoListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CommentListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ComprasRegistadasListener;
 
@@ -39,7 +40,8 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Utils.DadosJsonParser;
 
 public class SingletonGestorDados implements CommentListener, FavoritosListener,
         DetalhesGeneroListener, DetalhesArtistaListener, PesquisaListener, DetalhesAlbumListener,
-        ComprasRegistadasListener, MusicasListener, MusicaFavoritosCarrinhoListenner
+        ComprasRegistadasListener, MusicasListener, MusicaFavoritosCarrinhoListenner, CarrinhoListener
+
 {
 
     private ArrayList<Utilizador> utilizadores;
@@ -66,6 +68,8 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     private CommentListener commentListener;
     private MusicasListener musicasListener;
     private MusicaFavoritosCarrinhoListenner musicaFavoritosCarrinhoListenner;
+    private CarrinhoListener carrinhoListener;
+
 
     private Album objetoAlbum;
     private Genero objetoGenero;
@@ -1246,7 +1250,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         volleyQueue.add(req);
     }
 
-    //Adiconar Album ao Carrinho
+    //Adicionar Album ao Carrinho
     public void adicionarAlbumCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId, final long albumId){
         if(!isConnected){
         }else{
@@ -1335,9 +1339,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             volleyQueue.add(req);
         }
     }
-
-
-
 
     // Get Artista do Album
     public void getArtistaAlbumAPI(final Context context, boolean isConnected, final long idAlbum){
@@ -1440,8 +1441,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         }*/
     }
 
-
-
     // Adiciona Comentario a um Album
     public void adicionarCommentAlbumAPI(final  Context context, boolean isConnected, final long idAlbum, final long idUser, final String comentario, final java.sql.Date data){
         StringRequest req = new StringRequest(Request.Method.POST,
@@ -1511,8 +1510,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         }
     }
 
-
-
     // Vai Buscar todos os Albuns de um Genero
     public void getAllAlbunsDoGeneroAPI(final Context context, boolean isConnected, final long generoId){
         if(!isConnected){
@@ -1571,10 +1568,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             volleyQueue.add(req);
         }*/
     }
-
-
-
-
 
     public void getComprasRegistadasAPI(final Context context, boolean isConnected, final long userId) {
         if(!isConnected){
@@ -1649,8 +1642,8 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         }
     }
 
-
     public void apagarFavoritosMusicaAPI(final  Context context, boolean isConnected, final long utilizadorId, final long musicaId){
+
         if(!isConnected){
 
         }else{
@@ -1683,8 +1676,46 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         }
     }
 
+    //get Items Carrinho
+    public void getItemsCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId){
+        if(!isConnected){
 
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlCompraAPI + "getcarrinho?userId=" + utilizadorId,
+                    null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                            musicas = ConteudoJsonParser.parseJsonMusica(response, context);
+                            if(!musicas.isEmpty()){
+                                Toast.makeText(context, ""+musicas.get(0).getNome(), Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(context, "Sem items no carrinho", Toast.LENGTH_SHORT).show();
+                            }
+                            if(carrinhoListener != null){
+                                carrinhoListener.onRefreshCarrinho(musicas);
+                            }
+                    
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não foi possível mostrar o carrinho", Toast.LENGTH_SHORT).show();
+                    System.out.println("-->Error add: " + error);
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams()
+                {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id_utilizador", "" + utilizadorId);
 
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+    
     public void setMusicaFavoritosCarrinhoListenner(MusicaFavoritosCarrinhoListenner musicaFavoritosCarrinhoListenner){
             this.musicaFavoritosCarrinhoListenner = musicaFavoritosCarrinhoListenner;
     }
@@ -1695,6 +1726,10 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void setComprasRegistadasListener(ComprasRegistadasListener comprasRegistadasListener){
         this.comprasRegistadasListener = comprasRegistadasListener;
+
+    public void setCarrinhoListener(CarrinhoListener carrinhoListener){
+        this.carrinhoListener = carrinhoListener;
+
     }
 
     public void setFavoritosListener(FavoritosListener favoritosListener){
@@ -1720,11 +1755,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void setDetalhesAlbumListener(DetalhesAlbumListener detalhesAlbumListener){
         this.detalhesAlbumListener = detalhesAlbumListener;
     }
-
-
-
-
-
+    
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios, ArrayList<Utilizador> listaComentariosUser) {
 
@@ -1802,6 +1833,16 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     @Override
     public void onRefreshMusicas(ArrayList<Musica> listaMusicas, Album listaMusicasArtistas) {
+
+    }
+
+    @Override
+    public void onRefreshCarrinho(ArrayList<Musica> musicas) {
+
+    }
+
+    @Override
+    public void onResfreshComment(ArrayList<Comentario> listaComentarios) {
 
     }
 }

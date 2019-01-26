@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -38,6 +39,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.HomeFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.UtilizadorFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
 import static pt.ipleiria.estg.dei.amsi.sound3application.Activitys.PesquisaActivity.PESQUISA;
 
@@ -205,6 +207,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_opcoes_logout){
+            finish();
+            GestorSharedPref.getInstance(getApplicationContext()).logout();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // Intent da Pesquisa

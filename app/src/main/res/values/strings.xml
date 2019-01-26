@@ -38,4 +38,14 @@
     <string name="pass_incorreta">Insira a password correta</string>
     <string name="download_musicas">Download Músicas</string>
     <string name="registo_de_compras">Registo de Compras</string>
+    <string name="logout">Logout</string>
+    <string name="erro_username">Username não disponível!</string>
+    <string name="erro_username_vazio">Username não pode estar vazio</string>
+    <string name="erro_email_usado">Email já está em uso!</string>
+    <string name="preco_carrinho">Total:</string>
+    <string name="checkout_btn_carrinho">Checkout</string>
+    <string name="adicionar_ao_carrinho">Adicionar ao Carrinho</string>
+    <string name="adicionar_aos_favoritos">Adicionar aos Favoritos</string>
+    <string name="remover_do_carrinho">Remover do Carrinho</string>
+    <string name="remover_dos_favoritos">Remover dos Favoritos</string>
 </resources>
