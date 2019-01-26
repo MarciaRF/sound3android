@@ -20,6 +20,7 @@ import java.util.List;
 import models.Artista;
 import models.Comentario;
 import models.SingletonGestorConteudo;
+import models.Utilizador;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesArtistaActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 
@@ -28,15 +29,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     Context mContext;
     ArrayList<Comentario> mData;
+    ArrayList<Utilizador> mUser;
 
     String url = "http://" + SingletonGestorConteudo.IP +"/sound3application/common/img/artistas/";
 
-
     public static final String DETALHES_ARTISTA = "ARTISTA";
 
-    public CommentAdapter(Context mContext, ArrayList<Comentario> mData){
+    public CommentAdapter(Context mContext, ArrayList<Comentario> mData, ArrayList<Utilizador> mUser){
         this.mContext = mContext;
         this.mData = mData;
+        this.mUser = mUser;
     }
 
 
@@ -53,10 +55,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        holder.mNomeUser.setText(""+mData.get(position).getId_Utilizador());
+        holder.mNomeUser.setText(mUser.get(position).getNomeUtilizador());
         holder.mData.setText(""+mData.get(position).getData_Criacao());
         holder.mComentario.setText(mData.get(position).getConteudo());
-
 
         /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -36,11 +36,12 @@ import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.FavoritosRecyclerActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class FavoritosFragment extends Fragment implements FavoritosListener {
+public class FavoritosFragment extends Fragment implements FavoritosListener, MusicaFavoritosCarrinhoListenner {
 
     View view;
 
@@ -56,17 +57,18 @@ public class FavoritosFragment extends Fragment implements FavoritosListener {
     private Button BtnVerGeneros;
     private Button BtnVerArtistas;
 
+    private ArrayList<Musica> musicasFavoritos;
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Vai Buscar Id do Utilizador as Shared Preferences
-        ArrayList utilizador = GestorSharedPref.getInstance(getContext()).getUser();
-        idUtilizador = Integer.parseInt(utilizador.get(0).toString());
-
+        idUtilizador = GestorSharedPref.getInstance(getContext()).getIdUtilizador();
 
         SingletonGestorDados.getInstance(getContext()).setFavoritosListener(this);
+        SingletonGestorDados.getInstance(getContext()).setMusicaFavoritosCarrinhoListenner(this);
 
         SingletonGestorDados.getInstance(getContext()).getFavoritosArtistaAtividadeAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador);
@@ -132,12 +134,12 @@ public class FavoritosFragment extends Fragment implements FavoritosListener {
     }
 
     @Override
-    public void onRefreshAlbunsFavoritos(ArrayList<Album> albuns) {
+    public void onRefreshAlbunsFavoritos(ArrayList<Album> albuns, ArrayList<Artista> artistas) {
         if(albuns != null){
             recyclerViewAlbuns = view.findViewById(R.id.rV_favoritos_albuns);
             recyclerViewAlbuns.setHasFixedSize(true);
             recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(getContext(), albuns);
+            AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(getContext(), albuns, artistas);
             recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
 
             if(albuns.size() < 5){
@@ -180,12 +182,12 @@ public class FavoritosFragment extends Fragment implements FavoritosListener {
     }
 
     @Override
-    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas) {
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> albuns) {
         if (musicas != null){
             recyclerViewMusicas = view.findViewById(R.id.rV_favoritos_musicas);
             recyclerViewMusicas.setHasFixedSize(true);
             recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-            MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), musicas);
+            MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), musicas, albuns, idUtilizador,musicasFavoritos);
             recyclerViewMusicas.setAdapter(musicaAdapter);
 
             if(musicas.size() < 5){
@@ -196,4 +198,13 @@ public class FavoritosFragment extends Fragment implements FavoritosListener {
     }
 
 
+    @Override
+    public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
+        musicasFavoritos = listaMusicasFavoritos;
+    }
+
+    @Override
+    public void onMusicasNosCarrinho(ArrayList<Musica> listaMusicasCarrinho) {
+
+    }
 }

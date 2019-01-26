@@ -31,10 +31,10 @@ public class DadosJsonParser {
 
                 JSONObject utilizador = (JSONObject) response.get(i);
 
-                int idUtilizador = utilizador.getInt("idUtilizador");
-                String nomeUtilizafor = utilizador.getString("nomeUtilizador");
-                String passwordUtilizafor = utilizador.getString("passwordUtilizador");
-                String emailUtilizafor = utilizador.getString("emailUtilizador");
+                int idUtilizador = utilizador.getInt("id");
+                String nomeUtilizafor = utilizador.getString("username");
+                String passwordUtilizafor = utilizador.getString("password_hash");
+                String emailUtilizafor = utilizador.getString("email");
 
                 Utilizador auxUtilizador = new Utilizador(idUtilizador, nomeUtilizafor, passwordUtilizafor, emailUtilizafor);
                 tempListaUtilizador.add(auxUtilizador);
