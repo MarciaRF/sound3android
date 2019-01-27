@@ -1724,8 +1724,9 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         this.musicasListener = musicasListener;
     }
 
-    public void setComprasRegistadasListener(ComprasRegistadasListener comprasRegistadasListener){
+    public void setComprasRegistadasListener(ComprasRegistadasListener comprasRegistadasListener) {
         this.comprasRegistadasListener = comprasRegistadasListener;
+    }
 
     public void setCarrinhoListener(CarrinhoListener carrinhoListener){
         this.carrinhoListener = carrinhoListener;
@@ -1838,11 +1839,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     @Override
     public void onRefreshCarrinho(ArrayList<Musica> musicas) {
-
-    }
-
-    @Override
-    public void onResfreshComment(ArrayList<Comentario> listaComentarios) {
 
     }
 }
