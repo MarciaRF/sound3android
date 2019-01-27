@@ -1636,14 +1636,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         this.detalhesAlbumListener = detalhesAlbumListener;
     }
 
-
-
-
-
-
-
-
-
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios, ArrayList<Utilizador> listaComentariosUser) {
 
