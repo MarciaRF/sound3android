@@ -366,26 +366,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             });
             volleyQueue.add(req);
         }
-        /*if(!isConnected){
-            //favArtistas = modeloBDHelper.getAllArtistasFavoritosBD();
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlFavAlbumAPI + "getallalbunsfavoritos?userId=" + userId,
-                    null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
-                    if(favoritosListener != null){
-                        favoritosListener.onRefreshAlbunsFavoritos(albuns);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }*/
     }
 
     public void getAllFavoritosArtistaAPI(final Context context, boolean isConnected, final long userId){
@@ -651,27 +631,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             });
             volleyQueue.add(req);
         }
-        /*if(!isConnected){
-
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavAlbumAPI + "getalbunsfavoritos?userId=" + userId,
-                    null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
-
-                    if(favoritosListener != null){
-                        favoritosListener.onRefreshAlbunsFavoritos(albuns);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error 1: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }*/
     }
 
     public void getFavoritosGeneroAtividadeAPI(final Context context, boolean isConnected, final long userId){
@@ -1092,26 +1051,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             });
             volleyQueue.add(req);
         }
-        /*if(!isConnected){
-
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlPesquisaAPI + "pesquisaalbuns?pesquisa=" + pesquisa,
-                    null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
-                    if(pesquisaListener != null){
-                        pesquisaListener.onRefreshAlbunsPesquisa(albuns);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }*/
     }
 
     public void getPesquisaGenerosAPI(final Context context, boolean isConnected, final String pesquisa){
@@ -1170,13 +1109,13 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
                     try{
                         JSONObject objeto = new JSONObject(response);
+                        JSONArray objMusica = null;
                         JSONArray objAlbum = null;
-                        JSONArray objArtista = null;
+                        objMusica = objeto.getJSONArray("musicas");
                         objAlbum = objeto.getJSONArray("albuns");
-                        objArtista = objeto.getJSONArray("artistas");
 
+                        musicas = ConteudoJsonParser.parseJsonMusica(objMusica, context);
                         albuns = ConteudoJsonParser.parseJsonAlbum(objAlbum, context);
-                        artistas = ConteudoJsonParser.parseJsonArtista(objArtista, context);
 
                         if(pesquisaListener != null){
                             pesquisaListener.onRefreshAMusicasPesquisa(musicas, albuns);
@@ -1196,26 +1135,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             });
             volleyQueue.add(req);
         }
-        /*if(!isConnected){
-
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlPesquisaAPI + "pesquisamusicas?pesquisa=" + pesquisa,
-                    null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    musicas = ConteudoJsonParser.parseJsonMusica(response, context);
-                    if(pesquisaListener != null){
-                        pesquisaListener.onRefreshAMusicasPesquisa(musicas, al);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }*/
     }
 
 
@@ -1419,26 +1338,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             });
             volleyQueue.add(req);
         }
-        /*if(!isConnected){
-
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlAPIAlbum + "albunsartista?artistaId=" + artistaId,
-                    null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
-                    if(detalhesArtistaListener != null){
-                        detalhesArtistaListener.onRefreshAbunsArtista(albuns);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error 1: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }*/
     }
 
     // Adiciona Comentario a um Album
@@ -1547,26 +1446,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             });
             volleyQueue.add(req);
         }
-        /*if(!isConnected){
-
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlAPIGenero + "findalbunsgenero?generoId=" + generoId,
-                    null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    albuns = ConteudoJsonParser.parseJsonAlbum(response, context);
-                    if(detalhesGeneroListener != null){
-                        detalhesGeneroListener.onRefreshAlbunsGeneros(albuns);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("-->Error: " + error);
-                }
-            });
-            volleyQueue.add(req);
-        }*/
     }
 
     public void getComprasRegistadasAPI(final Context context, boolean isConnected, final long userId) {
@@ -1680,38 +1559,37 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void getItemsCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId){
         if(!isConnected){
 
-        }else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlCompraAPI + "getcarrinho?userId=" + utilizadorId,
-                    null, new Response.Listener<JSONArray>() {
+        }else{
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI + "getcarrinho?userId=" + utilizadorId, new Response.Listener<String>() {
                 @Override
-                public void onResponse(JSONArray response) {
-                            musicas = ConteudoJsonParser.parseJsonMusica(response, context);
-                            if(!musicas.isEmpty()){
-                                Toast.makeText(context, ""+musicas.get(0).getNome(), Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(context, "Sem items no carrinho", Toast.LENGTH_SHORT).show();
-                            }
-                            if(carrinhoListener != null){
-                                carrinhoListener.onRefreshCarrinho(musicas);
-                            }
-                    
+                public void onResponse(String response) {
+
+                    try{
+                        JSONObject objeto = new JSONObject(response);
+                        JSONArray objMusicas = null;
+                        JSONArray objAlbuns = null;
+                        objMusicas = objeto.getJSONArray("musicas");
+                        objAlbuns = objeto.getJSONArray("albuns");
+
+                        musicas = ConteudoJsonParser.parseJsonMusica(objMusicas, context);
+                        albuns = ConteudoJsonParser.parseJsonAlbum(objAlbuns, context);
+
+                        if(carrinhoListener != null){
+                            carrinhoListener.onRefreshCarrinho(musicas, albuns);
                         }
-                    }, new Response.ErrorListener() {
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, "Não foi possível mostrar o carrinho", Toast.LENGTH_SHORT).show();
-                    System.out.println("-->Error add: " + error);
+                    System.out.println("-->Error: " + error);
                 }
-            }) {
-                @Override
-                protected Map<String,String> getParams()
-                {
-                    Map<String,String> params = new HashMap<>();
-                    params.put("id_utilizador", "" + utilizadorId);
-
-                    return params;
-                }
-            };
+            });
             volleyQueue.add(req);
         }
     }
@@ -1728,99 +1606,128 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         this.comprasRegistadasListener = comprasRegistadasListener;
     }
 
-    public void setCarrinhoListener(CarrinhoListener carrinhoListener){
+
+    public void setCarrinhoListener (CarrinhoListener carrinhoListener){
         this.carrinhoListener = carrinhoListener;
 
     }
 
-    public void setFavoritosListener(FavoritosListener favoritosListener){
+    public void setFavoritosListener (FavoritosListener favoritosListener){
         this.favoritosListener = favoritosListener;
     }
 
-    public void setCommentListener(CommentListener commentListener){
+    public void setCommentListener (CommentListener commentListener){
         this.commentListener = commentListener;
     }
 
-    public void setDetalhesGeneroListener(DetalhesGeneroListener detalhesGeneroListener){
+    public void setDetalhesGeneroListener (DetalhesGeneroListener detalhesGeneroListener){
         this.detalhesGeneroListener = detalhesGeneroListener;
     }
 
-    public void setDetalhesArtistaListener(DetalhesArtistaListener detalhesArtistaListener){
+    public void setDetalhesArtistaListener (DetalhesArtistaListener detalhesArtistaListener){
         this.detalhesArtistaListener = detalhesArtistaListener;
     }
 
-    public void setPesquisaListener(PesquisaListener pesquisaListener){
+    public void setPesquisaListener (PesquisaListener pesquisaListener){
         this.pesquisaListener = pesquisaListener;
     }
 
-    public void setDetalhesAlbumListener(DetalhesAlbumListener detalhesAlbumListener){
+    public void setDetalhesAlbumListener (DetalhesAlbumListener detalhesAlbumListener){
         this.detalhesAlbumListener = detalhesAlbumListener;
     }
-    
+
+
+
+
+
+
+
+
+
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios, ArrayList<Utilizador> listaComentariosUser) {
 
     }
 
     @Override
-    public void onResfreshNovoComment(String checkNovoComment) { }
+    public void onResfreshNovoComment(String checkNovoComment) {
+
+    }
 
     @Override
-    public void checkAlbumInFavoritos(String check) { }
+    public void onResponseGetCompras(ArrayList<Compra> compras) {
+
+    }
 
     @Override
-    public void checkAlbumInCarrinho(String check) { }
+    public void onRefreshAlbum(Album album) {
+
+    }
 
     @Override
-    public void onRefreshAlbum(Album album) { }
+    public void onRefreshArtistaAlbum(Artista artista) {
+
+    }
 
     @Override
-    public void onRefreshArtistaAlbum(Artista artista) { }
+    public void checkAlbumInFavoritos(String check) {
+
+    }
 
     @Override
-    public void onRefreshAlbunsFavoritos(ArrayList<Album> albuns, ArrayList<Artista> artistas) { }
+    public void checkAlbumInCarrinho(String check) {
+
+    }
 
     @Override
-    public void onRefreshArtistasFavoritos(ArrayList<Artista> artistas) { }
+    public void onRefreshArtista(Artista artista) {
+
+    }
 
     @Override
-    public void onRefreshGenerosFavoritos(ArrayList<Genero> generos) { }
+    public void onRefreshAbunsArtista(ArrayList<Album> albunsArtista, ArrayList<Artista> artistas) {
+
+    }
 
     @Override
-    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> album) { }
+    public void checkArtistaInFavoritos(String check) {
+
+    }
 
     @Override
-    public void onRefreshGenero(Genero genero) { }
+    public void onRefreshGenero(Genero genero) {
+
+    }
 
     @Override
-    public void onRefreshAlbunsGeneros(ArrayList<Album> albunsGenero, ArrayList<Artista> artistas) { }
+    public void onRefreshAlbunsGeneros(ArrayList<Album> albunsGenero, ArrayList<Artista> artistas) {
+
+    }
 
     @Override
-    public void checkGeneroInFavoritos(String check) { }
+    public void checkGeneroInFavoritos(String check) {
+
+    }
 
     @Override
-    public void checkArtistaInFavoritos(String check) { }
+    public void onRefreshAlbunsFavoritos(ArrayList<Album> albuns, ArrayList<Artista> artistas) {
+
+    }
 
     @Override
-    public void onRefreshArtista(Artista artista) { }
+    public void onRefreshArtistasFavoritos(ArrayList<Artista> artistas) {
+
+    }
 
     @Override
-    public void onRefreshAbunsArtista(ArrayList<Album> albunsArtista, ArrayList<Artista> artistas) { }
+    public void onRefreshGenerosFavoritos(ArrayList<Genero> generos) {
+
+    }
 
     @Override
-    public void onRefreshAlbunsPesquisa(ArrayList<Album> pesquisaAlbuns, ArrayList<Artista> artistas) { }
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> album) {
 
-    @Override
-    public void onRefreshGenerosPesquisa(ArrayList<Genero> pesquisaGeneros) { }
-
-    @Override
-    public void onRefreshArtistasPesquisa(ArrayList<Artista> pesquisaArtistas) { }
-
-    @Override
-    public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas, ArrayList<Album> albuns) { }
-
-    @Override
-    public void onResponseGetCompras(ArrayList<Compra> compras) { }
+    }
 
     @Override
     public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
@@ -1838,7 +1745,31 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     }
 
     @Override
-    public void onRefreshCarrinho(ArrayList<Musica> musicas) {
+    public void onRefreshAlbunsPesquisa(ArrayList<Album> pesquisaAlbuns, ArrayList<Artista> artistas) {
+
+    }
+
+    @Override
+    public void onRefreshGenerosPesquisa(ArrayList<Genero> pesquisaGeneros) {
+
+    }
+
+    @Override
+    public void onRefreshArtistasPesquisa(ArrayList<Artista> pesquisaArtistas) {
+
+    }
+
+    @Override
+    public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas, ArrayList<Album> albuns) {
+
+    }
+
+    @Override
+    public void onRefreshCarrinho(ArrayList<Musica> musicas, ArrayList<Album> album) {
+
+    }
+    @Override
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> favoritoMusicas) {
 
     }
 }

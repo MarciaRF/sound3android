@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import adaptadores.MusicaAdapter;
+import models.Album;
+import models.FavoritoMusica;
 import models.Musica;
 import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CarrinhoListener;
@@ -31,14 +33,14 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
     private TextView textViewTitle;
     private TextView textViewPreco;
     private Button btn_checkout;
+    private ArrayList<Musica> musicasFavoritos;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Vai Buscar Id do Utilizador as Shared Preferences
-        ArrayList utilizador = GestorSharedPref.getInstance(getContext()).getUser();
-        idUtilizador = Integer.parseInt(utilizador.get(0).toString());
+        // Vai Buscar Id do Utilizador as Shared
+        idUtilizador = GestorSharedPref.getInstance(getContext()).getIdUtilizador();
 
         SingletonGestorDados.getInstance(getContext()).setCarrinhoListener(this);
 
@@ -54,35 +56,41 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
         textViewTitle = view.findViewById(R.id.textViewTitleCarrinho);
         textViewPreco = view.findViewById(R.id.textViewPreco);
         btn_checkout = view.findViewById(R.id.buttonCheckout);
-        textViewPreco.append(" 0€");
+        textViewPreco.append("0€");
         btn_checkout.setEnabled(false);
 
         return view;
     }
 
     @Override
-    public void onRefreshCarrinho(ArrayList<Musica> musicas) {
+    public void onRefreshCarrinho(ArrayList<Musica> musicas, ArrayList<Album> album) {
 
         textViewTitle.append("Carrinho " + "(" + musicas.size() + ")" );
 
         if(!musicas.isEmpty()){
             int total = 0;
 
-            for (Musica musica:
-                 musicas) {
-                total+=musica.getPreco();
+            for (Musica musica: musicas) {
+                total += musica.getPreco();
             }
 
             textViewPreco.setText(R.string.preco_carrinho);
             textViewPreco.append(" "+total+"€");
             btn_checkout.setEnabled(true);
+
             recyclerViewItems = view.findViewById(R.id.rV_items_carrinho);
             recyclerViewItems.setHasFixedSize(true);//Otimização
             recyclerViewItems.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-            MusicaAdapter musicasAdapter = new MusicaAdapter(getContext(), musicas);
+            MusicaAdapter musicasAdapter = new MusicaAdapter(getContext(), musicas, album, idUtilizador, musicasFavoritos);
             recyclerViewItems.setAdapter(musicasAdapter);
+
         } else{
             btn_checkout.setEnabled(false);
         }
+    }
+
+    @Override
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> favoritoMusicas) {
+        musicasFavoritos = favoritoMusicas;
     }
 }
