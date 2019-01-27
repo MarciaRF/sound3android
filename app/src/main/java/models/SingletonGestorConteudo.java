@@ -44,7 +44,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     private MusicasListener musicasListener;
     private DetalhesArtistaListener detalhesArtistaListener;
 
-    public static final String IP = "192.168.1.119";
+    public static final String IP = "192.168.43.14";
 
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
     private String mUrlAPIArtistas = "http://" + IP + "/sound3application/frontend/api/artista";
