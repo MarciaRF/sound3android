@@ -246,8 +246,6 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
                             loginSignUpListener.onConnectLogin(response);
                             System.out.println("-------->LISTENER != NULL");
                         }
-
-
                         // response
                         System.out.println("-------->resposta de login: "+response);
                     }
