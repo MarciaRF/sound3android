@@ -42,7 +42,6 @@ public class DetalhesArtistaActivity extends AppCompatActivity implements Detalh
     private String checkArtistaFav;
     private ImageButton btnAddFavoritos;
 
-    private ArrayList utilizador;
     private long idUtilizador;
 
     String url = "http://" + SingletonGestorConteudo.IP +"/sound3application/common/img/artistas/";
@@ -60,8 +59,7 @@ public class DetalhesArtistaActivity extends AppCompatActivity implements Detalh
         btnAddFavoritos = findViewById(R.id.iB_detalhes_artista_favoritos);
 
         // Vai Buscar Id do Utilizador as Shared
-        utilizador = GestorSharedPref.getInstance(this).getUser();
-        idUtilizador = Integer.parseInt(utilizador.get(0).toString());
+        idUtilizador = GestorSharedPref.getInstance(this).getIdUtilizador();
 
 
         idArtista = getIntent().getLongExtra(ArtistaAdapter.DETALHES_ARTISTA,0);
@@ -92,11 +90,11 @@ public class DetalhesArtistaActivity extends AppCompatActivity implements Detalh
     }
 
     @Override
-    public void onRefreshAbunsArtista(ArrayList<Album> albunsArtista) {
+    public void onRefreshAbunsArtista(ArrayList<Album> albunsArtista, ArrayList<Artista> artistas) {
         recyclerViewAlbuns = findViewById(R.id.rV_detalhes_artistaAlbuns);
         recyclerViewAlbuns.setHasFixedSize(true);
         recyclerViewAlbuns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, albunsArtista);
+        AlbumPesquisaAdapter albumPesquisaAdapter = new AlbumPesquisaAdapter(this, albunsArtista, artistas);
         recyclerViewAlbuns.setAdapter(albumPesquisaAdapter);
     }
 

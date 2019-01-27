@@ -30,7 +30,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class DetalhesAlbumActivity extends AppCompatActivity implements   DetalhesAlbumListener {
+public class DetalhesAlbumActivity extends AppCompatActivity implements  DetalhesAlbumListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -45,18 +45,12 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements   Detalh
     private ImageButton btnAddCarrinho;
     private ImageButton btnAddFavoritos;
 
-    private ArrayList utilizador;
-    private long idUtilizador;
-
     private String checkAlbumFav;
     private String checkAlbumCart;
-    private FavoritoAlbum favAlbum;
-
-    private long idCompra;
-    private LinhaCompra addCarrinho;
 
     private String urlImagem = "http://" + SingletonGestorConteudo.IP + "/sound3application/common/img/capas/";
 
+    private long idUtilizador;
     public long idAlbum ;
 
     @Override
@@ -77,8 +71,7 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements   Detalh
         idAlbum = getIntent().getLongExtra(AlbumAdapter.DETALHES_ALBUM, 0);
 
         // Vai Buscar Id do Utilizador as Shared
-        utilizador = GestorSharedPref.getInstance(this).getUser();
-        idUtilizador = Integer.parseInt(utilizador.get(0).toString());
+        idUtilizador = GestorSharedPref.getInstance(this).getIdUtilizador();
 
 
         SingletonGestorDados.getInstance(this).setDetalhesAlbumListener(this);
@@ -184,4 +177,5 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements   Detalh
             btnAddCarrinho.setImageResource(R.drawable.cart_remove);
         }
     }
+
 }

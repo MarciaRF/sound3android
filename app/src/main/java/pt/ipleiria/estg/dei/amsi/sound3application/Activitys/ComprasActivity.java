@@ -45,7 +45,6 @@ public class ComprasActivity extends AppCompatActivity implements ComprasRegista
     @Override
     public void onResponseGetCompras(ArrayList<Compra> compras) {
         if(compras!=null){
-            System.out.println("----->ActComprasOnResponse");
             CompraAdapter compraAdapter = new CompraAdapter(this,compras);
             list.setAdapter(compraAdapter);
         }
