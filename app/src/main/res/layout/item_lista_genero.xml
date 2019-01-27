@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginRight="20dp">
+
+    <ImageView
+        android:id="@+id/iV_genero"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/hiphop"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:id="@+id/tV_genero_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome Genero"
+        android:textColor="@color/light_font"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+</LinearLayout>

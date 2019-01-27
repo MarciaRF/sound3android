@@ -2,7 +2,7 @@
     <string name="app_name">sound3android</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_username">Nome de Utilizador</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -33,4 +33,19 @@
     <string name="resultados_albuns">Resultados Álbuns</string>
     <string name="resultados_musicas">Resultados Músicas</string>
     <string name="resultados_artistas">Resultados Artistas</string>
+    <string name="Pesquisa">Pesquisa</string>
+    <string name="ver_todos">Ver +</string>
+    <string name="pass_incorreta">Insira a password correta</string>
+    <string name="download_musicas">Download Músicas</string>
+    <string name="registo_de_compras">Registo de Compras</string>
+    <string name="logout">Logout</string>
+    <string name="erro_username">Username não disponível!</string>
+    <string name="erro_username_vazio">Username não pode estar vazio</string>
+    <string name="erro_email_usado">Email já está em uso!</string>
+    <string name="preco_carrinho">Total:</string>
+    <string name="checkout_btn_carrinho">Checkout</string>
+    <string name="adicionar_ao_carrinho">Adicionar ao Carrinho</string>
+    <string name="adicionar_aos_favoritos">Adicionar aos Favoritos</string>
+    <string name="remover_do_carrinho">Remover do Carrinho</string>
+    <string name="remover_dos_favoritos">Remover dos Favoritos</string>
 </resources>

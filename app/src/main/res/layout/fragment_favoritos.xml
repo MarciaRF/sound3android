@@ -1,5 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Musicas"
+            android:textSize="20dp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_musicas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/btn_favoritos_musicas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ver_todos"
+            android:onClick="verMaisMusicas"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Álbuns"
+            android:textSize="20sp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_albuns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/btn_favoritos_albuns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ver_todos"
+            android:onClick="verMaisAlbuns"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Artistas"
+            android:textSize="20sp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_artistas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/btn_favoritos_artistas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ver_todos"
+            android:onClick="verMaisArtista"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generos"
+            android:textSize="20sp"
+            android:textColor="@color/light_font"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rV_favoritos_generos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/btn_favoritos_generos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ver_todos"
+            android:onClick="verMaisGeneros"
+            android:textColor="@color/silver"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+    </LinearLayout>
+
+</ScrollView>

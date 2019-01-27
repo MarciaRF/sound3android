@@ -10,8 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="pt.ipleiria.estg.dei.amsi.sound3application.LoginActivity"
-    android:background="@color/colorBlack">
+    tools:context="pt.ipleiria.estg.dei.amsi.sound3application.Activitys.LoginSignUpActivity"
+    android:background="@drawable/login">
 
     <!-- Login progress -->
     <ProgressBar
@@ -33,15 +33,15 @@
         android:src="@drawable/logo" />
 
     <TextView
-        android:id="@+id/textView_titulo"
+        android:id="@+id/tV_titulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="monospace"
-        android:hint="@string/textView_sound3"
+        android:text="@string/textView_sound3"
         android:textAlignment="center"
-        android:textSize="35dp"
-        android:textColor="@color/colorWhite"/>
+        android:textSize="35sp"
+        android:textColor="@color/silver"/>
 
     <Space
         android:layout_width="match_parent"
@@ -59,28 +59,27 @@
             android:gravity="center"
             android:orientation="vertical">
 
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:textColorHint="@android:color/white">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="330dp"
+                    android:layout_height="55dp"
+                    android:paddingStart="15dp"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/vermelhoPrincipal"
-                    android:drawableLeft="@drawable/ic_action_email"
-                    android:drawablePadding="5dp"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
+                    android:background="@drawable/login_textfield"
+                    android:hint="@string/prompt_username"
                     android:singleLine="true"
-                    android:textAlignment="center"
                     android:textColor="@color/colorWhite"
                     android:textColorHint="@color/colorWhite"
-                    android:textSize="20sp"
-                    android:imeOptions="actionNext"/>
+                    android:textSize="18sp"
+                    android:imeOptions="actionNext"
+                    tools:ignore="RtlSymmetry" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -91,11 +90,12 @@
 
                 <EditText
                     android:id="@+id/password"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="330dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/vermelhoPrincipal"
-                    android:drawableLeft="@drawable/ic_action_password"
+                    android:layout_marginTop="15dp"
+                    android:paddingStart="15dp"
+                    android:background="@drawable/login_textfield"
                     android:drawablePadding="5dp"
                     android:hint="@string/prompt_password"
                     android:imeActionId="6"
@@ -106,7 +106,8 @@
                     android:singleLine="true"
                     android:textColor="@color/colorWhite"
                     android:textColorHint="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    tools:ignore="RtlSymmetry" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -124,8 +125,8 @@
                 android:fontFamily="monospace"
                 android:hint="@string/textView_temConta"
                 android:textAlignment="center"
-                android:textColorHint="@color/colorWhite"
-                android:textSize="20sp" />
+                android:textColorHint="@color/silver"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView_registo"
@@ -136,7 +137,7 @@
                 android:hint="@string/textView_registo"
                 android:textAlignment="center"
                 android:textColorHint="@color/colorWhite"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:onClick="ligacaoRegisto"/>
 
             <Button

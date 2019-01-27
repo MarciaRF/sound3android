@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activitys.PesquisaActivity"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+
+            <TextView
+                android:id="@+id/tV_pesquisa_artistas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_font"
+                android:textSize="24sp"
+                android:layout_marginStart="10sp"
+                android:textStyle="bold"
+                android:text="Artistas" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rV_pesquisa_artistas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+            </android.support.v7.widget.RecyclerView>
+
+
+            <TextView
+                android:id="@+id/tV_pesquisa_albuns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/light_font"
+                android:textSize="24sp"
+                android:layout_marginStart="10sp"
+                android:textStyle="bold"
+                android:text="Albuns" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rV_pesquisa_albuns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+            </android.support.v7.widget.RecyclerView>
+
+
+
+            <TextView
+                android:id="@+id/tV_pesquisa_generos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/light_font"
+                android:textSize="24sp"
+                android:layout_marginStart="10sp"
+                android:textStyle="bold"
+                android:text="Géneros" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rV_pesquisa_generos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+            </android.support.v7.widget.RecyclerView>
+
+
+
+
+            <TextView
+                android:id="@+id/tV_pesquisa_musicas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/light_font"
+                android:textSize="24sp"
+                android:layout_marginStart="10sp"
+                android:textStyle="bold"
+                android:text="Musicas" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rV_pesquisa_musicas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+</ScrollView>
+
+
+
