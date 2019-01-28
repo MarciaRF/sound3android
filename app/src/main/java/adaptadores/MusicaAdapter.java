@@ -191,8 +191,7 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
     @Override
     public void onDeleteCartMusica(List<Musica> mCart, Musica musica) {
         if(mCart!=null){
-            for (Musica tempMusica:mCart
-                    ) {
+            for (Musica tempMusica:mCart) {
                 if(tempMusica.getIdMusica()== musica.getIdMusica()){
                     mCart.remove(musica);
                 }
