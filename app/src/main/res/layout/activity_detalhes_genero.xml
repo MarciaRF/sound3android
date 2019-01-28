@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Álbuns"
+            android:text="@string/albuns"
             android:textColor="@color/light_font"
             android:textStyle="bold"
             android:textSize="24dp"
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="Hip Hop"
+                        android:text="@string/genero_hiphop"
                         android:textColor="@color/light_font"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -92,7 +92,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:text="Hip hop é um gênero musical, com uma subcultura iniciada durante a década de 1970, nas áreas centrais de comunidades jamaicanas, latinas e afro-americanas da cidade de Nova Iorque."
+                    android:text="@string/descrição_hiphop"
                     android:textAlignment="viewStart"
                     android:textColor="@color/silver"
                     android:textSize="16sp" />

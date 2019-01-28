@@ -238,6 +238,7 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
       
         String url ="http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/user/verificarlogin";
 
+
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()
                 {

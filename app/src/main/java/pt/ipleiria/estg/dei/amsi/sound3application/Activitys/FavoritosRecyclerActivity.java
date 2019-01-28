@@ -18,12 +18,11 @@ import models.Genero;
 import models.Musica;
 import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class FavoritosRecyclerActivity extends AppCompatActivity implements FavoritosListener, MusicaFavoritosCarrinhoListenner {
+public class FavoritosRecyclerActivity extends AppCompatActivity implements FavoritosListener {
 
     public final static String MOSTRAS_DADOS = "TIPO DE DADOS";
     private int opcao;
@@ -31,8 +30,6 @@ public class FavoritosRecyclerActivity extends AppCompatActivity implements Favo
     private long idUtilizador;
 
     private RecyclerView recyclerView;
-
-    private ArrayList<Musica> musicasFavoritos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +43,6 @@ public class FavoritosRecyclerActivity extends AppCompatActivity implements Favo
         opcao = getIntent().getIntExtra(MOSTRAS_DADOS, 0);
 
         SingletonGestorDados.getInstance(this).setFavoritosListener(this);
-        SingletonGestorDados.getInstance(this).setMusicaFavoritosCarrinhoListenner(this);
 
         //Fazer reuqest consoate a chave recebida
         switch (opcao){
@@ -83,9 +79,10 @@ public class FavoritosRecyclerActivity extends AppCompatActivity implements Favo
     }
 
     @Override
-    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> album) {
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> album, ArrayList<Musica> carrinho) {
         if (opcao == 2){
-            MusicaAdapter musicaAdapter = new MusicaAdapter(this, musicas, album, idUtilizador, musicasFavoritos);
+            System.out.println("musicas"+musicas);
+            MusicaAdapter musicaAdapter = new MusicaAdapter(this, musicas, album, idUtilizador, musicas, carrinho);
             recyclerView.setAdapter(musicaAdapter);
         }
     }
@@ -104,16 +101,5 @@ public class FavoritosRecyclerActivity extends AppCompatActivity implements Favo
             ArtistaPesquisaAdapter artistaPesquisaAdapter = new ArtistaPesquisaAdapter(this, artistas);
             recyclerView.setAdapter(artistaPesquisaAdapter);
         }
-    }
-
-
-    @Override
-    public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
-        musicasFavoritos = listaMusicasFavoritos;
-    }
-
-    @Override
-    public void onMusicasNosCarrinho(ArrayList<Musica> listaMusicasCarrinho) {
-
     }
 }

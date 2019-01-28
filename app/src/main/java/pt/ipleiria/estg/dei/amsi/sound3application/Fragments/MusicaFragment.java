@@ -18,13 +18,12 @@ import models.Musica;
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesAlbumActivity;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class MusicaFragment extends Fragment implements MusicasListener, MusicaFavoritosCarrinhoListenner {
+public class MusicaFragment extends Fragment implements MusicasListener {
 
     View view;
 
@@ -33,7 +32,6 @@ public class MusicaFragment extends Fragment implements MusicasListener, MusicaF
     private long idAlbum ;
     private long idUtilizador;
 
-    private ArrayList<Musica> musicasFavoritos;
     private boolean existeMusicasFav;
 
     @Nullable
@@ -47,38 +45,19 @@ public class MusicaFragment extends Fragment implements MusicasListener, MusicaF
         idUtilizador = GestorSharedPref.getInstance(getContext()).getIdUtilizador();
 
         SingletonGestorConteudo.getInstance(getContext()).setMusicasListener(this);
-        SingletonGestorDados.getInstance(getContext()).setMusicaFavoritosCarrinhoListenner(this);
 
         SingletonGestorConteudo.getInstance(getContext()).getMusicasAlbumAPI(getContext(),
-                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);
-
-        SingletonGestorDados.getInstance(getContext()).checkMusicasAlbumNosFavoritodAPI(getContext(),
-                ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador, idAlbum);
-
-        /*SingletonGestorConteudo.getInstance(getContext()).getMusicasAlbumCarrinho(getContext(),
-                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);*/
+                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum, idUtilizador);
 
         return view;
     }
 
 
     @Override
-    public void onRefreshMusicas(ArrayList<Musica> listaMusicas, Album listaMusicasArtistas) {
+    public void onRefreshMusicas(ArrayList<Musica> listaMusicas, Album listaMusicasArtistas, ArrayList<Musica> musicasFavoritas, ArrayList<Musica> carrinho) {
         myrecyclerview = view.findViewById(R.id.rv_Musicas);
-        MusicaAdapterAlbum musicaAdapter = new MusicaAdapterAlbum(getContext(), listaMusicas, listaMusicasArtistas, idUtilizador, musicasFavoritos);
+        MusicaAdapterAlbum musicaAdapter = new MusicaAdapterAlbum(getContext(), listaMusicas, listaMusicasArtistas, idUtilizador, musicasFavoritas, carrinho);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(musicaAdapter);
     }
-
-    @Override
-    public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
-        musicasFavoritos = listaMusicasFavoritos;
-    }
-
-    @Override
-    public void onMusicasNosCarrinho(ArrayList<Musica> listaMusicasCarrinho) {
-
-    }
-
-
 }

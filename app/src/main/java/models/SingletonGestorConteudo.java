@@ -31,6 +31,8 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     private ArrayList<Artista> artistas;
     private ArrayList<Genero> generos;
     private ArrayList<Musica> musicas;
+    private ArrayList<Musica> musicasFavoritas;
+    private ArrayList<Musica> carrinho;
 
     private ArrayList<Album> topAlbuns;
     private ArrayList<Artista> artistasMaisVendidos;
@@ -55,6 +57,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     private Album album;
 
     public static final String IP = "192.168.1.83";
+
 
 
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
@@ -433,20 +436,23 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
         }
     }
 
-    public void getMusicasAlbumAPI(final Context context, boolean isConnected, long IdAlbum){
+    public void getMusicasAlbumAPI(final Context context, boolean isConnected, long IdAlbum, final long utilizadorId){
         if(!isConnected){
             Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
-            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIMusicasAlbum + IdAlbum, new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIMusicasAlbum + IdAlbum +"&userId="+utilizadorId, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     try{
                         JSONObject objeto = new JSONObject(response);
                         JSONArray objMusica = null;
                         JSONObject objAlbum = null;
+                        JSONArray objMusicasFav = null;
+                        JSONArray objCarrinho = null;
                         objMusica = objeto.getJSONArray("musica");
+                        objCarrinho = objeto.getJSONArray("carrinho");
                         objAlbum = objeto.getJSONObject("album");
-
+                        objMusicasFav = objeto.getJSONArray("musicasFavoritas");
 
 
                         ArrayList<String> tempAlbum = new ArrayList<>();
@@ -459,12 +465,13 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
                         tempAlbum.add("" + objAlbum.getLong("id_genero"));
                         tempAlbum.add(objAlbum.getString("caminhoImagem"));
 
-
+                        musicasFavoritas = ConteudoJsonParser.parseJsonMusica(objMusicasFav, context);
                         musicas = ConteudoJsonParser.parseJsonMusica(objMusica, context);
                         album = ConteudoJsonParser.parseJsonObejectAlbum(tempAlbum, context);
+                        carrinho = ConteudoJsonParser.parseJsonMusica(objCarrinho, context);
 
                         if(homeListener != null){
-                            musicasListener.onRefreshMusicas(musicas, album);
+                            musicasListener.onRefreshMusicas(musicas, album, musicasFavoritas, carrinho);
                         }
 
                     } catch (JSONException e) {
@@ -585,7 +592,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
     public void checkArtistaInFavoritos(String check) { }
 
     @Override
-    public void onRefreshMusicas(ArrayList<Musica> listaMusicas, Album listaMusicasArtistas) {
+    public void onRefreshMusicas(ArrayList<Musica> listaMusicas, Album listaMusicasArtistas, ArrayList<Musica> musicasFavoritas, ArrayList<Musica> carrinho) {
 
     }
 }

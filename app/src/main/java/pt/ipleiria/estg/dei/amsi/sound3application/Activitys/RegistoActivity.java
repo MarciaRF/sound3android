@@ -127,7 +127,7 @@ public class RegistoActivity extends AppCompatActivity implements LoginSignUpLis
 
     public void requestRegisto(final Context context, boolean isConnected,final String username, final String password, final String email){
             RequestQueue queue = Volley.newRequestQueue(context);
-            String url ="http://192.168.1.119/sound3application/frontend/web/api/user/create";
+            String url ="http://10.200.2.63/sound3application/frontend/web/api/user/create";
 
             StringRequest getRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>()
