@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     //MQTT
     MqttAndroidClient client;
 
-    private final String SERVERCONECTION = "tcp://10.200.2.63:1883";
+    //private final String SERVERCONECTION = "tcp://10.200.2.63:1883";
 
     private final String TOPICOSUBSCRICAO = "INSERT";
 
@@ -92,74 +92,74 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        // Código do MQTT
-        String clientId = MqttClient.generateClientId();
-        client = new MqttAndroidClient(this.getApplicationContext(), SERVERCONECTION, clientId);
-        try {
-            IMqttToken token = client.connect();
-            token.setActionCallback(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    Toast.makeText(MainActivity.this, "Connected", Toast.LENGTH_SHORT).show();
-                    // Chama método de subscricao
-                    subscription();
-                }
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Toast.makeText(MainActivity.this, ""+exception, Toast.LENGTH_LONG).show();
-                }
-            });
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-        client.setCallback(new MqttCallback() {
-            @Override
-            public void connectionLost(Throwable cause) {
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                //Toast.makeText(MainActivity.this, "Message: "+ message, Toast.LENGTH_SHORT).show();
-                android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-                alert.setTitle("Novo Conteudo");
-                alert.setMessage("Novo Conteudo Foi Adicionado")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                android.support.v7.app.AlertDialog alertDialog = alert.create();
-                alertDialog.show();
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-
-            }
-        });
+//        // Código do MQTT
+//        String clientId = MqttClient.generateClientId();
+//        client = new MqttAndroidClient(this.getApplicationContext(), SERVERCONECTION, clientId);
+//        try {
+//            IMqttToken token = client.connect();
+//            token.setActionCallback(new IMqttActionListener() {
+//                @Override
+//                public void onSuccess(IMqttToken asyncActionToken) {
+//                    Toast.makeText(MainActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+//                    // Chama método de subscricao
+//                    subscription();
+//                }
+//                @Override
+//                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+//                    Toast.makeText(MainActivity.this, ""+exception, Toast.LENGTH_LONG).show();
+//                }
+//            });
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
+//        client.setCallback(new MqttCallback() {
+//            @Override
+//            public void connectionLost(Throwable cause) {
+//            }
+//
+//            @Override
+//            public void messageArrived(String topic, MqttMessage message) throws Exception {
+//                //Toast.makeText(MainActivity.this, "Message: "+ message, Toast.LENGTH_SHORT).show();
+//                android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+//                alert.setTitle("Novo Conteudo");
+//                alert.setMessage("Novo Conteudo Foi Adicionado")
+//                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                            }
+//                        });
+//                android.support.v7.app.AlertDialog alertDialog = alert.create();
+//                alertDialog.show();
+//            }
+//
+//            @Override
+//            public void deliveryComplete(IMqttDeliveryToken token) {
+//
+//            }
+//        })
     }
 
 
-    // Subscrever Tópico MQTT
-    private void subscription(){
-        try {
-            IMqttToken subToken = client.subscribe(TOPICOSUBSCRICAO, 1);
-            subToken.setActionCallback(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("1----> MQTT Tópico "+TOPICOSUBSCRICAO+" Subscrito");
-                }
-                @Override
-                public void onFailure(IMqttToken asyncActionToken,
-                                      Throwable exception) {
-                    System.out.println("1----> MQTT Falha ao Subscrever");
-                }
-            });
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
+//    // Subscrever Tópico MQTT
+//    private void subscription(){
+//        try {
+//            IMqttToken subToken = client.subscribe(TOPICOSUBSCRICAO, 1);
+//            subToken.setActionCallback(new IMqttActionListener() {
+//                @Override
+//                public void onSuccess(IMqttToken asyncActionToken) {
+//                    System.out.println("1----> MQTT Tópico "+TOPICOSUBSCRICAO+" Subscrito");
+//                }
+//                @Override
+//                public void onFailure(IMqttToken asyncActionToken,
+//                                      Throwable exception) {
+//                    System.out.println("1----> MQTT Falha ao Subscrever");
+//                }
+//            });
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     //Código do Menu de Baixo

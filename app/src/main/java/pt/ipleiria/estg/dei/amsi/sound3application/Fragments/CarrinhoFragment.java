@@ -73,8 +73,7 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
     }
 
     @Override
-    public void onRefreshCarrinho(ArrayList<Musica> musicas, ArrayList<Album> album) {
-
+    public void onRefreshCarrinho(ArrayList<Musica> musicas, ArrayList<Album> album, ArrayList<Musica> musicasFavoritas) {
         textViewTitle.append("Carrinho " + "(" + musicas.size() + ")" );
 
         if(!musicas.isEmpty()){
@@ -91,7 +90,7 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
             recyclerViewItems = view.findViewById(R.id.rV_items_carrinho);
             recyclerViewItems.setHasFixedSize(true);//Otimização
             recyclerViewItems.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-            MusicaAdapter musicasAdapter = new MusicaAdapter(getContext(), musicas, album, idUtilizador, musicasFavoritos);
+            MusicaAdapter musicasAdapter = new MusicaAdapter(getContext(), musicas, album, idUtilizador, musicasFavoritas, musicas);
             recyclerViewItems.setAdapter(musicasAdapter);
 
         } else{
