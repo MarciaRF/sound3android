@@ -7,8 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -20,9 +22,11 @@ import java.util.List;
 import models.Artista;
 import models.Comentario;
 import models.SingletonGestorConteudo;
+import models.SingletonGestorDados;
 import models.Utilizador;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.DetalhesArtistaActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
+import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
@@ -30,15 +34,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
     Context mContext;
     ArrayList<Comentario> mData;
     ArrayList<Utilizador> mUser;
+    long idUser;
+    long idAlbum;
+
 
     String url = "http://" + SingletonGestorConteudo.IP +"/sound3application/common/img/artistas/";
 
     public static final String DETALHES_ARTISTA = "ARTISTA";
 
-    public CommentAdapter(Context mContext, ArrayList<Comentario> mData, ArrayList<Utilizador> mUser){
+    public CommentAdapter(Context mContext, ArrayList<Comentario> mData, ArrayList<Utilizador> mUser, long idUser, long idAlbum){
         this.mContext = mContext;
         this.mData = mData;
         this.mUser = mUser;
+        this.idUser = idUser;
+        this.idAlbum = idAlbum;
     }
 
 
@@ -59,15 +68,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         holder.mData.setText(""+mData.get(position).getData_Criacao());
         holder.mComentario.setText(mData.get(position).getConteudo());
 
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetalhesArtistaActivity.class);
-                intent.putExtra(DETALHES_ARTISTA, mData.get(position).getIdArtista());
-                mContext.startActivity(intent);
-            }
-        });*/
+        if( mUser.get(position).getIdUtilizador() == idUser){
+            holder.mButtonApagar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.mButtonApagar.setVisibility(View.VISIBLE);
 
+                    SingletonGestorDados.getInstance(mContext).apagarCommentAlbumAPI(mContext,
+                            ConteudoJsonParser.isConnectionInternet(mContext), mData.get(position).getIdComentario(), idAlbum);
+
+                    Toast.makeText(mContext, "Comentario Apagado", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }else{
+            holder.mButtonApagar.setVisibility(View.INVISIBLE);
+        }
+        
     }
 
 
@@ -79,6 +96,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         public TextView mNomeUser;
         public TextView mData;
         public TextView mComentario;
+        public ImageButton mButtonApagar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +104,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
             mNomeUser = itemView.findViewById(R.id.tv_comment_nomeUtilizador);
             mData = itemView.findViewById(R.id.tv_comment_data);
             mComentario = itemView.findViewById(R.id.tv_comment_comentario);
+            mButtonApagar = itemView.findViewById(R.id.iB_apagar);
+
         }
     }
 }
