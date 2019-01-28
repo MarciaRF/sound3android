@@ -235,7 +235,7 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
     public void verificarLogin(final Context context, boolean isConnected, final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(context);
       
-        String url ="http://192.168.1.83/sound3application/frontend/web/api/user/verificarlogin";
+        String url ="http://192.168.1.119/sound3application/frontend/web/api/user/verificarlogin";
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()

@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.amsi.sound3application.Fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,6 +60,14 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
         btn_checkout = view.findViewById(R.id.buttonCheckout);
         textViewPreco.append("0€");
         btn_checkout.setEnabled(false);
+
+        btn_checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.119/sound3application/frontend/web/api/user/checkout?userLogado="+idUtilizador));
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

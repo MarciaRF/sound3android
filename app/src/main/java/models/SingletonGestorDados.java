@@ -1753,14 +1753,10 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         this.detalhesAlbumListener = detalhesAlbumListener;
     }
 
+
     public void setDownloadListener (DownloadListener downloadListener){
         this.downloadListener = downloadListener;
     }
-
-
-
-
-
 
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios, ArrayList<Utilizador> listaComentariosUser) {
@@ -1886,7 +1882,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void onRefreshCarrinho(ArrayList<Musica> musicas, ArrayList<Album> album) {
 
     }
-
     @Override
     public void onRefreshMusicasFavoritos(ArrayList<Musica> favoritoMusicas) {
 
