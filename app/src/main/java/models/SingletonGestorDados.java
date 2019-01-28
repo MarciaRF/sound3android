@@ -1590,7 +1590,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI + "getcarrinho?userId=" + utilizadorId, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-
+                    System.out.println("-->Res" + response);
                     try{
                         JSONObject objeto = new JSONObject(response);
                         JSONArray objMusicas = null;

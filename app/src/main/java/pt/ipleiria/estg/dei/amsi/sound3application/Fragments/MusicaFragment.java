@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import adaptadores.MusicaAdapter;
 import adaptadores.MusicaAdapterAlbum;
 import models.Album;
 import models.Musica;
