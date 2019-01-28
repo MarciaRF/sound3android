@@ -67,7 +67,7 @@
                         android:id="@+id/eT_detalhes_album_nomeAlbum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="nome album"
+                        android:text="@string/nomealbum"
                         android:textColor="#FFFF"
                         android:textSize="24sp" />
 
@@ -75,7 +75,7 @@
                         android:id="@+id/eT_detalhes_album_nomeArtista"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="nome artista"
+                        android:text="@string/nome_artista"
                         android:textColor="#C0C0C0"
                         android:layout_marginTop="5dp"
                         android:textSize="20sp" />
@@ -99,7 +99,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="preco"
+                            android:text="@string/preco"
                             android:textColor="#FFF"
                             android:textSize="20sp" />
                     </LinearLayout>

@@ -26,7 +26,7 @@
         <TextView
             android:id="@+id/textView"
             android:padding="8dp"
-            android:text="Compra"
+            android:text="@string/compra"
             android:textColor="@color/colorBlack"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/button"
@@ -47,7 +47,7 @@
                 <TextView
                     android:id="@+id/textViewChild"
                     android:padding="8dp"
-                    android:text="Compra"
+                    android:text="@string/compra"
                     android:textColor="@color/colorWhite"
                     android:layout_alignParentTop="true"
                     android:layout_toLeftOf="@+id/button"

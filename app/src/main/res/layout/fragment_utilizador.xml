@@ -21,7 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
-        android:text="Perfil"
+        android:text="@string/perfil"
         android:textColor="@color/light_font"
         android:textSize="35dp" />
 
@@ -38,7 +38,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username:"
+            android:text="@string/prompt_username"
             android:textColor="@color/light_font"
             android:textSize="20sp" />
 
@@ -46,7 +46,7 @@
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="username"
+            android:text="@string/prompt_username"
             android:layout_marginLeft="5dp"
             android:textColor="@color/silver"
             android:textSize="16sp" />
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Email"
+            android:text="@string/emailRegisto"
             android:textColor="@color/light_font"
             android:textSize="20sp" />
 
@@ -75,7 +75,7 @@
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="email"
+            android:text="@string/emailRegisto"
             android:textColor="@color/silver"
             android:layout_marginLeft="5dp"
             android:textSize="16sp" />

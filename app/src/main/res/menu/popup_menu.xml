@@ -7,10 +7,4 @@
     <item android:id="@+id/item_addFavoritos"
         android:title="@string/adicionar_aos_favoritos" />
 
-    <item android:id="@+id/item_remCarrinho"
-        android:title="@string/remover_do_carrinho" />
-
-    <item android:id="@+id/item_remFavoritos"
-        android:title="@string/remover_dos_favoritos" />
-
 </menu>

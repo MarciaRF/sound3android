@@ -33,6 +33,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesGeneroListe
 
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DownloadListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ListenerPopUpMenu;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.PesquisaListener;
@@ -41,7 +42,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Utils.DadosJsonParser;
 
 public class SingletonGestorDados implements CommentListener, FavoritosListener,
         DetalhesGeneroListener, DetalhesArtistaListener, PesquisaListener, DetalhesAlbumListener,
-        ComprasRegistadasListener, MusicasListener, MusicaFavoritosCarrinhoListenner, CarrinhoListener, DownloadListener
+        ComprasRegistadasListener, MusicasListener, MusicaFavoritosCarrinhoListenner, CarrinhoListener, DownloadListener, ListenerPopUpMenu
 
 {
 
@@ -71,7 +72,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     private MusicaFavoritosCarrinhoListenner musicaFavoritosCarrinhoListenner;
     private CarrinhoListener carrinhoListener;
     private DownloadListener downloadListener;
-
+    private ListenerPopUpMenu listenerPopUpMenu;
 
     private Album objetoAlbum;
     private Genero objetoGenero;
@@ -1153,10 +1154,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         }
     }
 
-
-
-
-
     // adicionar musica ao Carrinho
     public void adicionarMusicaCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId, final long musicaId){
         if(!isConnected){
@@ -1166,7 +1163,9 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            System.out.println("-->ADD MUSICA : " + response);
+                            if(listenerPopUpMenu != null){
+                                listenerPopUpMenu.checkMusicaInCarrinho(response);
+                            }
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -1181,6 +1180,131 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
                     Map<String,String> params = new HashMap<>();
                     params.put("id_utilizador", "" + utilizadorId);
                     params.put("id_musica", "" + musicaId);
+
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+    // Remover Album do Carrinho
+    public void apagarMusicaCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId, final long musicaId){
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.DELETE, mUrlCompraAPI +
+                    "remover?userId=" + utilizadorId + "&musicaId=" + musicaId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(listenerPopUpMenu != null){
+                                listenerPopUpMenu.checkMusicaInCarrinho(response);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não Foi Possível Remover :", Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams()
+                {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id_utilizador", "" + utilizadorId);
+                    params.put("id_musica", "" +  musicaId);
+
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+    // Verificar se a Música está no Carrinho
+    public void getMusicaCarrinhoAPI(final Context context, boolean isConnected, final Long userId, final Long musicaId){
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else {
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI+"checkmusicacarrinho?userId="+userId+"&musicaId="+musicaId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(listenerPopUpMenu != null){
+                                listenerPopUpMenu.checkMusicaInCarrinho(response);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    //adicionar musica aos favoritos
+    public void adicionarMusicaFavoritosAPI(final Context context, boolean isConnected, final long utilizadorId, final long musicaId){
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlFavMusicasAPI + "adicionarmusicafavoritos",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(listenerPopUpMenu != null){
+                                listenerPopUpMenu.checkMusicaInFavoritos(response);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não Foi Possível Adicionar", Toast.LENGTH_SHORT).show();
+                    System.out.println("-->Error add: " + error);
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams()
+                {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id_utilizador", "" + utilizadorId);
+                    params.put("id_musica", "" + musicaId);
+
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+    // Remover Album do Carrinho
+    public void apagarMusicaFavoritosAPI(final Context context, boolean isConnected, final long utilizadorId, final long musicaId){
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.DELETE, mUrlFavMusicasAPI +
+                    "apagar-favorito-musica?userId=" + utilizadorId + "&musicaId=" + musicaId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(listenerPopUpMenu != null){
+                                listenerPopUpMenu.checkMusicaInFavoritos(response);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não Foi Possível Remover :", Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams()
+                {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id_utilizador", "" + utilizadorId);
+                    params.put("id_musica", "" +  musicaId);
 
                     return params;
                 }
@@ -1524,8 +1648,8 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         }
     }
 
-    // Ve que Musicas estão no carrinho
-    public void checkMusicasAlbumNosFavoritodAPI(final Context context, boolean isConnected, final long userId, final long albumId){
+    //musicas de album favs
+    public void checkMusicasAlbumNosFavoritosAPI(final Context context, boolean isConnected, final long userId, final long albumId){
         if(!isConnected){
             Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
@@ -1753,10 +1877,14 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
         this.detalhesAlbumListener = detalhesAlbumListener;
     }
 
-
     public void setDownloadListener (DownloadListener downloadListener){
         this.downloadListener = downloadListener;
     }
+
+    public void setListenerPopUpMenu (ListenerPopUpMenu listenerPopUpMenu){
+        this.listenerPopUpMenu = listenerPopUpMenu;
+    }
+
 
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios, ArrayList<Utilizador> listaComentariosUser) {
@@ -1889,6 +2017,16 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     @Override
     public void onRefreshMusicasDownload(ArrayList<Musica> musicas, ArrayList<Album> albumMusicas) {
+
+    }
+
+    @Override
+    public void checkMusicaInFavoritos(String check) {
+
+    }
+
+    @Override
+    public void checkMusicaInCarrinho(String check) {
 
     }
 }

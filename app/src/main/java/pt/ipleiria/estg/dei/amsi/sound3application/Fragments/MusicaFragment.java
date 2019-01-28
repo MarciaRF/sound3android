@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import adaptadores.MusicaAdapter;
 import adaptadores.MusicaAdapterAlbum;
 import models.Album;
 import models.Musica;
@@ -50,14 +49,11 @@ public class MusicaFragment extends Fragment implements MusicasListener, MusicaF
         SingletonGestorConteudo.getInstance(getContext()).setMusicasListener(this);
         SingletonGestorDados.getInstance(getContext()).setMusicaFavoritosCarrinhoListenner(this);
 
-        SingletonGestorConteudo.getInstance(getContext()).getMusicasAlbumAPI(getContext(),
-                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);
-
-        SingletonGestorDados.getInstance(getContext()).checkMusicasAlbumNosFavoritodAPI(getContext(),
+        SingletonGestorDados.getInstance(getContext()).checkMusicasAlbumNosFavoritosAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador, idAlbum);
 
-        /*SingletonGestorConteudo.getInstance(getContext()).getMusicasAlbumCarrinho(getContext(),
-                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);*/
+        SingletonGestorConteudo.getInstance(getContext()).getMusicasAlbumAPI(getContext(),
+                ConteudoJsonParser.isConnectionInternet(getContext()), idAlbum);
 
         return view;
     }
@@ -74,6 +70,7 @@ public class MusicaFragment extends Fragment implements MusicasListener, MusicaF
     @Override
     public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
         musicasFavoritos = listaMusicasFavoritos;
+        System.out.println("respostamusicas: "+listaMusicasFavoritos.get(0).getNome());
     }
 
     @Override

@@ -20,7 +20,7 @@
         android:id="@+id/tV_pesquisa_generoNome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Genero Nome"
+        android:text="@string/nomegenero"
         android:textSize="16sp"
         android:textColor="@color/light_font"
         android:layout_marginLeft="16dp"

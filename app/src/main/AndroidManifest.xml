@@ -57,7 +57,8 @@
         <activity
             android:name=".Activitys.ComprasActivity"
             android:parentActivityName=".Activitys.MainActivity" />
-        <activity android:name=".Activitys.DownloadActivity"></activity>
+        <activity android:name=".Activitys.DownloadActivity"
+            android:parentActivityName=".Activitys.ComprasActivity"/>
     </application>
 
 </manifest>

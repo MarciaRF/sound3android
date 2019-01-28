@@ -66,11 +66,18 @@ public class MusicaAdapterAlbum extends RecyclerView.Adapter<MusicaAdapterAlbum.
                                     Toast.makeText(mContext, "Adicionado ao Carrinho", Toast.LENGTH_SHORT).show();
                                     return true;
                                 case R.id.item_addFavoritos:
+                                    System.out.println("mfav"+mFav.get(0).getNome());
                                     if(mFav != null){
+                                        for (Musica tempMusica:mFav
+                                             ) {
+                                            if(tempMusica.getIdMusica()== mData.get(position).getIdMusica()){
+                                                Toast.makeText(mContext, "É favorita", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
                                         if(mData.get(position).getIdMusica() == mFav.get(position).getIdMusica()){
                                             SingletonGestorDados.getInstance(mContext).adicionarFavoritosMusicaAPI(mContext,
                                                     ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
-                                            Toast.makeText(mContext, "Adicionado aos Favoritos", Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(mContext, "Adicionado aos Favoritos", Toast.LENGTH_SHORT).show();
                                         }else{
                                             SingletonGestorDados.getInstance(mContext).apagarFavoritosMusicaAPI(mContext,
                                                     ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());

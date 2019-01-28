@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Álbuns"
+            android:text="@string/albuns"
             android:textSize="20sp"
             android:textColor="@color/light_font"
             android:layout_marginStart="15dp"
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Artistas"
+            android:text="@string/artistas"
             android:textSize="20sp"
             android:textColor="@color/light_font"
             android:layout_marginStart="15dp"
@@ -87,7 +87,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Generos"
+            android:text="@string/generos"
             android:textSize="20sp"
             android:textColor="@color/light_font"
             android:layout_marginStart="15dp"

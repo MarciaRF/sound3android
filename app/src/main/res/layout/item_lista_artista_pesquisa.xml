@@ -24,5 +24,5 @@
         android:textSize="16sp"
         android:textColor="@color/light_font"
         android:fontFamily="roboto"
-        android:text="Nome Artista" />
+        android:text="@string/nome_artista" />
 </LinearLayout>

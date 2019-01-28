@@ -18,7 +18,7 @@
         android:id="@+id/tV_album_nome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome Album"
+        android:text="@string/nomealbum"
         android:textSize="15sp"
         android:textStyle="bold"
         android:layout_marginTop="5dp"
@@ -33,16 +33,16 @@
             android:id="@+id/tV_album_artista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nome Banda"
+            android:text="@string/nome_artista"
             android:textColor="@color/silver"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tV_preco_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="10€"
+            android:text="@string/preco"
             android:textColor="@color/silver"/>
     </LinearLayout>
 

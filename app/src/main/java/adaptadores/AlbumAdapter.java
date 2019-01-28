@@ -53,6 +53,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.mAlbumNome.setText(mData.get(position).getNome());
+        holder.mAlbumPreco.setText(mData.get(position).getPreco() + "€");
         holder.mAlbumArtista.setText(mArtista.get(position).getNome());
         //holder.mAlbumArtista.setText(mData.get(position).getNome());
 
@@ -89,10 +90,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyViewHolder
         public ImageView mAlbumCapa;
         public TextView mAlbumNome;
         public TextView mAlbumArtista;
+        public TextView mAlbumPreco;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            mAlbumPreco= itemView.findViewById(R.id.tV_preco_item);
             mAlbumCapa = itemView.findViewById(R.id.iV_album_capa);
             mAlbumNome = itemView.findViewById(R.id.tV_album_nome);
             mAlbumArtista = itemView.findViewById(R.id.tV_album_artista);
