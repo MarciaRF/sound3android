@@ -31,6 +31,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListen
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesArtistaListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesGeneroListener;
 
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DownloadListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicasListener;
@@ -40,7 +41,7 @@ import pt.ipleiria.estg.dei.amsi.sound3application.Utils.DadosJsonParser;
 
 public class SingletonGestorDados implements CommentListener, FavoritosListener,
         DetalhesGeneroListener, DetalhesArtistaListener, PesquisaListener, DetalhesAlbumListener,
-        ComprasRegistadasListener, MusicasListener, MusicaFavoritosCarrinhoListenner, CarrinhoListener
+        ComprasRegistadasListener, MusicasListener, MusicaFavoritosCarrinhoListenner, CarrinhoListener, DownloadListener
 
 {
 
@@ -69,6 +70,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     private MusicasListener musicasListener;
     private MusicaFavoritosCarrinhoListenner musicaFavoritosCarrinhoListenner;
     private CarrinhoListener carrinhoListener;
+    private DownloadListener downloadListener;
 
 
     private Album objetoAlbum;
@@ -332,7 +334,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // VAI BUSCAR TODOS OS FAVORITOS DO USER
     public void getAllFavoritosAlbumAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavAlbumAPI + "getallalbunsfavoritos?userId=" + userId, new Response.Listener<String>() {
                 @Override
@@ -370,7 +372,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getAllFavoritosArtistaAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-            //favArtistas = modeloBDHelper.getAllArtistasFavoritosBD();
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavArtistasAPI + "getallartistasfavoritos?userId=" + userId,
                     null, new Response.Listener<JSONArray>() {
@@ -394,7 +396,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getAllFavoritosGeneroAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-            //favGeneros = modeloBDHelper.getAllGenerosFavoritosBD();
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlFavGenerosAPI + "getallgenerosfavoritos?userId="+ userId,
                     null, new Response.Listener<JSONArray>() {
@@ -418,7 +420,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getAllFavoritosMusicaAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavMusicasAPI + "getallmusicasfavoritos?userId=" + userId, new Response.Listener<String>() {
                 @Override
@@ -458,6 +460,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // ADICIONA AOS FAVORITOS
     public void adicionarFavoritosAlbumAPI(final  Context context, boolean isConnected, final long utilizadorId, final long albumId){
         if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.POST, mUrlFavAlbumAPI + "criarfavoritoalbum",
                     new Response.Listener<String>() {
@@ -489,31 +492,35 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     }
 
     public void adicionarFavoritosArtistaAPI(final  Context context, boolean isConnected,final long utilizadorId, final long artistaId){
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlFavArtistasAPI + "criarfavoritoartista",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(detalhesArtistaListener != null){
-                            detalhesArtistaListener.checkArtistaInFavoritos(response);
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlFavArtistasAPI + "criarfavoritoartista",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(detalhesArtistaListener != null){
+                                detalhesArtistaListener.checkArtistaInFavoritos(response);
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Não Foi Possível Adicionar", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String,String> getParams()
-            {
-                Map<String,String> params = new HashMap<>();
-                params.put("id_utilizador", "" + utilizadorId);
-                params.put("id_artista", "" + artistaId);
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não Foi Possível Adicionar", Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams()
+                {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id_utilizador", "" + utilizadorId);
+                    params.put("id_artista", "" + artistaId);
 
-                return params;
-            }
-        };
-        volleyQueue.add(req);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
     }
 
     public void adicionarFavoritosGeneroAPI(final  Context context, final long utilizadorId, final long generoId){
@@ -546,34 +553,39 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     }
 
     public void adicionarFavoritosMusicaAPI(final  Context context, boolean isConnected, final long utilizadorId, final long musicaId) {
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlFavMusicasAPI + "adicionarmusicafavoritos", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println("-->Resposta Add Post " + response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlFavMusicasAPI + "adicionarmusicafavoritos", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    System.out.println("-->Resposta Add Post " + response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("id_utilizador", "" + utilizadorId);
-                params.put("id_musica", "" + musicaId);
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("id_utilizador", "" + utilizadorId);
+                    params.put("id_musica", "" + musicaId);
 
-                return params;
-            }
-        };
-        volleyQueue.add(req);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
     }
+
 
 
     // LISTAGEM DE DADOS PARA A ATIVIDADE DOS FAVORITOS
     public void getFavoritosArtistaAtividadeAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavArtistasAPI + "getartistasfavoritos?userId=" + userId,
                     null, new Response.Listener<JSONArray>() {
@@ -597,7 +609,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getFavoritosAlbumAtividadeAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavAlbumAPI + "getalbunsfavoritos?userId=" + userId, new Response.Listener<String>() {
                 @Override
@@ -635,7 +647,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getFavoritosGeneroAtividadeAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlFavGenerosAPI + "getgenerosfavoritos?userId=" + userId,
                     null, new Response.Listener<JSONArray>() {
@@ -659,7 +671,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getFavoritosMusicaAtividadeAPI(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavMusicasAPI + "getmusicasfavoritos?userId=" + userId, new Response.Listener<String>() {
                 @Override
@@ -699,7 +711,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // APAGAR FAVORITOS
     public void apagarFavoritosAlbumAPI(final  Context context, boolean isConnected, final long utilizadorId, final long albumId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.DELETE, mUrlFavAlbumAPI +
                     "apagarfavalbum?userId=" + utilizadorId + "&albumId=" + albumId,
@@ -732,7 +744,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void apagarFavoritosArtistaAPI(final  Context context, boolean isConnected, final long utilizadorId, final long artistaId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.DELETE, mUrlFavArtistasAPI +
                     "apagarfavoritoartista?userId=" + utilizadorId + "&artistaId=" + artistaId,
@@ -765,7 +777,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void apagarFavoritosGeneroAPI(final  Context context, boolean isConnected, final long utilizadorId, final long generoId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.DELETE, mUrlFavGenerosAPI +
                     "apagarfavgenero?userId=" + utilizadorId + "&generoId=" + generoId,
@@ -801,6 +813,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void getGeneroFavoritoAPI(final Context context, boolean isConnected, final Long userId, final Long generoId){
         if(!isConnected){
             //favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavGenerosAPI+"findfavgenero?userId="+userId+"&generoId="+generoId,
                     new Response.Listener<String>() {
@@ -823,6 +836,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void getArtistaFavoritoAPI(final Context context, boolean isConnected, final Long userId, final Long artistaId){
         if(!isConnected){
             //favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavArtistasAPI+"findfavartista?userId="+userId+"&artistaId="+artistaId,
                     new Response.Listener<String>() {
@@ -845,6 +859,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void getAlbumFavoritoAPI(final Context context, boolean isConnected, final Long userId, final Long albumId){
         if(!isConnected){
             //favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavAlbumAPI+"findfavalbum?userId=" + userId + "&albumId=" + albumId,
                     new Response.Listener<String>() {
@@ -870,6 +885,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void getAllMusicasFavoritosAlbumAPI(final Context context, boolean isConnected, final Long userId, final Long musicaId){
         if(!isConnected){
             //favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             StringRequest req = new StringRequest(Request.Method.GET, mUrlFavAlbumAPI + "findfavmusica?userId=" + userId + "&musicaId=" + musicaId,
                     new Response.Listener<String>() {
@@ -893,7 +909,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // DETALHES ESPECIFICOS DOS ITEMS
     public void getAlbumAPI(final Context context, boolean isConnected, final long idAlbum){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIAlbum + "findalbumbyid?id=" + idAlbum, new Response.Listener<String>() {
                 @Override
@@ -935,7 +951,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getGeneroAPI(final Context context, boolean isConnected, final long idGenero){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIGenero + "findgenerobyid?generoId=" + idGenero, new Response.Listener<String>() {
                 @Override
@@ -974,7 +990,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getArtistaAPI(final Context context, boolean isConnected, final long idArtista){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIArtista + "findartistabyid?id=" + idArtista, new Response.Listener<String>() {
                 @Override
@@ -1017,7 +1033,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // Codigo da Pesquisa
     public void getPesquisaAlbunsAPI(final Context context, boolean isConnected, final String pesquisa){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlPesquisaAPI + "pesquisaalbuns?pesquisa=" + pesquisa, new Response.Listener<String>() {
                 @Override
@@ -1055,7 +1071,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getPesquisaGenerosAPI(final Context context, boolean isConnected, final String pesquisa){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlPesquisaAPI + "pesquisageneros?pesquisa=" + pesquisa,
                     null, new Response.Listener<JSONArray>() {
@@ -1078,7 +1094,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getPesquisaArtistasAPI(final Context context, boolean isConnected, final String pesquisa){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlPesquisaAPI + "pesquisaartistas?pesquisa=" + pesquisa,
                     null, new Response.Listener<JSONArray>() {
@@ -1101,7 +1117,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getPesquisaMusicasAPI(final Context context, boolean isConnected, final String pesquisa){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlPesquisaAPI + "pesquisamusicas?pesquisa=" + pesquisa, new Response.Listener<String>() {
                 @Override
@@ -1143,35 +1159,40 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     // adicionar musica ao Carrinho
     public void adicionarMusicaCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId, final long musicaId){
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlCompraAPI + "adicionarmusicacarrinho",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println("-->ADD MUSICA : " + response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Não Foi Possível Adicionar", Toast.LENGTH_SHORT).show();
-                System.out.println("-->Error add: " + error);
-            }
-        }) {
-            @Override
-            protected Map<String,String> getParams()
-            {
-                Map<String,String> params = new HashMap<>();
-                params.put("id_utilizador", "" + utilizadorId);
-                params.put("id_musica", "" + musicaId);
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlCompraAPI + "adicionarmusicacarrinho",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            System.out.println("-->ADD MUSICA : " + response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não Foi Possível Adicionar", Toast.LENGTH_SHORT).show();
+                    System.out.println("-->Error add: " + error);
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams()
+                {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id_utilizador", "" + utilizadorId);
+                    params.put("id_musica", "" + musicaId);
 
-                return params;
-            }
-        };
-        volleyQueue.add(req);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
     }
 
     //Adicionar Album ao Carrinho
     public void adicionarAlbumCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId, final long albumId){
         if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI + "adicionaralbum?userId="+ utilizadorId+
                     "&albumId=" +albumId,
@@ -1205,7 +1226,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // Remover Album do Carrinho
     public void apagarAlbumCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId, final long albumId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.DELETE, mUrlCompraAPI +
                     "removealbumcarrinho?userId=" + utilizadorId + "&albumId=" + albumId,
@@ -1240,6 +1261,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     public void getAlbumCarrinhoAPI(final Context context, boolean isConnected, final Long userId, final Long albumId){
         if(!isConnected){
             //favAlbuns = modeloBDHelper.getAllAlbunsFavoritosBD();
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI+"checkalbumcarrinho?userId="+userId+"&albumId="+albumId,
                     new Response.Listener<String>() {
@@ -1262,7 +1284,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // Get Artista do Album
     public void getArtistaAlbumAPI(final Context context, boolean isConnected, final long idAlbum){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIAlbum + "artistaalbum?albumId=" + idAlbum, new Response.Listener<String>() {
                 @Override
@@ -1304,7 +1326,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // Vai Buscar todos os Albuns de Um Artista
     public void getAllAbunsArtistaAPI(final Context context, boolean isConnected, final long artistaId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIAlbum + "albunsartista?artistaId=" + artistaId, new Response.Listener<String>() {
                 @Override
@@ -1342,39 +1364,45 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     // Adiciona Comentario a um Album
     public void adicionarCommentAlbumAPI(final  Context context, boolean isConnected, final long idAlbum, final long idUser, final String comentario, final java.sql.Date data){
-        StringRequest req = new StringRequest(Request.Method.POST,
-                mUrlAPIComentarios + "criarcomment?albumId=" + idAlbum +"&userId=" +idUser + "&comentario" + comentario
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if(commentListener != null){
-                    commentListener.onResfreshNovoComment(response);
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.POST,
+                    mUrlAPIComentarios + "criarcomment?albumId=" + idAlbum +"&userId=" +idUser + "&comentario" + comentario
+                    , new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(commentListener != null){
+                        commentListener.onResfreshNovoComment(response);
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-            }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<>();
-                params.put("conteudo", comentario);
-                params.put("data_criacao", "" + data);
-                params.put("id_utilizador", "" + idUser);
-                params.put("id_album", "" +idAlbum);
+                }
+            }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<>();
+                    params.put("conteudo", comentario);
+                    params.put("data_criacao", "" + data);
+                    params.put("id_utilizador", "" + idUser);
+                    params.put("id_album", "" +idAlbum);
 
-                return params;
-            }
-        };
-        volleyQueue.add(req);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+
     }
+
 
     // Todos Comentarios do Album
     public void getAlbumCommentsAPI(final Context context, boolean isConnected, final long albumId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIComentarios + "getallcomments?albumId=" + albumId, new Response.Listener<String>() {
                 @Override
@@ -1412,7 +1440,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // Vai Buscar todos os Albuns de um Genero
     public void getAllAlbunsDoGeneroAPI(final Context context, boolean isConnected, final long generoId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIGenero + "findalbunsgenero?generoId=" + generoId, new Response.Listener<String>() {
                 @Override
@@ -1450,15 +1478,15 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void getComprasRegistadasAPI(final Context context, boolean isConnected, final long userId) {
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlApiCompras + "getcomprasregistadas?userId=" + userId,
                     null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
+
                     compras = ConteudoJsonParser.parseJsonCompra(response, context);
                     if(comprasRegistadasListener != null){
-
                         comprasRegistadasListener.onResponseGetCompras(compras);
                     }
                 }
@@ -1475,7 +1503,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // Ve que Musicas estão no carrinho
     public void getMusicasAlbumCarrinho(final Context context, boolean isConnected, final long userId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,  mUrlApiCompras + "getcarrinho?userId=" + userId,
                     null, new Response.Listener<JSONArray>() {
@@ -1499,7 +1527,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     // Ve que Musicas estão no carrinho
     public void checkMusicasAlbumNosFavoritodAPI(final Context context, boolean isConnected, final long userId, final long albumId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET,   mUrlFavMusicasAPI + "checkmusicasalbumfavoritos?userId="
                     + userId + "&albumId=" + albumId,
@@ -1522,9 +1550,8 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     }
 
     public void apagarFavoritosMusicaAPI(final  Context context, boolean isConnected, final long utilizadorId, final long musicaId){
-
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.DELETE, mUrlFavMusicasAPI +
                     "apagarfavoritomusica?userId=" + utilizadorId + "&musicaId=" + musicaId,
@@ -1558,7 +1585,7 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     //get Items Carrinho
     public void getItemsCarrinhoAPI(final Context context, boolean isConnected, final long utilizadorId){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI + "getcarrinho?userId=" + utilizadorId, new Response.Listener<String>() {
                 @Override
@@ -1593,9 +1620,100 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
             volleyQueue.add(req);
         }
     }
+
+    // Vais Buscar todoas as musicas compradas para fazer download
+    public void getMusicasDownloadAPI(final Context context, boolean isConnected, final long utilizadorId){
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlCompraAPI + "getmusicascompradas?userId=" + utilizadorId, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    try{
+                        JSONObject objeto = new JSONObject(response);
+                        JSONArray objMusicas = null;
+                        JSONArray objAlbuns = null;
+                        objMusicas = objeto.getJSONArray("musicas");
+                        objAlbuns = objeto.getJSONArray("albuns");
+
+                        musicas = ConteudoJsonParser.parseJsonMusica(objMusicas, context);
+                        albuns = ConteudoJsonParser.parseJsonAlbum(objAlbuns, context);
+
+                        if(downloadListener != null){
+                            downloadListener.onRefreshMusicasDownload(musicas, albuns);
+                        }
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("-->Error: " + error);
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+
+
+    // Apagar Comentario
+    public void apagarCommentAlbumAPI(final  Context context, boolean isConnected, final long commentId, final long albumId){
+        if(!isConnected){
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(Request.Method.DELETE, mUrlAPIComentarios +
+                    "apagarcomment?commentId=" + commentId + "&albumId=" + albumId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try{
+                                JSONObject objeto = new JSONObject(response);
+                                JSONArray objComment = null;
+                                JSONArray objUser = null;
+                                objComment = objeto.getJSONArray("comments");
+                                objUser = objeto.getJSONArray("users");
+
+                                comentarios = DadosJsonParser.parseJsonComentarios(objComment, context);
+                                utilizadores = DadosJsonParser.parseJsonUtilizador(objUser, context);
+
+                                if(commentListener != null){
+                                    commentListener.onResfreshComment(comentarios, utilizadores);
+                                }
+
+                            } catch (JSONException e) {
+
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não Foi Possível Remover :", Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams()
+                {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id", "" + commentId);
+
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+
     
     public void setMusicaFavoritosCarrinhoListenner(MusicaFavoritosCarrinhoListenner musicaFavoritosCarrinhoListenner){
-            this.musicaFavoritosCarrinhoListenner = musicaFavoritosCarrinhoListenner;
+        this.musicaFavoritosCarrinhoListenner = musicaFavoritosCarrinhoListenner;
     }
 
     public void setMusicasListener(MusicasListener musicasListener){
@@ -1609,7 +1727,6 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
 
     public void setCarrinhoListener (CarrinhoListener carrinhoListener){
         this.carrinhoListener = carrinhoListener;
-
     }
 
     public void setFavoritosListener (FavoritosListener favoritosListener){
@@ -1637,12 +1754,9 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     }
 
 
-
-
-
-
-
-
+    public void setDownloadListener (DownloadListener downloadListener){
+        this.downloadListener = downloadListener;
+    }
 
     @Override
     public void onResfreshComment(ArrayList<Comentario> listaComentarios, ArrayList<Utilizador> listaComentariosUser) {
@@ -1770,6 +1884,11 @@ public class SingletonGestorDados implements CommentListener, FavoritosListener,
     }
     @Override
     public void onRefreshMusicasFavoritos(ArrayList<Musica> favoritoMusicas) {
+
+    }
+
+    @Override
+    public void onRefreshMusicasDownload(ArrayList<Musica> musicas, ArrayList<Album> albumMusicas) {
 
     }
 }

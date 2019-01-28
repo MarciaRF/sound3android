@@ -54,7 +54,8 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     private Album album;
 
-    public static final String IP = "192.168.1.88";
+    public static final String IP = "192.168.1.119";
+
 
 
     private String mUrlAPIAlbuns = "http://" + IP + "/sound3application/frontend/api/album";
@@ -279,6 +280,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
             albuns = modeloBDHelper.getAllAlbunsBD();
             if(modeloBDHelper != null){
                 homeListener.onRefreshAlbuns(albuns);
+                Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
             }
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIAlbuns, null, new Response.Listener<JSONArray>() {
@@ -306,6 +308,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
             artistas = modeloBDHelper.getAllArtistasBD();
             if(modeloBDHelper != null){
                 homeListener.onRefreshArtistas(artistas);
+                Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
             }
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIArtistas, null, new Response.Listener<JSONArray>() {
@@ -332,6 +335,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
             musicas = modeloBDHelper.getAllMusicasBD();
             if(modeloBDHelper != null){
                 homeListener.onRefreshMusicas(musicas);
+                Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
             }
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIMusicas, null, new Response.Listener<JSONArray>() {
@@ -356,7 +360,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     public void getTopAlbunsAPI(final Context context, boolean isConnected){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPITopAlbuns, new Response.Listener<String>() {
                 @Override
@@ -394,7 +398,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     public void getAlbunsMaisRecentesAPI(final Context context, boolean isConnected){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIAlbunsMaisRecentes, new Response.Listener<String>() {
                 @Override
@@ -432,7 +436,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     public void getMusicasAlbumAPI(final Context context, boolean isConnected, long IdAlbum){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIMusicasAlbum + IdAlbum, new Response.Listener<String>() {
                 @Override
@@ -483,7 +487,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     public void getArtistasMaisVendidosAPI(final Context context, boolean isConnected){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else{
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIArtistasMaisVendidos, null, new Response.Listener<JSONArray>() {
                 @Override
@@ -508,7 +512,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     public void getAllGenerosAPI(final Context context, boolean isConnected){
         if(!isConnected){
-
+            Toast.makeText(context, "Verifique a ligação á Internet", Toast.LENGTH_SHORT).show();
         }else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIGeneros, null, new Response.Listener<JSONArray>() {
                 @Override

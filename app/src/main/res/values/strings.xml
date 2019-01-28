@@ -48,4 +48,6 @@
     <string name="adicionar_aos_favoritos">Adicionar aos Favoritos</string>
     <string name="remover_do_carrinho">Remover do Carrinho</string>
     <string name="remover_dos_favoritos">Remover dos Favoritos</string>
+    <string name="data">Data</string>
+    <string name="valor">Valor</string>
 </resources>

@@ -144,10 +144,9 @@ public class ConteudoJsonParser {
             for(int i=0; i< response.length(); i++){
 
                 JSONObject compra = (JSONObject) response.get(i);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d", Locale.UK);
 
                 int idCompra = compra.getInt("id");
-                Date data_compra = dateFormat.parse(compra.getString("data_compra"));
+                String data_compra = compra.getString("data_compra");
                 int valor_total = compra.getInt("valor_total");
                 boolean efetivada = (1 == compra.getInt("efetivada"));
                 int id_utilizador = compra.getInt("id_utilizador");
@@ -155,14 +154,10 @@ public class ConteudoJsonParser {
                 Compra auxCompra = new Compra(idCompra, data_compra, valor_total, efetivada, id_utilizador);
                 tempListaCompra.add(auxCompra);
             }
-            Toast.makeText(context, "----->"+tempListaCompra.get(0).getValorTotal(), Toast.LENGTH_SHORT).show();
-        }catch (JSONException e){
-            e.printStackTrace();
-            Toast.makeText(context, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        } catch (ParseException e) {
+
+        }catch (JSONException e) {
             e.printStackTrace();
         }
-
         return tempListaCompra;
     }
 

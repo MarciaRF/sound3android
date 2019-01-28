@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     //MQTT
     MqttAndroidClient client;
-    private final String SERVERCONECTION = "tcp://192.168.1.88:1883";
+
+    private final String SERVERCONECTION = "tcp://192.168.1.119:1883";
+
     private final String TOPICOSUBSCRICAO = "INSERT";
 
     @Override
@@ -225,12 +227,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PesquisaActivity.class);
         intent.putExtra(PesquisaActivity.PESQUISA, newText);
         startActivity(intent);
-    }
-
-    public void mostrarCompras(View view) {
-        Intent intent = new Intent(this,ComprasActivity.class);
-        startActivity(intent);
-
     }
 
 }
