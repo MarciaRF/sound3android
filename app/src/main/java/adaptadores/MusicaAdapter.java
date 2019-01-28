@@ -20,25 +20,28 @@ import models.Musica;
 
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ListaMusicasAlbumListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ListenerPopUpMenu;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 
-public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHolder> implements ListenerPopUpMenu {
+public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHolder> implements ListaMusicasAlbumListener {
 
         Context mContext;
         List<Musica> mData;
         Long idUser;
         List<Musica> mFav;
         ArrayList<Album> mAlbum;
-        View layout ;
+        List<Musica> mCart;
+        ListaMusicasAlbumListener listaMusicasAlbumListener;
 
-        public MusicaAdapter(Context mContext, List<Musica> mData, ArrayList<Album> mAlbum, Long idUser, List<Musica> mFav) {
+        public MusicaAdapter(Context mContext, List<Musica> mData, ArrayList<Album> mAlbum, Long idUser, List<Musica> mFav, List<Musica> mCart) {
             this.mContext = mContext;
             this.mData = mData;
             this.mAlbum = mAlbum;
             this.idUser = idUser;
             this.mFav = mFav;
+            this.mCart = mCart;
         }
 
 
@@ -49,6 +52,8 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
             View v;
             v = LayoutInflater.from(mContext).inflate(R.layout.item_lista_musica_pesquisa, parent, false);
             MyViewHolder vHolder = new MyViewHolder(v);
+
+            setListaMusicasAlbumListener(this);
 
             return vHolder;
         }
@@ -61,46 +66,84 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
                 public void onClick(final View v) {
                     PopupMenu popup = new PopupMenu(v.getContext(), v);
                     popup.inflate(R.menu.popup_menu);
-                    layout=v;
-                    Toast.makeText(mContext, "---->checkcarrinho-v", Toast.LENGTH_SHORT).show();
-                    SingletonGestorDados.getInstance(mContext).getMusicaCarrinhoAPI(mContext,
-                            ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
+                    System.out.println("checkfav: "+mFav);
+                    if(mFav != null){
+                        boolean checkfav = false;
+                        //check estado do favorito da musica em causa
+                        for (Musica tempMusica:mFav
+                                ) {
+                            if(tempMusica.getIdMusica()== mData.get(position).getIdMusica()){
+                                checkfav = true;
+                            }
+                        }
 
+                        if(checkfav){
+                            popup.getMenu().getItem(1).setTitle("Remover dos Favoritos");
+                        }else{
+                            popup.getMenu().getItem(1).setTitle("Adicionar aos Favoritos");
+                        }
+                    }
+                    if(mCart != null){
+                        boolean checkcart = false;
+                        //check estado do favorito da musica em causa
+                        for (Musica tempMusica:mCart
+                                ) {
+                            if(tempMusica.getIdMusica()== mData.get(position).getIdMusica()){
+                                checkcart = true;
+                            }
+                        }
+                        if(checkcart){
+                            popup.getMenu().getItem(0).setTitle("Remover do Carrinho");
+                        }else{
+                            popup.getMenu().getItem(0).setTitle("Adicionar ao Carrinho");
+                        }
+                    }
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()){
-                                case R.id.item_addCarrinho:
-                                    TextView tvCarrinho =  v.findViewById(R.id.item_addCarrinho);
-                                    String textoCarrinho = tvCarrinho.getText().toString();
-
-                                    if(textoCarrinho.equals("Adicionar ao Carrinho")){
-                                        SingletonGestorDados.getInstance(mContext).adicionarMusicaCarrinhoAPI(mContext,
+                                case R.id.item_addFavoritos:
+                                    if(mFav != null){
+                                        //envio para as rotas
+                                        if(item.getTitle().equals("Adicionar aos Favoritos")){
+                                            SingletonGestorDados.getInstance(mContext).adicionarFavoritosMusicaAPI(mContext,
+                                                    ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
+                                            Toast.makeText(mContext, "Adicionado com Sucesso!", Toast.LENGTH_SHORT).show();
+                                            listaMusicasAlbumListener.onCreateFavMusica(mFav, mData.get(position));
+                                        }else if(item.getTitle().equals("Remover dos Favoritos")){
+                                            SingletonGestorDados.getInstance(mContext).apagarFavoritosMusicaAPI(mContext,
+                                                    ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
+                                            Toast.makeText(mContext, "Removido com Sucesso!", Toast.LENGTH_SHORT).show();
+                                            listaMusicasAlbumListener.onDeleteFavMusica(mFav, mData.get(position));
+                                        }
+                                    }else{
+                                        SingletonGestorDados.getInstance(mContext).adicionarFavoritosMusicaAPI(mContext,
                                                 ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
-                                        Toast.makeText(mContext, "Adicionado ao Carrinho", Toast.LENGTH_SHORT).show();
-
-                                    } else if (textoCarrinho.equals("Remover do Carrinho")){
-                                        SingletonGestorDados.getInstance(mContext).apagarMusicaCarrinhoAPI(mContext,
-                                                ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
-                                        Toast.makeText(mContext, "Removido do Carrinho", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "Adicionado com Sucesso!", Toast.LENGTH_SHORT).show();
+                                        listaMusicasAlbumListener.onCreateFavMusica(mFav, mData.get(position));
                                     }
                                     return true;
 
-                                case R.id.item_addFavoritos:
-                                    TextView tvFavorito =  v.findViewById(R.id.item_addFavoritos);
-                                    String textoFavorito = tvFavorito.getText().toString();
+                                case R.id.item_addCarrinho:
+                                    if(mCart != null){
 
-                                    if(textoFavorito.equals("Adicionar aos Favoritos")){
-                                        SingletonGestorDados.getInstance(mContext).adicionarFavoritosMusicaAPI(mContext,
+                                        //envio para as rotas
+                                        if(item.getTitle().equals("Adicionar ao Carrinho")){
+                                            SingletonGestorDados.getInstance(mContext).adicionarMusicaCarrinhoAPI(mContext,
+                                                    ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
+                                            Toast.makeText(mContext, "Adicionado com Sucesso!", Toast.LENGTH_SHORT).show();
+                                            listaMusicasAlbumListener.onCreateCartMusica(mCart, mData.get(position));
+                                        }else if(item.getTitle().equals("Remover do Carrinho")){
+                                            SingletonGestorDados.getInstance(mContext).apagarMusicaCarrinhoAPI(mContext,
+                                                    ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
+                                            Toast.makeText(mContext, "Removido com Sucesso!", Toast.LENGTH_SHORT).show();
+                                            listaMusicasAlbumListener.onDeleteCartMusica(mCart, mData.get(position));
+                                        }
+                                    }else{
+                                        SingletonGestorDados.getInstance(mContext).adicionarMusicaCarrinhoAPI(mContext,
                                                 ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
-                                        Toast.makeText(mContext, "Adicionado aos Favoritos", Toast.LENGTH_SHORT).show();
-                                        tvFavorito.setText("Remover dos Favoritos");
-
-                                    }else if (textoFavorito.equals("Remover do Carrinho")){
-                                        SingletonGestorDados.getInstance(mContext).apagarFavoritosMusicaAPI(mContext,
-                                                ConteudoJsonParser.isConnectionInternet(mContext), idUser, mData.get(position).getIdMusica());
-                                        Toast.makeText(mContext, "Removido dos Favoritos", Toast.LENGTH_SHORT).show();
-                                        tvFavorito.setText("Adicionar aos Favoritos");
+                                        Toast.makeText(mContext, "Adicionado ao Carrinho!", Toast.LENGTH_SHORT).show();
+                                        listaMusicasAlbumListener.onCreateCartMusica(mCart, mData.get(position));
                                     }
                                     return true;
                                 default:
@@ -119,31 +162,56 @@ public class MusicaAdapter extends RecyclerView.Adapter<MusicaAdapter.MyViewHold
 
         }
 
-        @Override
-        public int getItemCount() {
-            return mData.size();
-        }
-
     @Override
-    public void checkMusicaInFavoritos(String check) {
-
+    public int getItemCount() {
+        return mData.size();
     }
 
     @Override
-    public void checkMusicaInCarrinho(String check) {
-        if (layout != null) {
-            TextView tv_item = layout.findViewById(R.id.item_addCarrinho);
-            if (check.equals("false")) {
-                System.out.println("---->checkcarrinho-false");
-                tv_item.setText("Adicionar ao Carrinho");
-            } else if(check.equals("true")){
-                System.out.println("---->checkcarrinho-true");
-                tv_item.setText("Remover do Carrinho");
+    public void onDeleteFavMusica(List<Musica> mFav, Musica musica) {
+        if(mFav!=null){
+            for (Musica tempMusica:mFav
+                    ) {
+                if(tempMusica.getIdMusica()== musica.getIdMusica()){
+                    mFav.remove(musica);
+                }
             }
         }
-        System.out.println("---->checkcarrinho-layoutfalse");
     }
 
+    @Override
+    public void onCreateFavMusica(List<Musica> mFav, Musica musica) {
+        if(mFav!=null){
+            if(!mFav.contains(musica)){
+                mFav.add(musica);
+            }
+        }
+    }
+
+    @Override
+    public void onDeleteCartMusica(List<Musica> mCart, Musica musica) {
+        if(mCart!=null){
+            for (Musica tempMusica:mCart
+                    ) {
+                if(tempMusica.getIdMusica()== musica.getIdMusica()){
+                    mCart.remove(musica);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onCreateCartMusica(List<Musica> mCart, Musica musica) {
+        if(mCart!=null){
+            if(!mCart.contains(musica)){
+                mCart.add(musica);
+            }
+        }
+    }
+
+    public void setListaMusicasAlbumListener(ListaMusicasAlbumListener listaMusicasAlbumListener){
+        this.listaMusicasAlbumListener = listaMusicasAlbumListener;
+    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
