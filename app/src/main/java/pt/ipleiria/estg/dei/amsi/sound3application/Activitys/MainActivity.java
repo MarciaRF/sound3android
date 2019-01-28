@@ -227,10 +227,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void mostrarCompras(View view) {
-        Intent intent = new Intent(this,ComprasActivity.class);
-        startActivity(intent);
-
-    }
-
 }

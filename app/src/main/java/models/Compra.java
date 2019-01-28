@@ -6,13 +6,13 @@ import java.util.Date;
 public class Compra implements Serializable {
 
     private long IDCompra;
-    private Date DataCompra;
+    private String DataCompra;
     private int ValorTotal;
     private boolean Efetivada;
     private long IDUtilizador;
 
 
-    public Compra(int id_compra, Date data_compra, int valor_total, boolean efetivada, long id_utilizador){
+    public Compra(int id_compra, String data_compra, int valor_total, boolean efetivada, long id_utilizador){
         IDCompra = id_compra;
         DataCompra = data_compra;
         ValorTotal = valor_total;
@@ -24,9 +24,13 @@ public class Compra implements Serializable {
 
     public void setIDCompra(long IDCompra) { this.IDCompra = IDCompra; }
 
-    public Date getDataCompra() { return DataCompra; }
+    public String getDataCompra() {
+        return DataCompra;
+    }
 
-    public void setDataCompra(Date dataCompra) { DataCompra = dataCompra; }
+    public void setDataCompra(String dataCompra) {
+        DataCompra = dataCompra;
+    }
 
     public int getValorTotal() { return ValorTotal; }
 

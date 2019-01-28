@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activitys.MainActivity"></activity>
+        <activity android:name=".Activitys.MainActivity" />
         <activity
             android:name=".Activitys.LoginSignUpActivity"
             android:windowSoftInputMode="adjustPan">
@@ -36,26 +36,28 @@
             android:name=".Activitys.RegistoActivity"
             android:parentActivityName=".Activitys.LoginSignUpActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activitys.DetalhesAlbumActivity"
-            android:parentActivityName=".Activitys.MainActivity"/>
+        <activity
+            android:name=".Activitys.DetalhesAlbumActivity"
+            android:parentActivityName=".Activitys.MainActivity" />
         <activity
             android:name=".Activitys.PesquisaActivity"
             android:parentActivityName=".Activitys.MainActivity" />
-
-        <activity android:name=".Activitys.DetalhesArtistaActivity"
-            android:parentActivityName=".Activitys.MainActivity"/>
-        <activity android:name=".Activitys.DetalhesGeneroActivity"
-            android:parentActivityName=".Activitys.MainActivity"/>
-
+        <activity
+            android:name=".Activitys.DetalhesArtistaActivity"
+            android:parentActivityName=".Activitys.MainActivity" />
+        <activity
+            android:name=".Activitys.DetalhesGeneroActivity"
+            android:parentActivityName=".Activitys.MainActivity" />
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-        <activity android:name=".Activitys.RegistoComprasActivity"
-            android:parentActivityName=".Activitys.MainActivity"/>
-        <activity android:name=".Activitys.FavoritosRecyclerActivity"
-            android:parentActivityName=".Activitys.MainActivity"/>
-        <activity android:name=".Activitys.ComprasActivity"
-            android:parentActivityName=".Activitys.MainActivity"/>
+        <activity
+            android:name=".Activitys.FavoritosRecyclerActivity"
+            android:parentActivityName=".Activitys.MainActivity" />
+        <activity
+            android:name=".Activitys.ComprasActivity"
+            android:parentActivityName=".Activitys.MainActivity" />
+        <activity android:name=".Activitys.DownloadActivity"></activity>
     </application>
 
 </manifest>

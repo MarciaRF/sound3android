@@ -108,7 +108,7 @@ public class CommentFragment extends Fragment implements CommentListener {
     public void onResfreshComment(ArrayList<Comentario> listaComentarios, ArrayList<Utilizador> listaComentariosUser) {
         recyclerViewAlbumComment.setHasFixedSize(true);//Otimização
         recyclerViewAlbumComment.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        CommentAdapter commentAdapter = new CommentAdapter(getContext(), listaComentarios, listaComentariosUser);
+        CommentAdapter commentAdapter = new CommentAdapter(getContext(), listaComentarios, listaComentariosUser, idUtilizador, idAlbum);
         recyclerViewAlbumComment.setAdapter(commentAdapter);
     }
 
