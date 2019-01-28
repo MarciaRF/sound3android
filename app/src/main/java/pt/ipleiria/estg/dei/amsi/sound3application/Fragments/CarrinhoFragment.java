@@ -20,6 +20,7 @@ import adaptadores.MusicaAdapter;
 import models.Album;
 import models.FavoritoMusica;
 import models.Musica;
+import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.CarrinhoListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
@@ -64,7 +65,7 @@ public class CarrinhoFragment extends Fragment implements CarrinhoListener {
         btn_checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.119/sound3application/frontend/web/api/user/checkout?userLogado="+idUtilizador));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/user/checkout?userLogado="+idUtilizador));
                 startActivity(intent);
             }
         });

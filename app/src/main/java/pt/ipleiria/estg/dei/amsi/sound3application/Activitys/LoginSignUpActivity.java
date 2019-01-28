@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
@@ -235,7 +236,7 @@ public class LoginSignUpActivity extends AppCompatActivity implements LoginSignU
     public void verificarLogin(final Context context, boolean isConnected, final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(context);
       
-        String url ="http://10.200.2.63/sound3application/frontend/web/api/user/verificarlogin";
+        String url ="http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/user/verificarlogin";
 
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,

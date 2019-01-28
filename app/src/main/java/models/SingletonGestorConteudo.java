@@ -56,7 +56,7 @@ public class SingletonGestorConteudo  implements HomeListener, MusicasListener, 
 
     private Album album;
 
-    public static final String IP = "192.168.1.119";
+    public static final String IP = "192.168.1.83";
 
 
 
