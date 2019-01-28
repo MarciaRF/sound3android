@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import models.SingletonGestorConteudo;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.LoginSignUpListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
@@ -127,7 +128,7 @@ public class RegistoActivity extends AppCompatActivity implements LoginSignUpLis
 
     public void requestRegisto(final Context context, boolean isConnected,final String username, final String password, final String email){
             RequestQueue queue = Volley.newRequestQueue(context);
-            String url ="http://192.168.1.119/sound3application/frontend/web/api/user/create";
+            String url ="http://" + SingletonGestorConteudo.IP + "/sound3application/frontend/web/api/user/create";
 
             StringRequest getRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>()

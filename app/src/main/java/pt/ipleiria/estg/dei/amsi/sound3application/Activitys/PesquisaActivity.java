@@ -20,13 +20,12 @@ import models.Genero;
 import models.Musica;
 import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.PesquisaListener;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class PesquisaActivity extends AppCompatActivity implements PesquisaListener, MusicaFavoritosCarrinhoListenner {
+public class PesquisaActivity extends AppCompatActivity implements PesquisaListener{
 
     public static final String PESQUISA = "PESQUISA";
 
@@ -102,7 +101,7 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
                 ConteudoJsonParser.isConnectionInternet(this), pesquisa);
 
         SingletonGestorDados.getInstance(this).getPesquisaMusicasAPI(this,
-                ConteudoJsonParser.isConnectionInternet(this), pesquisa);
+                ConteudoJsonParser.isConnectionInternet(this), pesquisa, idUtilizador);
 
     }
 
@@ -140,23 +139,14 @@ public class PesquisaActivity extends AppCompatActivity implements PesquisaListe
     }
 
     @Override
-    public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas, ArrayList<Album> albuns) {
+    public void onRefreshAMusicasPesquisa(ArrayList<Musica> pesquisaMusicas, ArrayList<Album> albuns, ArrayList<Musica> musicasFavoritas, ArrayList<Musica> carrinho) {
         if(pesquisaMusicas != null){
             recyclerViewMusicas = findViewById(R.id.rV_pesquisa_musicas);
             recyclerViewMusicas.setHasFixedSize(true);//Otimização
             recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            MusicaAdapter musicasAdapter = new MusicaAdapter(this, pesquisaMusicas, albuns, idUtilizador, musicasFavoritos);
+            System.out.println("favs:"+musicasFavoritas.size()+"cart"+carrinho.size());
+            MusicaAdapter musicasAdapter = new MusicaAdapter(this, pesquisaMusicas, albuns, idUtilizador, musicasFavoritas, carrinho);
             recyclerViewMusicas.setAdapter(musicasAdapter);
         }
-    }
-
-    @Override
-    public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
-        musicasFavoritos = listaMusicasFavoritos;
-    }
-
-    @Override
-    public void onMusicasNosCarrinho(ArrayList<Musica> listaMusicasCarrinho) {
-
     }
 }

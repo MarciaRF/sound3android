@@ -14,6 +14,7 @@
     android:background="@drawable/login">
 
     <!-- Login progress -->
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -38,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="monospace"
-        android:text="@string/textView_sound3"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textSize="35sp"
         android:textColor="@color/silver"/>
@@ -123,7 +124,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:fontFamily="monospace"
-                android:hint="@string/textView_temConta"
+                android:hint="@string/temConta"
                 android:textAlignment="center"
                 android:textColorHint="@color/silver"
                 android:textSize="16sp" />
@@ -134,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="monospace"
-                android:hint="@string/textView_registo"
+                android:hint="@string/registo"
                 android:textAlignment="center"
                 android:textColorHint="@color/colorWhite"
                 android:textSize="18sp"

@@ -36,12 +36,11 @@ import models.SingletonGestorConteudo;
 import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Activitys.FavoritosRecyclerActivity;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.FavoritosListener;
-import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.MusicaFavoritosCarrinhoListenner;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class FavoritosFragment extends Fragment implements FavoritosListener, MusicaFavoritosCarrinhoListenner {
+public class FavoritosFragment extends Fragment implements FavoritosListener {
 
     View view;
 
@@ -57,8 +56,6 @@ public class FavoritosFragment extends Fragment implements FavoritosListener, Mu
     private Button BtnVerGeneros;
     private Button BtnVerArtistas;
 
-    private ArrayList<Musica> musicasFavoritos;
-
 
 
     @Override
@@ -68,7 +65,6 @@ public class FavoritosFragment extends Fragment implements FavoritosListener, Mu
         idUtilizador = GestorSharedPref.getInstance(getContext()).getIdUtilizador();
 
         SingletonGestorDados.getInstance(getContext()).setFavoritosListener(this);
-        SingletonGestorDados.getInstance(getContext()).setMusicaFavoritosCarrinhoListenner(this);
 
         SingletonGestorDados.getInstance(getContext()).getFavoritosArtistaAtividadeAPI(getContext(),
                 ConteudoJsonParser.isConnectionInternet(getContext()), idUtilizador);
@@ -182,12 +178,12 @@ public class FavoritosFragment extends Fragment implements FavoritosListener, Mu
     }
 
     @Override
-    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> albuns) {
+    public void onRefreshMusicasFavoritos(ArrayList<Musica> musicas, ArrayList<Album> albuns, ArrayList<Musica> carrinho) {
         if (musicas != null){
             recyclerViewMusicas = view.findViewById(R.id.rV_favoritos_musicas);
             recyclerViewMusicas.setHasFixedSize(true);
             recyclerViewMusicas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
-            MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), musicas, albuns, idUtilizador,musicasFavoritos);
+            MusicaAdapter musicaAdapter = new MusicaAdapter(getContext(), musicas, albuns, idUtilizador, musicas,carrinho);
             recyclerViewMusicas.setAdapter(musicaAdapter);
 
             if(musicas.size() < 5){
@@ -195,16 +191,5 @@ public class FavoritosFragment extends Fragment implements FavoritosListener, Mu
                 BtnVerMusicas.setVisibility(view.INVISIBLE);
             }
         }
-    }
-
-
-    @Override
-    public void onMusicasNosFavoritos(ArrayList<Musica> listaMusicasFavoritos) {
-        musicasFavoritos = listaMusicasFavoritos;
-    }
-
-    @Override
-    public void onMusicasNosCarrinho(ArrayList<Musica> listaMusicasCarrinho) {
-
     }
 }

@@ -31,7 +31,7 @@
                     android:id="@+id/tV_pesquisa_musicaNome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nome Música"
+                    android:text="@string/nome_musica"
                     android:textSize="16dp"
                     android:textColor="@color/light_font"/>
 
@@ -39,7 +39,7 @@
                     android:id="@+id/tV_pesquisa_musicaTempo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tempo"
+                    android:text="@string/tempo"
                     android:textSize="16dp"
                     android:textColor="@color/light_font"
                     android:layout_marginLeft="10dp"/>
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="@color/silver"
-                    android:text="nome album" />
+                    android:text="@string/nomealbum" />
 
                 <TextView
                     android:id="@+id/tV_pesquisa_musicaAlbum_preco"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="@color/silver"
-                    android:text="preco"
+                    android:text="@string/preco"
                     android:layout_marginLeft="15dp"/>
 
             </LinearLayout>

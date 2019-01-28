@@ -41,8 +41,6 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 
-    //DROPDOWN NA RECYCLER VIEW
-    // implementation 'com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1'
 
     implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
     implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'

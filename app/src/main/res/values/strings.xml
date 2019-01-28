@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">sound3android</string>
+    <string name="app_name">Sound3</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
-    <string name="prompt_username">Nome de Utilizador</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -17,15 +17,13 @@
     <string name="favoritos">Favoritos</string>
     <string name="user">User</string>
     <string name="home">Home</string>
-    <string name="albuns_recentes">Álbuns Recentes</string>
-    <string name="textView_temConta">Ainda não tem conta? </string>
-    <string name="textView_registo">Registe-se!</string>
-    <string name="textView_sound3">Sound3</string>
-    <string name="textView_nomeRegisto">  Nome</string>
-    <string name="textView_emailRegisto">  Email</string>
-    <string name="textView_passwordRegisto">  Password</string>
-    <string name="textView_repetirPasswordRegisto">  Repetir Password</string>
-    <string name="button_sign_upRegisto">Sign Up</string>
+    <string name="temConta">Ainda não tem conta? </string>
+    <string name="registo">Registe-se!</string>
+    <string name="nomeRegisto">  Nome</string>
+    <string name="emailRegisto">  Email</string>
+    <string name="passwordRegisto">  Password</string>
+    <string name="repetirPasswordRegisto">  Repetir Password</string>
+    <string name="sign_upRegisto">Sign Up</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -50,4 +48,23 @@
     <string name="remover_dos_favoritos">Remover dos Favoritos</string>
     <string name="data">Data</string>
     <string name="valor">Valor</string>
+    <string name="top_albuns">TOP Álbuns</string>
+    <string name="generos">Géneros</string>
+    <string name="artistas">Artistas</string>
+    <string name="albuns_recentes">Álbuns Recentes</string>
+    <string name="nome_artista">nome artista</string>
+    <string name="preco">preco</string>
+    <string name="nacionalidade">nacionalidade</string>
+    <string name="ano_artista">ano</string>
+    <string name="albuns">Álbuns</string>
+    <string name="genero_hiphop">Hip Hop</string>
+    <string name="descrição_hiphop">Hip hop é um gênero musical, com uma subcultura iniciada durante a década de 1970, nas áreas centrais de comunidades jamaicanas, latinas e afro-americanas da cidade de Nova Iorque.</string>
+    <string name="perfil">Perfil</string>
+    <string name="data_comment">00:00</string>
+    <string name="body">Body</string>
+    <string name="nomegenero">nomeGenero</string>
+    <string name="nome_musica">NomeMúsica</string>
+    <string name="tempo">Tempo</string>
+    <string name="nomealbum">nomealbum</string>
+    <string name="compra">Compra</string>
 </resources>

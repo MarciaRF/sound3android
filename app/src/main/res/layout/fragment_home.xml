@@ -19,7 +19,7 @@
             android:textSize="24dp"
             android:textColor="@color/light_font"
             android:layout_marginTop="20dp"
-            android:text="TOP Álbuns"
+            android:text="@string/top_albuns"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
@@ -34,7 +34,7 @@
             android:layout_marginTop="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Generos"
+            android:text="@string/generos"
             android:textSize="24sp"
             android:textColor="@color/light_font"
             android:textStyle="bold"/>
@@ -51,7 +51,7 @@
             android:layout_marginTop="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Artistas"
+            android:text="@string/artistas"
             android:textSize="24sp"
             android:textColor="@color/light_font"
             android:textStyle="bold"/>
@@ -68,7 +68,7 @@
             android:layout_marginTop="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Albuns Recentes"
+            android:text="@string/albuns_recentes"
             android:textSize="24sp"
             android:textColor="@color/light_font"
             android:textStyle="bold"/>

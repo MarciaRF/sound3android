@@ -27,7 +27,7 @@
             android:id="@+id/tV_pesquisa_albumNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome Album"
+            android:text="@string/nomealbum"
             android:textSize="16sp"
             android:fontFamily="roboto"
             android:textColor="@color/light_font"/>
@@ -42,7 +42,7 @@
                 android:id="@+id/tV_pesquisa_albumArtista"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nome Artista"
+                android:text="@string/nome_artista"
                 android:fontFamily="roboto"
                 android:textColor="@color/silver"/>
 
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Preco"
+                android:text="@string/preco"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="roboto"
                 android:textColor="@color/silver"/>

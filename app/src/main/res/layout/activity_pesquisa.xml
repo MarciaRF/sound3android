@@ -25,7 +25,7 @@
                 android:textSize="24sp"
                 android:layout_marginStart="10sp"
                 android:textStyle="bold"
-                android:text="Artistas" />
+                android:text="@string/artistas" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rV_pesquisa_artistas"
@@ -44,7 +44,7 @@
                 android:textSize="24sp"
                 android:layout_marginStart="10sp"
                 android:textStyle="bold"
-                android:text="Albuns" />
+                android:text="@string/albuns" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rV_pesquisa_albuns"
@@ -64,7 +64,7 @@
                 android:textSize="24sp"
                 android:layout_marginStart="10sp"
                 android:textStyle="bold"
-                android:text="Géneros" />
+                android:text="@string/generos" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rV_pesquisa_generos"

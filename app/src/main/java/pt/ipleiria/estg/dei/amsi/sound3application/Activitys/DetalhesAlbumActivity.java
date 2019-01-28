@@ -26,11 +26,12 @@ import models.SingletonGestorDados;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.CommentFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Fragments.MusicaFragment;
 import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.DetalhesAlbumListener;
+import pt.ipleiria.estg.dei.amsi.sound3application.Listeners.ListenerPopUpMenu;
 import pt.ipleiria.estg.dei.amsi.sound3application.R;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.ConteudoJsonParser;
 import pt.ipleiria.estg.dei.amsi.sound3application.Utils.GestorSharedPref;
 
-public class DetalhesAlbumActivity extends AppCompatActivity implements  DetalhesAlbumListener {
+public class DetalhesAlbumActivity extends AppCompatActivity implements  DetalhesAlbumListener, ListenerPopUpMenu {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -75,6 +76,7 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements  Detalhe
 
 
         SingletonGestorDados.getInstance(this).setDetalhesAlbumListener(this);
+        SingletonGestorDados.getInstance(this).setListenerPopUpMenu(this);
 
         // Vai Buscar Info. do Album
         SingletonGestorDados.getInstance(this).getAlbumAPI(this,
@@ -178,4 +180,13 @@ public class DetalhesAlbumActivity extends AppCompatActivity implements  Detalhe
         }
     }
 
+    @Override
+    public void checkMusicaInFavoritos(String check) {
+
+    }
+
+    @Override
+    public void checkMusicaInCarrinho(String check) {
+
+    }
 }

@@ -18,7 +18,7 @@
         android:id="@+id/tV_genero_nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nome Genero"
+        android:text="@string/nomegenero"
         android:textColor="@color/light_font"
         android:textSize="15sp"
         android:textStyle="bold"/>
