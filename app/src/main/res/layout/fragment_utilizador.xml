@@ -43,7 +43,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/textV"
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="username"
@@ -72,7 +72,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/texeftV"
+            android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="email"
